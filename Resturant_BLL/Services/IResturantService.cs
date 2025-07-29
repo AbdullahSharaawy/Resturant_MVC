@@ -11,9 +11,9 @@ namespace Resturant_BLL.Services
     public interface IResturantService
     {
         public List<ResturantDTO> GetList();
-        public ResturantDTO GetById(int id);
-        public ResturantDTO Create(ResturantDTO restaurant);
-        public bool Update(ResturantDTO restaurant);
+        public ResturantDTO? GetById(int id);
+        public Resturant? Create(ResturantDTO restaurant);
+        public Resturant? Update(ResturantDTO restaurant);
         public bool Delete(int id);
     }
 }

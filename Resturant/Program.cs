@@ -5,6 +5,8 @@ using Resturant_DAL.Repository;
 using Resturant_DAL.ImplementRepository;
 using Resturant_DAL.DataBase;
 using Microsoft.EntityFrameworkCore;
+using Chief_BLL.Services;
+
 namespace Resturant_PL
 {
     public class Program
@@ -15,6 +17,7 @@ namespace Resturant_PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
             var con = builder.Configuration.GetConnectionString("DefaultConnection");
 
             //builder.Services.AddDbContext<SharaawyContext>(options => options.UseSqlServer(con));

@@ -8,5 +8,6 @@ namespace Resturant_BLL.Services
 {
     public interface IReviewService
     {
+
     }
 }

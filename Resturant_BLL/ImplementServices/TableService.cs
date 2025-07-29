@@ -24,8 +24,7 @@ namespace Resturant_BLL.Services
             if(table==null)
                 return null;
 
-            var mapping = new TableMapper();
-            table mappedTable = mapping.MapToTable(table);
+            table mappedTable = new TableMapper().MapToTable(table);
             mappedTable.CreatedOn = DateTime.UtcNow;
             mappedTable.CreatedBy = "Current User";
             mappedTable.IsDeleted = false; 
@@ -62,7 +61,6 @@ namespace Resturant_BLL.Services
 
         public List<TableDTO> GetList()
         {
-            var mapping=new TableMapper();
             List<TableDTO> tablesDTO=new List<TableDTO>();
             List<table> tables = _TR.GetAll().Where(t=>t.IsDeleted==false).ToList();
 
@@ -71,7 +69,7 @@ namespace Resturant_BLL.Services
                 return new List<TableDTO>();
             }
 
-            tablesDTO = mapping.MapToTableDTOList(tables);
+            tablesDTO = new TableMapper().MapToTableDTOList(tables);
             return tablesDTO;
         }
 
@@ -82,8 +80,8 @@ namespace Resturant_BLL.Services
                 return null; 
             }
 
-            var mapping = new TableMapper();
-            table mappedTable = mapping.MapToTable(table);
+            
+            table mappedTable = new TableMapper().MapToTable(table);
             mappedTable.ModifiedOn = DateTime.UtcNow;
             mappedTable.ModifiedBy = "Current User";
             mappedTable.IsDeleted = false;
