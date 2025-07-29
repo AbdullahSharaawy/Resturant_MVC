@@ -10,6 +10,20 @@ namespace Resturant_DAL.Entities
 {
     public class Order
     {
+        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, string orderStatus, int paymentID, DateTime createdOn, string createdBy)
+        {
+            OrderID = orderID;
+            Date = date;
+            OrderCost = orderCost;
+            ShipmentCost = shipmentCost;
+            TotalAmount = totalAmount;
+            Weight = weight;
+            OrderStatus = orderStatus;
+            PaymentID = paymentID;
+            CreatedOn = createdOn;
+            CreatedBy = createdBy;
+        }
+
         [Key]
         public int OrderID { get; private set; }
         public DateTime Date { get; private set; }

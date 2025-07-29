@@ -10,6 +10,18 @@ namespace Resturant_DAL.Entities
 {
     public class Location
     {
+        public Location(int locationID, string city, string area, string buildingNo, string streetName, int? restaurantID, DateTime createdOn, string createdBy)
+        {
+            LocationID = locationID;
+            City = city;
+            Area = area;
+            BuildingNo = buildingNo;
+            StreetName = streetName;
+            RestaurantID = restaurantID;
+            CreatedOn = createdOn;
+            CreatedBy = createdBy;
+        }
+
         [Key]
         public int LocationID { get; private set; }
         public string City { get; private set; }
@@ -21,11 +33,11 @@ namespace Resturant_DAL.Entities
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
-        public DateTime? ModifiedOn { get; private set; }
-        public string? ModifiedBy { get; private set; }
-        public DateTime? DeletedOn { get; private set; }
-        public string? DeletedBy { get; private set; }
-        public bool IsDeleted { get; private set; }
+        public DateTime? ModifiedOn { get;  set; }
+        public string? ModifiedBy { get;  set; }
+        public DateTime? DeletedOn { get;  set; }
+        public string? DeletedBy { get;  set; }
+        public bool IsDeleted { get;  set; }
 
         public Resturant Restaurant { get; private set; }
     }

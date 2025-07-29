@@ -9,6 +9,19 @@ namespace Resturant_DAL.Entities
 {
     public class MenueItem
     {
+        public MenueItem(int itemID, string name, string description, decimal price, string category, string? dietaryInfo, bool availability, DateTime createdOn, string createdBy)
+        {
+            ItemID = itemID;
+            Name = name;
+            Description = description;
+            Price = price;
+            Category = category;
+            DietaryInfo = dietaryInfo;
+            Availability = availability;
+            CreatedOn = createdOn;
+            CreatedBy = createdBy;
+        }
+
         [Key]
         public int ItemID { get; private set; }
         public string Name { get; private set; }
@@ -20,10 +33,10 @@ namespace Resturant_DAL.Entities
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
-        public DateTime? ModifiedOn { get; private set; }
-        public string? ModifiedBy { get; private set; }
-        public DateTime? DeletedOn { get; private set; }
-        public string? DeletedBy { get; private set; }
-        public bool IsDeleted { get; private set; }
+        public DateTime? ModifiedOn { get;  set; }
+        public string? ModifiedBy { get; set; }
+        public DateTime? DeletedOn { get;  set; }
+        public string? DeletedBy { get;  set; }
+        public bool IsDeleted { get;  set; }
     }
 }

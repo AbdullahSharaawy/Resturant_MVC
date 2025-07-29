@@ -5,34 +5,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Resturant_DAL.Entities;
+using Resturant_DAL.DataBase;
 
 namespace Resturant_DAL.ImplementRepository
 {
     public class ResturantRepo : IRepository<Resturant>
     {
+        private readonly ResturantContext context;
+
+        public ResturantRepo(ResturantContext context)
+        {
+            this.context = context;
+        }
+
         public void Create(Resturant entity)
         {
-            throw new NotImplementedException();
+            context.Add(entity);
+            context.SaveChanges();
         }
 
         public void Delete(Resturant entity)
         {
-            throw new NotImplementedException();
+            context.Remove(entity);
+            context.SaveChanges();
         }
 
         public List<Resturant> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Resturant.ToList();
         }
 
         public Resturant GetByID(int id)
         {
-            throw new NotImplementedException();
+            return context.Resturant.Where(r=>r.RestaurantID==id).FirstOrDefault();
         }
 
         public void Update(Resturant entity)
         {
-            throw new NotImplementedException();
+            context.Update(entity);
+            context.SaveChanges();
         }
     }
 }

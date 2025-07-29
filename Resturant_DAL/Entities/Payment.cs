@@ -9,6 +9,17 @@ namespace Resturant_DAL.Entities
 {
     public class Payment
     {
+        public Payment(int paymentID, string paymentMethod, decimal amount, DateTime date, string status, DateTime createdOn, string createdBy)
+        {
+            PaymentID = paymentID;
+            PaymentMethod = paymentMethod;
+            Amount = amount;
+            Date = date;
+            Status = status;
+            CreatedOn = createdOn;
+            CreatedBy = createdBy;
+        }
+
         [Key]
         public int PaymentID { get; private set; }
         public string PaymentMethod { get; private set; }
@@ -18,10 +29,10 @@ namespace Resturant_DAL.Entities
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
-        public DateTime? ModifiedOn { get; private set; }
-        public string? ModifiedBy { get; private set; }
-        public DateTime? DeletedOn { get; private set; }
-        public string? DeletedBy { get; private set; }
-        public bool IsDeleted { get; private set; }
+        public DateTime? ModifiedOn { get;  set; }
+        public string? ModifiedBy { get;  set; }
+        public DateTime? DeletedOn { get;  set; }
+        public string? DeletedBy { get;  set; }
+        public bool IsDeleted { get;  set; }
     }
 }
