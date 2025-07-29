@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class Chief
     {
-        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int? restaurantID, DateTime createdOn, string createdBy)
+        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int restaurantID)
         {
             ChiefID = chiefID;
             Name = name;
@@ -18,8 +18,7 @@ namespace Resturant_DAL.Entities
             Email = email;
             Position = position;
             RestaurantID = restaurantID;
-            CreatedOn = createdOn;
-            CreatedBy = createdBy;
+           
         }
 
         [Key]
@@ -29,10 +28,10 @@ namespace Resturant_DAL.Entities
         public string Email { get; private set; }
         public string Position { get; private set; }
         [ForeignKey("Resturant")]
-        public int? RestaurantID { get; private set; }
+        public int RestaurantID { get; private set; }
 
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
+        public DateTime CreatedOn { get;  set; }
+        public string CreatedBy { get;  set; }
         public DateTime? ModifiedOn { get;  set; }
         public string? ModifiedBy { get;  set; }
         public DateTime? DeletedOn { get;  set; }

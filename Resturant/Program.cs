@@ -19,7 +19,7 @@ namespace Resturant_PL
 
             //builder.Services.AddDbContext<SharaawyContext>(options => options.UseSqlServer(con));
             builder.Services.AddDbContext<ResturantContext>(options =>
-            options.UseLazyLoadingProxies().UseSqlServer(
+            options.UseSqlServer(
                     con,
                     b => b.MigrationsAssembly("Resturant_DAL")  // Specify migrations assembly here
                 )
@@ -27,7 +27,7 @@ namespace Resturant_PL
             // add register for Repository
             builder.Services.AddScoped<IRepository<Resturant>, ResturantRepo>();
             builder.Services.AddScoped<IRepository<Location>, LocationRepo>();
-            builder.Services.AddScoped<IRepository<Table>, TableRepo>();
+            builder.Services.AddScoped<IRepository<table>, TableRepo>();
             builder.Services.AddScoped<IRepository<Review>, ReviewRepo>();
             builder.Services.AddScoped<IRepository<Chief>, ChiefRepo>();
             builder.Services.AddScoped<IRepository<Order>, OrderRepo>();

@@ -7,44 +7,88 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Resturant_DAL.Entities;
 namespace Resturant_BLL.Services
 {
     public class TableService : ITableService
     {
-        private readonly IRepository<Table> _TS;
+        private readonly IRepository<table> _TR;
 
-        public TableService(IRepository<Table> tS)
+        public TableService(IRepository<table> tr)
         {
-            _TS = tS;
+            _TR = tr;
         }
 
-        public TableDTO Create(TableDTO table)
+        public table? Create(TableDTO table)
         {
-            
+            if(table==null)
+                return null;
+
+            var mapping = new TableMapper();
+            table mappedTable = mapping.MapToTable(table);
+            mappedTable.CreatedOn = DateTime.UtcNow;
+            mappedTable.CreatedBy = "Current User";
+            mappedTable.IsDeleted = false; 
+            _TR.Create(mappedTable);
+            return mappedTable;
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            table t=_TR.GetByID(id);
+            if(t==null || t.IsDeleted == true)
+            {
+                return false;    
+            }
+            t.IsDeleted = true;
+            t.DeletedOn = DateTime.UtcNow;
+            t.DeletedBy = "Current User"; // This should be replaced with the actual user context
+            _TR.Update(t);
+            return true;
         }
 
-        public TableDTO GetById(int id)
+        public TableDTO? GetById(int id)
         {
-            throw new NotImplementedException();
+           table t=_TR.GetByID(id);
+            
+           if (t == null || t.IsDeleted==true)
+            {
+                return null;
+            }
+           
+           TableDTO tableDTO = new TableMapper().MapToTableDTO(t);
+           return tableDTO;
         }
 
         public List<TableDTO> GetList()
         {
             var mapping=new TableMapper();
             List<TableDTO> tablesDTO=new List<TableDTO>();
-            List<Table> tables = _TS.GetAll().ToList();
-            tablesDTO = mapping.MapToChiefDTOList(tables);
+            List<table> tables = _TR.GetAll().Where(t=>t.IsDeleted==false).ToList();
+
+            if(tables == null || tables.Count == 0)
+            {
+                return new List<TableDTO>();
+            }
+
+            tablesDTO = mapping.MapToTableDTOList(tables);
+            return tablesDTO;
         }
 
-        public bool Update(TableDTO table)
+        public table? Update(TableDTO table)
         {
-            throw new NotImplementedException();
+            if(table==null)
+            {
+                return null; 
+            }
+
+            var mapping = new TableMapper();
+            table mappedTable = mapping.MapToTable(table);
+            mappedTable.ModifiedOn = DateTime.UtcNow;
+            mappedTable.ModifiedBy = "Current User";
+            mappedTable.IsDeleted = false;
+            _TR.Update(mappedTable);
+            return mappedTable;
         }
     }
 }

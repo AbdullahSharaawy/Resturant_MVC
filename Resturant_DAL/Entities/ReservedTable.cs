@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class ReservedTable
     {
-        public ReservedTable(int reservedTableID, DateTime dateTime, int tableID, int? reservationID, DateTime createdOn, string createdBy)
+        public ReservedTable(int reservedTableID, DateTime dateTime, int tableID, int reservationID, DateTime createdOn, string createdBy)
         {
             ReservedTableID = reservedTableID;
             DateTime = dateTime;
@@ -26,7 +26,7 @@ namespace Resturant_DAL.Entities
         [ForeignKey("Table")]
         public int TableID { get; private set; }
         [ForeignKey("Reservation")]
-        public int? ReservationID { get; private set; }
+        public int ReservationID { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
@@ -36,7 +36,7 @@ namespace Resturant_DAL.Entities
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
 
-        public Table Table { get;  set; }
+        public table Table { get;  set; }
         public Reservation Reservation { get;  set; }
     }
 }

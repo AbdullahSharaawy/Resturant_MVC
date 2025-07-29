@@ -9,14 +9,13 @@ namespace Resturant_DAL.Entities
 {
     public class Resturant
     {
-        public Resturant(int restaurantID, string email, string operatingHours, string amenities, DateTime createdOn, string createdBy)
+        public Resturant(int restaurantID, string email, string operatingHours, string amenities)
         {
             RestaurantID = restaurantID;
             Email = email;
             OperatingHours = operatingHours;
             Amenities = amenities;
-            CreatedOn = createdOn;
-            CreatedBy = createdBy;
+           
         }
 
         [Key]
@@ -28,8 +27,8 @@ namespace Resturant_DAL.Entities
         
         public string Amenities { get; private set; }
 
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
+        public DateTime CreatedOn { get;  set; }
+        public string CreatedBy { get;  set; }
         public DateTime? ModifiedOn { get;  set; }
         public string? ModifiedBy { get;  set; }
         public DateTime? DeletedOn { get;  set; }

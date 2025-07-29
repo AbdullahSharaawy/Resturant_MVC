@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
 {
-    public class TableRepo : IRepository<Table>
+    public class TableRepo : IRepository<table>
     {
         private readonly ResturantContext context;
 
@@ -18,29 +18,29 @@ namespace Resturant_DAL.ImplementRepository
             this.context = context;
         }
 
-        public void Create(Table entity)
+        public void Create(table entity)
         {
             context.Add(entity);
             context.SaveChanges();
         }
 
-        public void Delete(Table entity)
+        public void Delete(table entity)
         {
             context.Remove(entity);
             context.SaveChanges();
         }
 
-        public List<Table> GetAll()
+        public List<table> GetAll()
         {
             return context.Table.ToList();
         }
 
-        public Table GetByID(int id)
+        public table GetByID(int id)
         {
             return context.Table.Where(t => t.TableID == id).FirstOrDefault();
         }
 
-        public void Update(Table entity)
+        public void Update(table entity)
         {
             context.Update(entity);
             context.SaveChanges();

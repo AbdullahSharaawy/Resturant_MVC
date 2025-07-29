@@ -21,7 +21,8 @@ namespace Resturant_BLL.Mapperly
         //[MapProperty(nameof(Chief.Email), nameof(ChiefDTO.Email))]
         //[MapProperty(nameof(Chief.Position), nameof(ChiefDTO.Position))]
         //[MapProperty(nameof(Chief.RestaurantID), nameof(ChiefDTO.RestaurantID))]
-        public partial TableDTO MapToTableDTO(Table table);
-        public partial List<TableDTO> MapToTableDTOList(List<Table> tables);
+        public partial TableDTO MapToTableDTO(table table);
+        public partial table MapToTable(TableDTO table);
+        public partial List<TableDTO> MapToTableDTOList(List<table> tables);
     }
 }

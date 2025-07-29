@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Resturant_DAL.Entities
 {
-    public class Table
+    [Table("Table")]
+    public class table
     {
-        public Table(int tableID, int tableNumber, int capacity, string status, int restaurantID, DateTime createdOn, string createdBy)
+        public table(int tableID, int tableNumber, int capacity, string status, int restaurantID)
         {
             TableID = tableID;
             TableNumber = tableNumber;
             Capacity = capacity;
             Status = status;
             RestaurantID = restaurantID;
-            CreatedOn = createdOn;
-            CreatedBy = createdBy;
+           
         }
 
         [Key]
@@ -29,8 +29,8 @@ namespace Resturant_DAL.Entities
         [ForeignKey("Resturant")]
         public int RestaurantID { get; private set; }
 
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
+        public DateTime CreatedOn { get;  set; }
+        public string CreatedBy { get;  set; }
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedBy { get;  set; }
         public DateTime? DeletedOn { get;  set; }

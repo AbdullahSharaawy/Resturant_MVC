@@ -38,7 +38,7 @@ namespace Resturant_DAL.Entities
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
 
-        public Resturant? Restaurant { get;  set; }
+        public Resturant Restaurant { get;  set; }
         
     }
 }

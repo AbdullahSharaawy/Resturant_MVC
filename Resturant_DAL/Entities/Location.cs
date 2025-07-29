@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class Location
     {
-        public Location(int locationID, string city, string area, string buildingNo, string streetName, int? restaurantID, DateTime createdOn, string createdBy)
+        public Location(int locationID, string city, string area, string buildingNo, string streetName, int restaurantID, DateTime createdOn, string createdBy)
         {
             LocationID = locationID;
             City = city;
@@ -29,7 +29,7 @@ namespace Resturant_DAL.Entities
         public string BuildingNo { get; private set; }
         public string StreetName { get; private set; }
         [ForeignKey("Resturant")]
-        public int? RestaurantID { get; private set; }
+        public int RestaurantID { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
