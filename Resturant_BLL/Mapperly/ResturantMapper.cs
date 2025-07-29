@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Resturant_BLL.Mapperly
 {
     [Mapper]
-    public partial class ChiefMapper
+    public partial class ResturantMapper
     {
         // [MapProperty(nameof(Department.Id), nameof(DepartmentDTO.ID))]
         //[MapProperty(nameof(Department.Name), nameof(DepartmentDTO.Name))]
@@ -21,8 +21,7 @@ namespace Resturant_BLL.Mapperly
         //[MapProperty(nameof(Chief.Email), nameof(ChiefDTO.Email))]
         //[MapProperty(nameof(Chief.Position), nameof(ChiefDTO.Position))]
         //[MapProperty(nameof(Chief.RestaurantID), nameof(ChiefDTO.RestaurantID))]
-        public partial ChiefDTO MapToChiefDTO(Chief chief);
-        public partial List<ChiefDTO> MapToChiefDTOList(List<Chief> chiefs);
+        public partial ResturantDTO MapToResturantDTO(Resturant resturant);
+        public partial List<ResturantDTO> MapToResturantDTOList(List<Resturant> resturants);
     }
-
 }
