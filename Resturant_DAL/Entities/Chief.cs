@@ -17,7 +17,7 @@ namespace Resturant_DAL.Entities
         public string Email { get; private set; }
         public string Position { get; private set; }
         [ForeignKey("Resturant")]
-        public int RestaurantID { get; private set; }
+        public int? RestaurantID { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }

@@ -16,9 +16,9 @@ namespace Resturant_DAL.Entities
         public string Status { get; private set; }
         public DateTime DateTime { get; private set; }
         [ForeignKey("EventType")]
-        public int EventTypeID { get; private set; }
+        public int? EventTypeID { get; private set; }
         [ForeignKey("Payment")]
-        public int PaymentID { get; private set; }
+        public int? PaymentID { get; private set; }
         
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }

@@ -19,7 +19,7 @@ namespace Resturant_PL
 
             //builder.Services.AddDbContext<SharaawyContext>(options => options.UseSqlServer(con));
             builder.Services.AddDbContext<ResturantContext>(options =>
-            options.UseLazyLoadingProxies().UseSqlServer(
+            options.UseSqlServer(
                     con,
                     b => b.MigrationsAssembly("Resturant_DAL")  // Specify migrations assembly here
                 )

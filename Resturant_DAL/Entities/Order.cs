@@ -30,7 +30,7 @@ namespace Resturant_DAL.Entities
         public string? DeletedBy { get; private set; }
         public bool IsDeleted { get; private set; }
 
-        public Payment Payment { get; private set; }
+        public Payment? Payment { get; private set; }
        
         public List<OrderItem> OrderItems { get; private set; }
     }

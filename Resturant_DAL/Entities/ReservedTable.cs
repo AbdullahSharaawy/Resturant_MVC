@@ -16,7 +16,7 @@ namespace Resturant_DAL.Entities
         [ForeignKey("Table")]
         public int TableID { get; private set; }
         [ForeignKey("Reservation")]
-        public int ReservationID { get; private set; }
+        public int? ReservationID { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
