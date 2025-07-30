@@ -26,7 +26,6 @@ namespace Resturant_DAL.Entities
         public decimal Amount { get; private set; }
         public DateTime Date { get; private set; }
         public string Status { get; private set; }
-
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
         public DateTime? ModifiedOn { get;  set; }

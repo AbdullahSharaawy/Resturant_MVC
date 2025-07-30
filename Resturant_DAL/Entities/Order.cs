@@ -10,7 +10,8 @@ namespace Resturant_DAL.Entities
 {
     public class Order
     {
-        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, string orderStatus, int paymentID, DateTime createdOn, string createdBy)
+        public Order() { }
+        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, string orderStatus, int paymentID, DateTime createdOn, string createdBy, string userID)
         {
             OrderID = orderID;
             Date = date;
@@ -22,6 +23,7 @@ namespace Resturant_DAL.Entities
             PaymentID = paymentID;
             CreatedOn = createdOn;
             CreatedBy = createdBy;
+            UserID = userID;
         }
 
         [Key]
@@ -32,17 +34,21 @@ namespace Resturant_DAL.Entities
         public decimal TotalAmount { get; private set; }
         public decimal Weight { get; private set; }
         public string OrderStatus { get; private set; }
+        public string Address { get; private set; }
 
         [ForeignKey("Payment")]
         public int PaymentID { get; private set; }
-       
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
-        public DateTime? ModifiedOn { get; private set; }
-        public string? ModifiedBy { get; private set; }
-        public DateTime? DeletedOn { get; private set; }
-        public string? DeletedBy { get; private set; }
-        public bool IsDeleted { get; private set; }
+        [ForeignKey("User")]
+        public string UserID { get; private set; }
+        public User User { get; private set; }
+
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public string? ModifiedBy { get; set; }
+        public DateTime? DeletedOn { get; set; }
+        public string? DeletedBy { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Payment Payment { get; private set; }
        

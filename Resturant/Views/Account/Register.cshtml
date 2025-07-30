@@ -1,0 +1,236 @@
+﻿@model RegisterDTO
+@section HeaderLinks {
+    <partial name="_HeaderLinks" />
+}
+
+<style>
+    /* Dark Mode Base Styles - Restaurantly Theme */
+    body {
+        background-color: #0c0b09; /* Restaurantly dark background */
+        color: #fff; /* White text */
+        font-family: "Poppins", sans-serif;
+    }
+
+    .vh-100 {
+        background-color: #1a1814; /* Slightly lighter dark background */
+    }
+
+    /* Divider color */
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #2a2723; /* Restaurantly dark border color */
+    }
+
+    /* Custom height for mobile */
+    .h-custom {
+        height: calc(100% - 73px);
+    }
+
+    @@media (max-width: 450px) {
+        .h-custom {
+            height: 100%;
+        }
+    }
+
+    /* Text color for labels and general text */
+    .form-label,
+    p,
+    .text-body {
+        color: #fff !important;
+    }
+
+    /* Input field styling for dark mode */
+    .form-control {
+        background-color: #24211b; /* Dark input background */
+        color: #fff; /* White text */
+        border-color: #3a362e; /* Restaurantly dark border */
+        border-radius: 4px;
+        padding: 12px 15px;
+    }
+
+        .form-control::placeholder {
+            color: #aaaaaa; /* Light gray placeholder */
+        }
+
+        .form-control:focus {
+            background-color: #2a2721;
+            color: #fff;
+            border-color: #cda45e; /* Restaurantly gold accent */
+            box-shadow: 0 0 0 0.25rem rgba(205, 164, 94, 0.25); /* Gold shadow */
+        }
+
+    /* Checkbox styling */
+    .form-check-input {
+        background-color: #3a362e;
+        border-color: #4a453d;
+    }
+
+        .form-check-input:checked {
+            background-color: #cda45e; /* Restaurantly gold */
+            border-color: #cda45e;
+        }
+
+    /* Button styling */
+    .btn-primary {
+        background-color: #cda45e !important; /* Restaurantly gold */
+        border-color: #cda45e !important;
+        color: #1a1814 !important; /* Dark text */
+        font-weight: 600;
+        border-radius: 4px;
+        padding: 12px 30px;
+        transition: all 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #d4af6a !important; /* Lighter gold */
+            border-color: #d4af6a !important;
+            color: #1a1814 !important;
+        }
+
+    .btn-floating {
+        background-color: #3a362e !important; /* Dark button */
+        border-color: #3a362e !important;
+        color: #cda45e !important; /* Gold icon */
+        transition: all 0.3s;
+    }
+
+        .btn-floating:hover {
+            background-color: #2a2723 !important;
+            border-color: #2a2723 !important;
+            color: #d4af6a !important;
+        }
+
+    /* Link color */
+    .link-danger,
+    a.text-body {
+        color: #cda45e !important; /* Gold links */
+        transition: all 0.3s;
+    }
+
+        .link-danger:hover,
+        a.text-body:hover {
+            color: #d4af6a !important; /* Lighter gold on hover */
+            text-decoration: none;
+        }
+
+    /* Form heading */
+    .form-heading {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        color: #cda45e;
+        margin-bottom: 30px;
+    }
+
+    /* Social login buttons */
+    .social-register {
+        margin-bottom: 30px;
+    }
+
+    /* Terms checkbox */
+    .form-check-label {
+        color: #aaaaaa !important;
+    }
+
+    .terms-link {
+        color: #cda45e !important;
+    }
+
+    /* Footer styling */
+    .bg-primary {
+        background-color: #1a1814 !important;
+        border-top: 1px solid #2a2723;
+    }
+</style>
+
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form>
+                    <h2 class="form-heading">Create Account</h2>
+
+                    <div class="social-register d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                        <p class="lead fw-normal mb-0 me-3">Register with</p>
+                        <button type="button" class="btn btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="btn btn-floating mx-1">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                    </div>
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input type="text" id="formRegisterFirstName" class="form-control form-control-lg"
+                                       placeholder="First name" />
+                                <label class="form-label" for="formRegisterFirstName">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input type="text" id="formRegisterLastName" class="form-control form-control-lg"
+                                       placeholder="Last name" />
+                                <label class="form-label" for="formRegisterLastName">Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input type="email" id="formRegisterEmail" class="form-control form-control-lg"
+                               placeholder="Enter a valid email address" />
+                        <label class="form-label" for="formRegisterEmail">Email address</label>
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <input type="password" id="formRegisterPassword" class="form-control form-control-lg"
+                               placeholder="Enter password" />
+                        <label class="form-label" for="formRegisterPassword">Password</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input type="password" id="formRegisterConfirmPassword" class="form-control form-control-lg"
+                               placeholder="Confirm password" />
+                        <label class="form-label" for="formRegisterConfirmPassword">Confirm Password</label>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="formRegisterTerms" />
+                            <label class="form-check-label" for="formRegisterTerms">
+                                I agree to the <a href="#!" class="terms-link">terms and conditions</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            Register
+                        </button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">
+                            Already have an account? <a href="#!" class="link-danger">Login</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+   
+</section>

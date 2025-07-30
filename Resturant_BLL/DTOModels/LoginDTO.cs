@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resturant_BLL.Services
+namespace Resturant_BLL.DTOModels
 {
-    public class LocationService:ILocationService
+    public class LoginDTO
     {
+       
     }
 }

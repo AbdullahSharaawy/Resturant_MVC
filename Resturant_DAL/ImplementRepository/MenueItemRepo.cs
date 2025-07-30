@@ -1,4 +1,6 @@
-﻿using Resturant_DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
+using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,29 +12,37 @@ namespace Resturant_DAL.ImplementRepository
 {
     public class MenueItemRepo : IRepository<MenueItem>
     {
+        private readonly ResturantContext _context;
+        public MenueItemRepo(ResturantContext context)
+        {
+            _context = context;
+        }
         public void Create(MenueItem entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(MenueItem entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public List<MenueItem> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.MenueItem.ToList();
         }
 
         public MenueItem GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _context.MenueItem.FirstOrDefault(a => a.ItemID == id);
         }
 
         public void Update(MenueItem entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.SaveChanges();
         }
     }
 }

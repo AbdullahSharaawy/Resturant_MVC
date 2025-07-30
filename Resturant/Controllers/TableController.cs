@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
 
 namespace Resturant_PL.Controllers
@@ -16,5 +17,15 @@ namespace Resturant_PL.Controllers
         {
             return View("Tables",_TS.GetList());
         }
+        public IActionResult Update(int id)
+        {
+            TableDTO table = _TS.GetById(id);
+            if (table == null)
+            {
+                return NotFound();
+            }
+            return View("Update",table);
+        }
+       
     }
 }

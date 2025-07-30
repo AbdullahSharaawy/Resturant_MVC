@@ -1,4 +1,5 @@
-﻿using Resturant_DAL.Entities;
+﻿using Resturant_DAL.DataBase;
+using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,38 @@ namespace Resturant_DAL.ImplementRepository
 {
     public class OrderRepo : IRepository<Order>
     {
+        private readonly ResturantContext _context;
+        public OrderRepo(ResturantContext context)
+        {
+            _context = context;
+        }
+
         public void Create(Order entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(Order entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public List<Order> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Order.ToList();
         }
 
         public Order GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _context.Order.FirstOrDefault(a => a.OrderID == id);
         }
 
         public void Update(Order entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.SaveChanges();
         }
     }
 }

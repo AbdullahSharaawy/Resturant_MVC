@@ -36,7 +36,6 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
-
         public table Table { get;  set; }
         public Reservation Reservation { get;  set; }
          

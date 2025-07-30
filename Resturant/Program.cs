@@ -6,6 +6,7 @@ using Resturant_DAL.ImplementRepository;
 using Resturant_DAL.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Chief_BLL.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Resturant_PL
 {
@@ -28,8 +29,7 @@ namespace Resturant_PL
                 )
             );
             // add register for Repository
-            builder.Services.AddScoped<IRepository<Resturant>, ResturantRepo>();
-            builder.Services.AddScoped<IRepository<Location>, LocationRepo>();
+            builder.Services.AddScoped<IRepository<Branch>, BranchRepo>();
             builder.Services.AddScoped<IRepository<table>, TableRepo>();
             builder.Services.AddScoped<IRepository<Review>, ReviewRepo>();
             builder.Services.AddScoped<IRepository<Chief>, ChiefRepo>();
@@ -37,13 +37,11 @@ namespace Resturant_PL
             builder.Services.AddScoped<IRepository<OrderItem>, OrderItemRepo>();
             builder.Services.AddScoped<IRepository<MenueItem>, MenueItemRepo>();
             builder.Services.AddScoped<IRepository<Payment>, PaymentRepo>();
-            builder.Services.AddScoped<IRepository<EventType>, EventTypeRepo>();
             builder.Services.AddScoped<IRepository<Reservation>, ReservationRepo>();
             builder.Services.AddScoped<IRepository<ReservedTable>, ReservedTableRepo>();
 
             // add register for service interfaces
-            builder.Services.AddScoped<IResturantService, ResturantService>();
-            builder.Services.AddScoped<ILocationService, LocationService>();
+            builder.Services.AddScoped<IBranchService, BranchService>();
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IChiefService, ChiefService>();
@@ -55,7 +53,13 @@ namespace Resturant_PL
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
 
-
+            builder.Services.AddIdentity<User, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireDigit = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ResturantContext>();
 
             var app = builder.Build();
 
