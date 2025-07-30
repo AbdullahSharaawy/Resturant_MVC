@@ -2,15 +2,17 @@
 @section HeaderLinks {
     <partial name="_HeaderLinks" />
 }
+
 <style>
-    /* Dark Mode Base Styles */
+    /* Dark Mode Base Styles - Restaurantly Theme */
     body {
-        background-color: #1a1a1a; /* Very dark grey/near black for the body */
-        color: #f8f9fa; /* Light text for contrast */
+        background-color: #0c0b09; /* Restaurantly dark background */
+        color: #fff; /* White text */
+        font-family: "Poppins", sans-serif;
     }
 
     .vh-100 {
-        background-color: #212121; /* Slightly lighter dark for the main section background */
+        background-color: #1a1814; /* Slightly lighter dark background */
     }
 
     /* Divider color */
@@ -19,7 +21,7 @@
         content: "";
         flex: 1;
         height: 1px;
-        background: #444; /* Darker grey for the divider line */
+        background: #2a2723; /* Restaurantly dark border color */
     }
 
     /* Custom height for mobile */
@@ -37,76 +39,110 @@
     .form-label,
     p,
     .text-body {
-        color: #f8f9fa !important; /* Ensure all text is light */
+        color: #fff !important;
     }
 
     /* Input field styling for dark mode */
     .form-control {
-        background-color: #333; /* Dark background for input fields */
-        color: #f8f9fa; /* Light text for input values */
-        border-color: #555; /* Slightly lighter border */
+        background-color: #24211b; /* Dark input background */
+        color: #fff; /* White text */
+        border-color: #3a362e; /* Restaurantly dark border */
+        border-radius: 4px;
+        padding: 12px 15px;
     }
 
         .form-control::placeholder {
-            color: #bbb; /* Lighter placeholder text */
+            color: #aaaaaa; /* Light gray placeholder */
         }
 
         .form-control:focus {
-            background-color: #444; /* Slightly lighter on focus */
-            color: #f8f9fa;
-            border-color: #888; /* More prominent border on focus */
-            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25); /* White shadow for focus */
+            background-color: #2a2721;
+            color: #fff;
+            border-color: #cda45e; /* Restaurantly gold accent */
+            box-shadow: 0 0 0 0.25rem rgba(205, 164, 94, 0.25); /* Gold shadow */
         }
 
     /* Checkbox styling */
     .form-check-input {
-        background-color: #333; /* Dark background for checkbox */
-        border-color: #555; /* Darker border */
+        background-color: #3a362e;
+        border-color: #4a453d;
     }
 
         .form-check-input:checked {
-            background-color: #fff; /* White when checked */
-            border-color: #fff; /* White border when checked */
+            background-color: #cda45e; /* Restaurantly gold */
+            border-color: #cda45e;
         }
 
-    /* Button styling (replacing blue with black/white/dark grey) */
+    /* Button styling */
     .btn-primary {
-        background-color: #343a40 !important; /* Dark grey for primary buttons */
-        border-color: #343a40 !important; /* Dark grey border */
-        color: #f8f9fa !important; /* White text */
+        background-color: #cda45e !important; /* Restaurantly gold */
+        border-color: #cda45e !important;
+        color: #1a1814 !important; /* Dark text */
+        font-weight: 600;
+        border-radius: 4px;
+        padding: 12px 30px;
+        transition: all 0.3s;
     }
 
         .btn-primary:hover {
-            background-color: #23272b !important; /* Even darker on hover */
-            border-color: #23272b !important;
+            background-color: #d4af6a !important; /* Lighter gold */
+            border-color: #d4af6a !important;
+            color: #1a1814 !important;
         }
 
     .btn-floating {
-        background-color: #495057 !important; /* Slightly lighter dark for floating buttons */
-        border-color: #495057 !important;
+        background-color: #3a362e !important; /* Dark button */
+        border-color: #3a362e !important;
+        color: #cda45e !important; /* Gold icon */
+        transition: all 0.3s;
     }
 
         .btn-floating:hover {
-            background-color: #343a40 !important;
-            border-color: #343a40 !important;
+            background-color: #2a2723 !important;
+            border-color: #2a2723 !important;
+            color: #d4af6a !important;
         }
-
-    /* Footer styling */
-    .bg-primary {
-        background-color: #1a1a1a !important; /* Black for the footer */
-    }
 
     /* Link color */
     .link-danger,
     a.text-body {
-        color: #f8f9fa !important; /* White for links */
+        color: #cda45e !important; /* Gold links */
+        transition: all 0.3s;
     }
 
         .link-danger:hover,
         a.text-body:hover {
-            color: #ccc !important; /* Slightly grey on hover */
+            color: #d4af6a !important; /* Lighter gold on hover */
+            text-decoration: none;
         }
 
+    /* Form heading */
+    .form-heading {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        color: #cda45e;
+        margin-bottom: 30px;
+    }
+
+    /* Social login buttons */
+    .social-register {
+        margin-bottom: 30px;
+    }
+
+    /* Terms checkbox */
+    .form-check-label {
+        color: #aaaaaa !important;
+    }
+
+    .terms-link {
+        color: #cda45e !important;
+    }
+
+    /* Footer styling */
+    .bg-primary {
+        background-color: #1a1814 !important;
+        border-top: 1px solid #2a2723;
+    }
 </style>
 
 <section class="vh-100">
@@ -118,16 +154,18 @@
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form>
-                    <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                    <h2 class="form-heading">Create Account</h2>
+
+                    <div class="social-register d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                         <p class="lead fw-normal mb-0 me-3">Register with</p>
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
+                        <button type="button" class="btn btn-floating mx-1">
                             <i class="fab fa-facebook-f"></i>
                         </button>
 
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
+                        <button type="button" class="btn btn-floating mx-1">
                             <i class="fab fa-google"></i>
                         </button>
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
+                        <button type="button" class="btn btn-floating mx-1">
                             <i class="fab fa-instagram"></i>
                         </button>
                     </div>
@@ -136,33 +174,38 @@
                         <p class="text-center fw-bold mx-3 mb-0">Or</p>
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="text" id="formRegisterFirstName" class="form-control form-control-lg"
-                               placeholder="Enter your first name" />
-                        <label class="form-label" for="formRegisterFirstName">First Name</label>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input type="text" id="formRegisterFirstName" class="form-control form-control-lg"
+                                       placeholder="First name" />
+                                <label class="form-label" for="formRegisterFirstName">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input type="text" id="formRegisterLastName" class="form-control form-control-lg"
+                                       placeholder="Last name" />
+                                <label class="form-label" for="formRegisterLastName">Last Name</label>
+                            </div>
+                        </div>
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="text" id="formRegisterLastName" class="form-control form-control-lg"
-                               placeholder="Enter your last name" />
-                        <label class="form-label" for="formRegisterLastName">Last Name</label>
-                    </div>
-
-                    <div data-mdb-input-init class="form-outline mb-4">
+                    <div class="form-outline mb-4">
                         <input type="email" id="formRegisterEmail" class="form-control form-control-lg"
                                placeholder="Enter a valid email address" />
                         <label class="form-label" for="formRegisterEmail">Email address</label>
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-3">
+                    <div class="form-outline mb-3">
                         <input type="password" id="formRegisterPassword" class="form-control form-control-lg"
                                placeholder="Enter password" />
                         <label class="form-label" for="formRegisterPassword">Password</label>
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-3">
+                    <div class="form-outline mb-4">
                         <input type="password" id="formRegisterConfirmPassword" class="form-control form-control-lg"
-                               placeholder="Confirm your password" />
+                               placeholder="Confirm password" />
                         <label class="form-label" for="formRegisterConfirmPassword">Confirm Password</label>
                     </div>
 
@@ -170,25 +213,24 @@
                         <div class="form-check">
                             <input class="form-check-input me-2" type="checkbox" value="" id="formRegisterTerms" />
                             <label class="form-check-label" for="formRegisterTerms">
-                                I agree to the <a href="#!" class="text-body">terms and conditions</a>
+                                I agree to the <a href="#!" class="terms-link">terms and conditions</a>
                             </label>
                         </div>
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                        <button type="submit" class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
                             Register
                         </button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Already have an account? <a href="#!"
-                                                        class="link-danger">Login</a>
+                            Already have an account? <a href="#!" class="link-danger">Login</a>
                         </p>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
+
    
 </section>
