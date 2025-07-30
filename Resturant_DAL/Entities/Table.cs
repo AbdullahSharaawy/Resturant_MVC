@@ -10,6 +10,7 @@ namespace Resturant_DAL.Entities
 {
     [Table("Table")]
     public class table
+
     {
         public table(int tableID, int tableNumber, int capacity, string status, int restaurantID)
         {
@@ -24,7 +25,7 @@ namespace Resturant_DAL.Entities
         [Key]
         public int TableID { get; private set; }
         public int TableNumber { get; private set; }
-        public int Capacity { get; private set; }
+        public int Capacity { get;  set; }
         public string Status { get; private set; }
         [ForeignKey("Resturant")]
         public int RestaurantID { get; private set; }
@@ -36,7 +37,7 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
-
+  
         public Resturant Restaurant { get;  set; }
         public List<ReservedTable> ReservedTables { get; set; }
     }
