@@ -11,7 +11,7 @@ namespace Resturant_DAL.Entities
     public class Order
     {
         public Order() { }
-        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, string orderStatus, int paymentID, DateTime createdOn, string createdBy)
+        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, string orderStatus, int paymentID, DateTime createdOn, string createdBy, string userID)
         {
             OrderID = orderID;
             Date = date;
@@ -23,6 +23,7 @@ namespace Resturant_DAL.Entities
             PaymentID = paymentID;
             CreatedOn = createdOn;
             CreatedBy = createdBy;
+            UserID = userID;
         }
 
         [Key]
@@ -37,7 +38,10 @@ namespace Resturant_DAL.Entities
 
         [ForeignKey("Payment")]
         public int PaymentID { get; private set; }
-       
+        [ForeignKey("User")]
+        public string UserID { get; private set; }
+        public User User { get; private set; }
+
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }

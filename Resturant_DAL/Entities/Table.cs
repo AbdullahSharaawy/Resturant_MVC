@@ -11,11 +11,13 @@ namespace Resturant_DAL.Entities
     [Table("Table")]
     public class table
     {
-        public table(int tableID, int tableNumber, int capacity)
+        public table() { }
+        public table(int tableID, int tableNumber, int capacity, int? branchID)
         {
             TableID = tableID;
             TableNumber = tableNumber;
             Capacity = capacity;
+            BranchID = branchID;
         }
 
         [Key]
@@ -29,7 +31,9 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
-        public Branch branch { get; set; }
+        [ForeignKey("Branch")]
+        public int? BranchID { get; private set; }
+        public Branch Branch { get;private set; }
         public List<ReservedTable> ReservedTables { get; set; }
     }
 }

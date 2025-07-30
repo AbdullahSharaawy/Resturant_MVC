@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class Chief
     {
-        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int branchID)
+        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int? branchID)
         {
             ChiefID = chiefID;
             Name = name;
@@ -37,5 +37,6 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
+        public  Branch Branch { get; private set; }
     }
 }
