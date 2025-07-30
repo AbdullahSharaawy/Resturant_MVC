@@ -27,5 +27,9 @@ namespace Resturant_PL.Controllers
         {
             return View("Register");
         }
+        public IActionResult UserProfile()
+        {
+            return View("UserProfile");
+        }
     }
 }
