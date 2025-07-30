@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Resturant_DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Resturant_DAL.DataBase
 {
-    public partial class ResturantContext: DbContext
+    public partial class ResturantContext: IdentityDbContext<User>
     {
         public ResturantContext()
         {
@@ -30,5 +31,9 @@ namespace Resturant_DAL.DataBase
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Chief> Chief { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

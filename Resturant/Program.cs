@@ -6,6 +6,7 @@ using Resturant_DAL.ImplementRepository;
 using Resturant_DAL.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Chief_BLL.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Resturant_PL
 {
@@ -55,7 +56,13 @@ namespace Resturant_PL
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
 
-
+            builder.Services.AddIdentity<User, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireDigit = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ResturantContext>();
 
             var app = builder.Build();
 

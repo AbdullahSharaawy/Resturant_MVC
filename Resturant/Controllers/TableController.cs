@@ -26,5 +26,6 @@ namespace Resturant_PL.Controllers
             }
             return View("Update",table);
         }
+       
     }
 }

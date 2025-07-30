@@ -1,0 +1,72 @@
+﻿<div class="card">
+    <div class="card-header border-0">
+        <h3 class="card-title">Sales Overview</h3>
+    </div>
+    <div class="card-body">
+        <div class="chart">
+            <canvas id="sales-chart" height="250"></canvas>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Top Menu Items</h4>
+        <div class="table-responsive">
+            <table class="table table-centered">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Orders</th>
+                        <th>Revenue</th>
+                        <th>Popularity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic data would go here -->
+                    <tr>
+                        <td>Margherita Pizza</td>
+                        <td>142</td>
+                        <td>$2,840</td>
+                        <td>
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Reservation Trends</h6>
+    </div>
+    <div class="card-body">
+        <div class="chart-area">
+            <canvas id="reservationTrendChart"></canvas>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Customer Ratings</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="rating-block">
+                    <h4>Average rating</h4>
+                    <h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
+                    <div class="stars">
+                        <span class="fa fa-star checked"></span>
+                        <!-- More stars... -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <canvas id="ratingDistributionChart" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
