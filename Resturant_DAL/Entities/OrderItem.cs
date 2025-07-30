@@ -10,6 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class OrderItem
     {
+        public OrderItem() { }
         public OrderItem(int orderItemID, int orderID, int itemID, int quantity, DateTime createdOn, string createdBy)
         {
             OrderItemID = orderItemID;
@@ -28,14 +29,13 @@ namespace Resturant_DAL.Entities
         public int ItemID { get; private set; }
         public int Quantity { get; private set; }
         
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get;  set; }
         public string? ModifiedBy { get;  set; }
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
-
         public Order Order { get; private set; }
         public MenueItem MenueItem { get; private set; }
     }

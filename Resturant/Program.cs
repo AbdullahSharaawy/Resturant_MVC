@@ -28,8 +28,7 @@ namespace Resturant_PL
                 )
             );
             // add register for Repository
-            builder.Services.AddScoped<IRepository<Resturant>, ResturantRepo>();
-            builder.Services.AddScoped<IRepository<Location>, LocationRepo>();
+            builder.Services.AddScoped<IRepository<Branch>, BranchRepo>();
             builder.Services.AddScoped<IRepository<table>, TableRepo>();
             builder.Services.AddScoped<IRepository<Review>, ReviewRepo>();
             builder.Services.AddScoped<IRepository<Chief>, ChiefRepo>();
@@ -37,13 +36,11 @@ namespace Resturant_PL
             builder.Services.AddScoped<IRepository<OrderItem>, OrderItemRepo>();
             builder.Services.AddScoped<IRepository<MenueItem>, MenueItemRepo>();
             builder.Services.AddScoped<IRepository<Payment>, PaymentRepo>();
-            builder.Services.AddScoped<IRepository<EventType>, EventTypeRepo>();
             builder.Services.AddScoped<IRepository<Reservation>, ReservationRepo>();
             builder.Services.AddScoped<IRepository<ReservedTable>, ReservedTableRepo>();
 
             // add register for service interfaces
-            builder.Services.AddScoped<IResturantService, ResturantService>();
-            builder.Services.AddScoped<ILocationService, LocationService>();
+            builder.Services.AddScoped<IBranchService, BranchService>();
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IChiefService, ChiefService>();

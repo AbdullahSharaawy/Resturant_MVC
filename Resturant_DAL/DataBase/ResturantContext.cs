@@ -18,8 +18,6 @@ namespace Resturant_DAL.DataBase
             : base(options)
         {
         }
-        public virtual DbSet<Resturant> Resturant { get; set; }
-        public virtual DbSet<EventType> EventType { get; set; }
         public virtual DbSet<ReservedTable> ReservedTable { get; set; }
         public virtual DbSet<Reservation> Reservation { get; set; }
         public virtual DbSet<MenueItem> MenueItem { get; set; }
@@ -27,7 +25,7 @@ namespace Resturant_DAL.DataBase
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<table> Table { get; set; }
         public virtual DbSet<Review> Review { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Chief> Chief { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
     }
