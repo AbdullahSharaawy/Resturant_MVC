@@ -25,7 +25,7 @@ namespace Chief_BLL.Services
             _CR = rR;
         }
 
-        public Chief? Create(ChiefDTO restaurant)
+        public Chief? Create(ChiefDTO restaurant)  
         {
             if (restaurant == null)
                 return null;
@@ -48,7 +48,7 @@ namespace Chief_BLL.Services
             t.IsDeleted = true;
             t.DeletedOn = DateTime.UtcNow;
             t.DeletedBy = "Current User"; // This should be replaced with the actual user context
-            _CR.Update(t);
+            _CR.Delete(t);
             return true;
         }
 
@@ -85,8 +85,6 @@ namespace Chief_BLL.Services
             {
                 return null;
             }
-
-
             Chief mappedChief = new ChiefMapper().MapToChief(restaurant);
             mappedChief.ModifiedOn = DateTime.UtcNow;
             mappedChief.ModifiedBy = "Current User";

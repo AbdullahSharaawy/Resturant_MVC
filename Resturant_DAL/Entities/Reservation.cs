@@ -10,13 +10,12 @@ namespace Resturant_DAL.Entities
 {
     public class Reservation
     {
-        public Reservation(int reservationID, int numberOfGuests, string status, DateTime dateTime, int eventTypeID, int paymentID, DateTime createdOn, string createdBy)
+        public Reservation(int reservationID, int numberOfGuests, string status, DateTime dateTime, int paymentID, DateTime createdOn, string createdBy)
         {
             ReservationID = reservationID;
             NumberOfGuests = numberOfGuests;
             Status = status;
             DateTime = dateTime;
-            EventTypeID = eventTypeID;
             PaymentID = paymentID;
             CreatedOn = createdOn;
             CreatedBy = createdBy;
@@ -27,11 +26,8 @@ namespace Resturant_DAL.Entities
         public int NumberOfGuests { get; private set; }
         public string Status { get; private set; }
         public DateTime DateTime { get; private set; }
-        [ForeignKey("EventType")]
-        public int EventTypeID { get; private set; }
         [ForeignKey("Payment")]
         public int PaymentID { get; private set; }
-        
         public DateTime CreatedOn { get; private set; }
         public string CreatedBy { get; private set; }
         public DateTime? ModifiedOn { get;  set; }
@@ -39,10 +35,8 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get;  set; }
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }
-
-        public EventType EventType { get; private set; }
         public Payment Payment { get; private set; }
-       
+        public Branch Branch { get; private set; }
         public List<ReservedTable> ReservedTables { get; private set; }
 
     }

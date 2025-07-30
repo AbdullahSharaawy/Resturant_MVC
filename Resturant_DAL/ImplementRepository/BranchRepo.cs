@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
 {
-    public class LocationRepo : IRepository<Location>
+    public class BranchRepo : IRepository<Branch>
     {
-        public void Create(Location entity)
+        public void Create(Branch entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Location entity)
+        public void Delete(Branch entity)
         {
             throw new NotImplementedException();
         }
 
-        public List<Location> GetAll()
+        public List<Branch> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Location GetByID(int id)
+        public Branch GetByID(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Location entity)
+        public void Update(Branch entity)
         {
             throw new NotImplementedException();
         }

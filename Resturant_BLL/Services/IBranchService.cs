@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.Services
 {
-    public class LocationService:ILocationService
+    public interface IBranchService
     {
     }
 }
