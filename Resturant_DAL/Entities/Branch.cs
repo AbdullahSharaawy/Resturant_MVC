@@ -10,6 +10,7 @@ namespace Resturant_DAL.Entities
 {
     public class Branch   
     {
+        public Branch() { }
         public Branch(int branchID, string city, string area, string buildingNo, string streetName, DateTime createdOn, string createdBy)
         {
             BranchID = branchID;
@@ -27,8 +28,8 @@ namespace Resturant_DAL.Entities
         public string Area { get; private set; }
         public string BuildingNo { get; private set; }
         public string StreetName { get; private set; }
-        public DateTime CreatedOn { get; private set; }
-        public string CreatedBy { get; private set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get;  set; }
         public string? ModifiedBy { get;  set; }
         public DateTime? DeletedOn { get;  set; }

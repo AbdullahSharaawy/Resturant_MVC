@@ -1,4 +1,5 @@
-﻿using Resturant_DAL.Entities;
+﻿using Resturant_DAL.DataBase;
+using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,37 @@ namespace Resturant_DAL.ImplementRepository
 {
     public class BranchRepo : IRepository<Branch>
     {
+        private readonly ResturantContext _context;
+        public BranchRepo(ResturantContext context)
+        {
+            _context = context;
+        }
         public void Create(Branch entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(Branch entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public List<Branch> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Branch.ToList();
         }
 
         public Branch GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _context.Branch.FirstOrDefault(a => a.BranchID == id);
         }
 
         public void Update(Branch entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.SaveChanges();
         }
     }
 }
