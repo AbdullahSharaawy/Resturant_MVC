@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resturant_DAL.DataBase;
 
@@ -11,9 +12,11 @@ using Resturant_DAL.DataBase;
 namespace Resturant_DAL.Migrations
 {
     [DbContext(typeof(ResturantContext))]
-    partial class ResturantContextModelSnapshot : ModelSnapshot
+    [Migration("20250731062025_remove_resturantID")]
+    partial class remove_resturantID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,7 +206,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("BranchID");
 
-                    b.ToTable("Branch", (string)null);
+                    b.ToTable("Branch");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Chief", b =>
@@ -259,7 +262,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("BranchID");
 
-                    b.ToTable("Chief", (string)null);
+                    b.ToTable("Chief");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.MenueItem", b =>
@@ -315,7 +318,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("ItemID");
 
-                    b.ToTable("MenueItem", (string)null);
+                    b.ToTable("MenueItem");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Order", b =>
@@ -384,7 +387,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.OrderItem", b =>
@@ -432,7 +435,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("OrderItem", (string)null);
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Payment", b =>
@@ -481,7 +484,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("PaymentID");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Reservation", b =>
@@ -542,7 +545,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.ReservedTable", b =>
@@ -590,7 +593,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("TableID");
 
-                    b.ToTable("ReservedTable", (string)null);
+                    b.ToTable("ReservedTable");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Review", b =>
@@ -629,7 +632,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("ReviewID");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.User", b =>
@@ -748,7 +751,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("BranchID");
 
-                    b.ToTable("Table", (string)null);
+                    b.ToTable("Table");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,54 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
-using Resturant_DAL.Entities;
-using Resturant_BLL.Mapperly;
+
 namespace Resturant_PL.Controllers
 {
-    public class TableController : Controller
-    {
-        private readonly ITableService _TS;
-        private readonly IBranchService _BS;
+    public class BranchController : Controller
+    { 
+        private readonly IBranchService _branchService;
 
-        public TableController(ITableService tS)
+        public BranchController(IBranchService branchService)
         {
-            _TS = tS;
+            _branchService = branchService;
         }
 
         public IActionResult Index()
         {
-            return View("Tables",_TS.GetList());
+            return View("Branches",_branchService.GetList());
         }
         public IActionResult Update(int id)
         {
-           
-            return View("Update", _TS.GetUpdateTableInfo(id));
+
+            return View("Update", _branchService.GetById(id));
         }
         public IActionResult Create()
         {
-            return View("Create",_TS.GetCreateTableDTOInfo());
+            return View("Create");
         }
-        public IActionResult SaveEdit(UpdateTableDTO _UpdateTable)
+        public IActionResult SaveEdit(BranchDTO _UpdateBranch)
         {
-            
-            if(_TS.Update(_UpdateTable.tableDTO)==null)
+
+            if (_branchService.Update(_UpdateBranch) == null)
             {
-                RedirectToAction("Update",_UpdateTable);
+                RedirectToAction("Update", _UpdateBranch);
                 TempData["ErrorMessage"] = "Failed to update the record.";
             }
             else
             {
                 TempData["SuccessMessage"] = "Record updated successfully!";
-                
+
             }
-                return View("Tables", _TS.GetList());
+            return View("Branches", _branchService.GetList());
         }
-        public IActionResult SaveNew(UpdateTableDTO _CreateTable)
+        public IActionResult SaveNew(BranchDTO _CreateBranch)
         {
 
-            if (_TS.Create(_CreateTable.tableDTO) == null)
+            if (_branchService.Create(_CreateBranch) == null)
             {
-                RedirectToAction("Create", _CreateTable);
+                RedirectToAction("Create", _CreateBranch);
 
                 TempData["ErrorMessage"] = "Failed to create a new record.";
 
@@ -57,11 +55,11 @@ namespace Resturant_PL.Controllers
             {
                 TempData["SuccessMessage"] = "New Record is created successfully!";
             }
-            return View("Tables", _TS.GetList());
+            return View("Branches", _branchService.GetList());
         }
         public IActionResult Delete(int id)
         {
-            if (_TS.Delete(id))
+            if (_branchService.Delete(id))
             {
                 TempData["SuccessMessage"] = "Record deleted successfully!";
             }

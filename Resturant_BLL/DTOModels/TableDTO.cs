@@ -9,9 +9,12 @@ namespace Resturant_BLL.DTOModels
 {
     public class TableDTO
     {
+        public TableDTO() { }
         public int TableID { get;  set; }
         public int TableNumber { get;  set; }
         public int Capacity { get;  set; }
         public string City {  get; set; }
+        public int BranchID { get; set; }
+        
     }
 }

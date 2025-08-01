@@ -1,4 +1,4 @@
-﻿@model UpdateTableDTO
+﻿@model BranchDTO
 
 
 
@@ -77,39 +77,31 @@
         }
     </style>
 
-    <form action="/Table/SaveEdit" method="post"  class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Table Details</h2> 
+    <form action="/Branch/SaveNew" method="post" class="needs-validation dark-form-container">
+        <h2 class="text-center mb-4">Edit Table Details</h2>
 
-        <div class="mb-3">
-            <label asp-for="@Model.tableDTO.TableID" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="@Model.tableDTO.TableID" readonly>
-            </div>
-
-        <div class="mb-3">
-            <label asp-for="@Model.tableDTO.TableNumber" class="form-label"></label>
-            <input class="form-control" type="number" asp-for="@Model.tableDTO.TableNumber" required />
-           
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="@Model.tableDTO.Capacity" class="form-label"></label>
-            <input class="form-control" type="number" asp-for="@Model.tableDTO.Capacity" required />
-        </div>
-       <div class="mb-3">
-            <label  class="form-label">Branch</label>
-            <select class="form-control" asp-for="@Model.tableDTO.BranchID">
-            @foreach (var item in Model.Branches)
-            {
-                <option value="@item.BranchID" selected="@(Model.tableDTO.BranchID == item.BranchID)">
-                    @item.City Branch
-                </option>
-            }
-        </select>
-
-
-    </div>
         
        
+
+        <div class="mb-3">
+            <label asp-for="@Model.Area" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.Area" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.City" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.City" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.StreetName" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.StreetName" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.BuildingNo" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.BuildingNo" required />
+        </div>
+        
+
+
         <button class="btn btn-dark" type="submit">Submit</button>
-        </form>
+    </form>
 </div>

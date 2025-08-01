@@ -15,5 +15,7 @@ namespace Resturant_BLL.Services
         public table? Create(TableDTO table);
         public table? Update(TableDTO table);
         public bool Delete(int id);
+        public UpdateTableDTO? GetUpdateTableInfo(int id);
+        public UpdateTableDTO? GetCreateTableDTOInfo();
     }
 }

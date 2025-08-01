@@ -1,4 +1,5 @@
-﻿using Resturant_DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
@@ -32,12 +33,19 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<table> GetAll()
         {
-            return context.Table.ToList();
+            List<table> tables= context.Table.ToList();
+            foreach (var table in tables)
+            {
+                context.Entry(table).Reference(t => t.Branch).Load();
+            }
+            return tables;
         }
 
         public table GetByID(int id)
         {
-            return context.Table.Where(t => t.TableID == id).FirstOrDefault();
+            return context.Table
+                 .Include(t => t.Branch)
+                 .FirstOrDefault(t => t.TableID == id);
         }
 
         public void Update(table entity)

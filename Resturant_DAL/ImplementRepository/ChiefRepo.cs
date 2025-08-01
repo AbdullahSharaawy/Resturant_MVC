@@ -1,4 +1,5 @@
-﻿using Resturant_DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
@@ -30,12 +31,17 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<Chief> GetAll()
         {
-           return _context.Chief.ToList();
+            List<Chief> chiefs = _context.Chief.ToList();
+            foreach (var chief in chiefs)
+            {
+                _context.Entry(chief).Reference(t => t.Branch).Load();
+            }
+            return chiefs;
         }
 
         public Chief GetByID(int id)
         {
-            return _context.Chief.FirstOrDefault(c => c.ChiefID == id);
+            return _context.Chief.Include(t => t.Branch).FirstOrDefault(c => c.ChiefID == id);
         }
 
         public void Update(Chief entity)

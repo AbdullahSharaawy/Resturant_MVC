@@ -19,18 +19,19 @@ namespace Chief_BLL.Services
     public class ChiefService : IChiefService
     {
         private readonly IRepository<Chief> _CR;
-
-        public ChiefService(IRepository<Chief> rR)
+        private readonly IRepository<Branch> _BR;
+        public ChiefService(IRepository<Chief> rR, IRepository<Branch> bR)
         {
             _CR = rR;
+            _BR = bR;
         }
 
-        public Chief? Create(ChiefDTO restaurant)  
+        public Chief? Create(ChiefDTO chiefDTO)  
         {
-            if (restaurant == null)
+            if (chiefDTO == null)
                 return null;
 
-            Chief mappedChief = new ChiefMapper().MapToChief(restaurant);
+            Chief mappedChief = new ChiefMapper().MapToChief(chiefDTO);
             mappedChief.CreatedOn = DateTime.UtcNow;
             mappedChief.CreatedBy = "Current User";
             mappedChief.IsDeleted = false;
@@ -65,6 +66,18 @@ namespace Chief_BLL.Services
             return ChiefDTO;
         }
 
+        
+
+        public UpdateChiefDTO? GetCreateChiefInfo()
+        {
+            UpdateChiefDTO createChiefDTO = new UpdateChiefDTO();
+            createChiefDTO.Branches = _BR.GetAll()
+                .Where(b => b.IsDeleted == false)
+                .Select(b => new BranchMapper().MapToBranchDTO(b))
+                .ToList();
+            return createChiefDTO;
+        }
+
         public List<ChiefDTO> GetList()
         {
             List<ChiefDTO> ChiefsDTO = new List<ChiefDTO>();
@@ -79,18 +92,43 @@ namespace Chief_BLL.Services
             return ChiefsDTO;
         }
 
-        public Chief? Update(ChiefDTO restaurant)
+        public UpdateChiefDTO? GetUpdateChiefInfo(int id)
         {
-            if (restaurant == null)
+            ChiefDTO chiefDTO = GetById(id);
+            if (chiefDTO == null)
             {
                 return null;
             }
-            Chief mappedChief = new ChiefMapper().MapToChief(restaurant);
-            mappedChief.ModifiedOn = DateTime.UtcNow;
-            mappedChief.ModifiedBy = "Current User";
-            mappedChief.IsDeleted = false;
-            _CR.Update(mappedChief);
-            return mappedChief;
+            List<BranchDTO> Branches = _BR.GetAll().Where(b => b.IsDeleted == false).Select(b => new BranchMapper().MapToBranchDTO(b)).ToList();
+            if (Branches == null || Branches.Count == 0)
+            {
+                return null;
+            }
+            // i can`t apply mapperly here because it will not work with the list of branches
+            UpdateChiefDTO updateChiefDTO = new UpdateChiefDTO();
+            updateChiefDTO.Branches = Branches;
+            updateChiefDTO.chiefDTO = chiefDTO;
+            return updateChiefDTO;
+        }
+
+        public Chief? Update(ChiefDTO chiefDTO)
+        {
+            if (chiefDTO == null)
+            {
+                return null;
+            }
+
+            // the mapping remove the values that are not in the DTO
+            Chief UpdatedChief = _CR.GetByID(chiefDTO.ChiefID);
+            UpdatedChief.PhoneNumber=chiefDTO.PhoneNumber;
+            UpdatedChief.Name = chiefDTO.Name;
+            UpdatedChief.Email = chiefDTO.Email;
+            UpdatedChief.Position = chiefDTO.Position;
+            UpdatedChief.BranchID = chiefDTO.BranchID;
+            UpdatedChief.ModifiedOn = DateTime.UtcNow;
+            UpdatedChief.ModifiedBy = "Current User"; // This should be replaced with the actual user context
+            _CR.Update(UpdatedChief);
+            return UpdatedChief;
         }
     }
 }

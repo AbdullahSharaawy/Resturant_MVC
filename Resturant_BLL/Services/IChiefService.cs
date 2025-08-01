@@ -15,5 +15,7 @@ namespace Resturant_BLL.Services
         public Chief? Create(ChiefDTO chief);
         public Chief? Update(ChiefDTO chief);
         public bool Delete(int id);
+        public UpdateChiefDTO? GetUpdateChiefInfo(int id);
+        public UpdateChiefDTO? GetCreateChiefInfo();
     }
 }

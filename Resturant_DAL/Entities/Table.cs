@@ -17,18 +17,15 @@ namespace Resturant_DAL.Entities
             Capacity = capacity;
             BranchID = branchID;
         }
-
+       
         [Key]
         public int TableID { get; private set; }
-        public int TableNumber { get; private set; }
+        public int TableNumber { get;  set; }
         public int Capacity { get; set; }
-        public string Status { get; private set; }
-
-        [ForeignKey("Resturant")]
-        public int RestaurantID { get; private set; }
+        
          
         [ForeignKey("Branch")]
-        public int? BranchID { get; private set; }
+        public int? BranchID { get;  set; }
         public Branch Branch { get; private set; }
 
         public DateTime CreatedOn { get; set; }
