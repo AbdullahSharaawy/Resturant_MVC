@@ -9,6 +9,9 @@ namespace Resturant_DAL.Entities
 {
     public class User: IdentityUser
     {
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email {  get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
