@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Resturant_BLL.DTOModels;
+using Resturant_BLL.Mapperly;
+using Resturant_DAL.Entities;
+using Resturant_DAL.Repository;
 
 namespace Resturant_BLL.Services
 {
