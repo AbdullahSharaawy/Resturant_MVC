@@ -19,10 +19,11 @@ namespace Resturant_DAL.ImplementRepository
             this.context = context;
         }
 
-        public void Create(table entity)
+        public int? Create(table entity)
         {
             context.Add(entity);
             context.SaveChanges();
+            return entity.TableID;
         }
 
         public void Delete(table entity)
@@ -33,7 +34,7 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<table> GetAll()
         {
-            List<table> tables= context.Table.ToList();
+            List<table> tables= context.Table.Where(r => r.IsDeleted == false).ToList();
             foreach (var table in tables)
             {
                 context.Entry(table).Reference(t => t.Branch).Load();
@@ -45,7 +46,8 @@ namespace Resturant_DAL.ImplementRepository
         {
             return context.Table
                  .Include(t => t.Branch)
-                 .FirstOrDefault(t => t.TableID == id);
+                 .Where(r => r.IsDeleted == false).
+                 FirstOrDefault(t => t.TableID == id);
         }
 
         public void Update(table entity)

@@ -12,10 +12,11 @@ namespace Resturant_DAL.ImplementRepository
     public class ReviewRepo : IRepository<Review>
     {
         private readonly ResturantContext _context;
-        public void Create(Review entity)
+        public int? Create(Review entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.ReviewID;
         }
 
         public void Delete(Review entity)

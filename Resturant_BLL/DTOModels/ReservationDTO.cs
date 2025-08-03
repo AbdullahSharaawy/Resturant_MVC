@@ -1,19 +1,26 @@
 ﻿using Resturant_DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_BLL.DTOModels
 {
-   public  class ReservationDTO
+   public class ReservationDTO
     {
-        public ReservationDTO() { }
-        public int ReservationID { get; private set; }
-        public int NumberOfGuests { get; private set; }
-        public string Status { get; private set; }
-        public Payment Payment { get; private set; }
+        public int ReservationID { get; set; }  
+        public int NumberOfGuests { get;  set; }
 
+        public string Status { get;  set; }
+
+        public DateTime DateTime { get; set; }
+
+        public string PaymentMethod { get;  set; }
+        public int PaymentID { get;  set; }
+        public string City { get; set; }
+        public int BranchID { get;  set; }
+       
     }
 }

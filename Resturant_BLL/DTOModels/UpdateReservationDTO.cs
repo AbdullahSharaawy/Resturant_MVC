@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.DTOModels
 {
-   public class QuickReservation
+    public class UpdateReservationDTO
     {
-
+        public ReservationDTO ReservationDTO { get; set; }
+        public List<BranchDTO> Branches { get; set; }
     }
 }

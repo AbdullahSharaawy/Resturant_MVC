@@ -17,10 +17,11 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public void Create(Chief entity)
+        public int? Create(Chief entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.ChiefID;
         }
 
         public void Delete(Chief entity)
@@ -31,7 +32,7 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<Chief> GetAll()
         {
-            List<Chief> chiefs = _context.Chief.ToList();
+            List<Chief> chiefs = _context.Chief.Where(r => r.IsDeleted == false).ToList();
             foreach (var chief in chiefs)
             {
                 _context.Entry(chief).Reference(t => t.Branch).Load();
@@ -41,7 +42,7 @@ namespace Resturant_DAL.ImplementRepository
 
         public Chief GetByID(int id)
         {
-            return _context.Chief.Include(t => t.Branch).FirstOrDefault(c => c.ChiefID == id);
+            return _context.Chief.Include(t => t.Branch).Where(r => r.IsDeleted == false).FirstOrDefault(c => c.ChiefID == id);
         }
 
         public void Update(Chief entity)

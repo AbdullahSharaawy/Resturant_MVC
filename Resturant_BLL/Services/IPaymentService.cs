@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Resturant_BLL.DTOModels;
+using Resturant_DAL.Entities;
+using Resturant_DAL.ImplementRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Resturant_BLL.DTOModels;
-using Resturant_DAL.Entities;
 
 namespace Resturant_BLL.Services
 {
@@ -12,8 +13,10 @@ namespace Resturant_BLL.Services
     {
         public List<PaymentDTO> GetList();
         public PaymentDTO? GetById(int id);
-        public Payment? Create(PaymentDTO payment);
-        public Payment? Update(PaymentDTO payment);
+        public Payment? Create(PaymentDTO Payment);
+        public Payment? Update(PaymentDTO Payment);
         public bool Delete(int id);
+        public int? Create(Payment payment);
+        
     }
 }

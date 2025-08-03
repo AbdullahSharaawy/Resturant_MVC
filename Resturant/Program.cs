@@ -7,6 +7,9 @@ using Resturant_DAL.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Chief_BLL.Services;
 using Microsoft.AspNetCore.Identity;
+using Resturant_BLL.ImplementServices;
+using Castle.Core.Smtp;
+
 
 namespace Resturant_PL
 {
@@ -48,11 +51,14 @@ namespace Resturant_PL
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
             builder.Services.AddScoped<IMenueItemService, MenueItemService>();
-            builder.Services.AddScoped<IPaymentService, PaymentService>();
+           
             builder.Services.AddScoped<IEventTypeService, EventTypeService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
 
+            builder.Services.AddScoped<IEmailSenderService,EmailSenderService>();
+            // API/Web Project
+           // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));
             builder.Services.AddIdentity<User, IdentityRole>(option =>
             {
                 option.Password.RequiredLength = 4;

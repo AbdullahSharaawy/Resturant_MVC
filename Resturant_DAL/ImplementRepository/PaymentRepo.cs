@@ -16,10 +16,11 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public void Create(Payment entity)
+        public int? Create(Payment entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.PaymentID;
         }
 
         public void Delete(Payment entity)

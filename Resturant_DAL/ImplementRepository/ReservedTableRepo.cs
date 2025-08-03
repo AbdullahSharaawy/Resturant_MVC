@@ -17,10 +17,11 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public void Create(ReservedTable entity)
+        public int? Create(ReservedTable entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.ReservedTableID;
         }
 
         public void Delete(ReservedTable entity)
@@ -31,12 +32,16 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<ReservedTable> GetAll()
         {
-            return _context.ReservedTable.ToList();
+            return _context.ReservedTable
+        .Where(r => !r.IsDeleted)
+        .Include(r => r.Table)       // Eager load Table
+        .Include(r => r.Reservation) // Eager load Reservation
+        .ToList();
         }
 
         public ReservedTable GetByID(int id)
         {
-            return _context.ReservedTable.FirstOrDefault(c => c.ReservedTableID == id);
+            return _context.ReservedTable.Include(r=>r.Table ).Include(r=>r.Reservation).Where(r=>r.IsDeleted==false).FirstOrDefault(c => c.ReservedTableID == id);
         }
 
         public void Update(ReservedTable entity)

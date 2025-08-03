@@ -12,7 +12,7 @@ namespace Resturant_PL.Controllers
         {
             _branchService = branchService;
         }
-
+       
         public IActionResult Index()
         {
             return View("Branches",_branchService.GetList());

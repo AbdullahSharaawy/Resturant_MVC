@@ -33,6 +33,11 @@ namespace Resturant_BLL.Services
             return mappedPayment;
         }
 
+        public int? Create(Payment payment)
+        {
+           return _PR.Create(payment);
+        }
+
         public bool Delete(int id)
         {
             Payment p = _PR.GetByID(id);

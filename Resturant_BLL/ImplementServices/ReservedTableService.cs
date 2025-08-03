@@ -2,6 +2,7 @@
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
+using Resturant_DAL.ImplementRepository;
 using Resturant_DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,69 +14,66 @@ namespace Resturant_BLL.Services
 {
     public class ReservedTableService : IReservedTableService
     {
-        private readonly IRepository<ReservedTable> _reservedRepo;
+        private readonly IRepository<ReservedTable> _reservedTableRepo;
         private readonly IRepository<Table> _tableRepo;
-
+        
         public ReservedTableService(IRepository<ReservedTable> reservedRepo, IRepository<Table> tableRepo)
         {
-            _reservedRepo = reservedRepo;
+            _reservedTableRepo = reservedRepo;
             _tableRepo = tableRepo;
         }
 
         public ReservedTable? Create(ReservedTableDTO dto)
         {
-            if (dto == null) return null;
 
-            // ✅ التحقق من السعة
-            table Table = _tableRepo.GetByID(dto.TableID);
-            if (Table == null || dto.Capacity > Table.Capacity)
-            {
-                throw new Exception($"Table {dto.TableID} does not have enough capacity.");
-            }
+            if (dto == null)
+                return null;
 
-            var entity = new ReservedTableMapper().MapToReservedTable(dto);
-            entity.CreatedOn = DateTime.UtcNow;
-            entity.CreatedBy = "Current User";
-            entity.IsDeleted = false;
 
-            _reservedRepo.Create(entity);
-            return entity;
+            ReservedTable mappedReservedTable = new ReservedTableMapper().MapToReservedTable(dto);
+            mappedReservedTable.CreatedOn = DateTime.UtcNow;
+            mappedReservedTable.CreatedBy = "Current User";
+            mappedReservedTable.IsDeleted = false;
+            _reservedTableRepo.Create(mappedReservedTable);
+            return mappedReservedTable;
         }
 
         public ReservedTable? Update(ReservedTableDTO dto)
         {
-            if (dto == null) return null;
-
-            table Table = _tableRepo.GetByID(dto.TableID);
-            if (Table == null || dto.Capacity > Table.Capacity)
+            if (dto == null)
             {
-                throw new Exception($"Table {dto.TableID} does not have enough capacity.");
+                return null;
             }
 
-            var entity = new ReservedTableMapper().MapToReservedTable(dto);
-            entity.ModifiedOn = DateTime.UtcNow;
-            entity.ModifiedBy = "Current User";
-
-            _reservedRepo.Update(entity);
-            return entity;
+            // the mapping remove the values that are not in the DTO
+            ReservedTable UpdatedReservedTable =_reservedTableRepo.GetByID(dto.ReservedTableID);
+            UpdatedReservedTable.TableID = dto.TableID;
+            UpdatedReservedTable.ReservationID = dto.ReservationID;
+            UpdatedReservedTable.ModifiedBy = "user";
+            UpdatedReservedTable.ModifiedOn = DateTime.UtcNow;
+            UpdatedReservedTable.DateTime = dto.DateTime;
+            UpdatedReservedTable.ModifiedBy = "Current User"; // This should be replaced with the actual user context
+           _reservedTableRepo.Update(UpdatedReservedTable);
+            return UpdatedReservedTable;
         }
 
         public bool Delete(int id)
         {
-            var entity = _reservedRepo.GetByID(id);
+            var entity = _reservedTableRepo.GetByID(id);
             if (entity == null || entity.IsDeleted) return false;
 
             entity.IsDeleted = true;
             entity.DeletedOn = DateTime.UtcNow;
             entity.DeletedBy = "Current User";
 
-            _reservedRepo.Update(entity);
+            _reservedTableRepo.Update(entity);
             return true;
+
         }
 
         public ReservedTableDTO? GetById(int id)
         {
-            var entity = _reservedRepo.GetByID(id);
+            var entity = _reservedTableRepo.GetByID(id);
             if (entity == null || entity.IsDeleted) return null;
 
             return new ReservedTableMapper().MapToReservedTableDTO(entity);
@@ -83,11 +81,17 @@ namespace Resturant_BLL.Services
 
         public List<ReservedTableDTO> GetList()
         {
-            var all = _reservedRepo.GetAll()
+            var all = _reservedTableRepo.GetAll()
                 .Where(r => !r.IsDeleted)
                 .ToList();
 
             return new ReservedTableMapper().MapToReservedTableDTOList(all);
+        }
+
+        public void Create(ReservedTable reservedTable)
+        {
+           _reservedTableRepo.Create(reservedTable);
+
         }
     }
 }

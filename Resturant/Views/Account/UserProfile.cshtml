@@ -662,3 +662,17 @@
       </div>
     </div>
   </main>
+  <script src="~/lib/jquery/dist/jquery.js"></script>
+  <script>
+      function GetQuickResrvationForm(checkOutDTO)
+      {
+          event.preventDefault();
+       
+            $.ajax({
+                url: "/Reservation/QuickReservationForm?checkOutDTO="+checkOutDTO, success: function (result) {
+                    $("#div1").html(result);
+                }
+            });
+        
+      }
+  </script>

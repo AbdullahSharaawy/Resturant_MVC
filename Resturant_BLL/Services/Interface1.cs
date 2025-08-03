@@ -1,5 +1,4 @@
-﻿using Resturant_DAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.Services
 {
-    public interface IReservedTableService
+    interface Interface1
     {
-        public void Create(ReservedTable reservedTable);
     }
 }

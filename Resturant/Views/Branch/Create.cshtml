@@ -99,7 +99,10 @@
             <label asp-for="@Model.BuildingNo" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.BuildingNo" required />
         </div>
-        
+        <div class="mb-3">
+            <label asp-for="@Model.LocationSelector" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.LocationSelector" required />
+        </div>
 
 
         <button class="btn btn-dark" type="submit">Submit</button>

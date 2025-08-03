@@ -16,10 +16,11 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public void Create(Branch entity)
+        public int? Create(Branch entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.BranchID;
         }
 
         public void Delete(Branch entity)
@@ -30,14 +31,14 @@ namespace Resturant_DAL.ImplementRepository
 
         public List<Branch> GetAll()
         {
-            List<Branch> Branchs = _context.Branch.ToList();
+            List<Branch> Branchs = _context.Branch.Where(r => r.IsDeleted == false).ToList();
             
             return Branchs;
         }
 
         public Branch GetByID(int id)
         {
-            return _context.Branch.FirstOrDefault(c => c.BranchID == id);
+            return _context.Branch.Where(r => r.IsDeleted == false).FirstOrDefault(c => c.BranchID == id);
         }
 
         public void Update(Branch entity)

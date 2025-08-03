@@ -89,6 +89,7 @@ namespace Resturant_BLL.Services
             Branch UpdateBranch = _BR.GetByID(Branch.BranchID);
             UpdateBranch.Area = Branch.Area;
             UpdateBranch.City = Branch.City;
+            UpdateBranch.LocationSelector = Branch.LocationSelector;
             UpdateBranch.BuildingNo = Branch.BuildingNo;
             UpdateBranch.StreetName = Branch.StreetName;
             UpdateBranch.ModifiedOn = DateTime.UtcNow;

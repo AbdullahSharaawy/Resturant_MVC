@@ -13,5 +13,6 @@ namespace Resturant_BLL.DTOModels
         public string Area { get;  set; }
         public string BuildingNo { get;  set; }
         public string StreetName { get;  set; }
+        public string LocationSelector { get; set; }
     }
 }

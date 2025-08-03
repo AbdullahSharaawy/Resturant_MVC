@@ -10,14 +10,13 @@ namespace Resturant_BLL.DTOModels
    public  class ReservedTableDTO
     {
         public ReservedTableDTO() { }
-        public int ReservedTableID { get; private set; }
-        public DateTime DateTime { get; private set; }
-        [ForeignKey("Table")]
-        public int TableID { get; private set; }
-        [ForeignKey("Reservation")]
-        public int ReservationID { get; private set; } = 0;
+        public int ReservedTableID { get;  set; }
+        public DateTime DateTime { get;  set; }
+        
+        public int TableID { get; set; }
+        public int ReservationID { get;  set; } 
 
-        public int Capacity { get; set; }
-        public int TableId { get; set; }
+       
+       
     }
 }

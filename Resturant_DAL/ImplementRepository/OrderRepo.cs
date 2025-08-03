@@ -17,10 +17,11 @@ namespace Resturant_DAL.ImplementRepository
             _context = context;
         }
 
-        public void Create(Order entity)
+        public int? Create(Order entity)
         {
             _context.Add(entity);
             _context.SaveChanges();
+            return entity.OrderID;
         }
 
         public void Delete(Order entity)

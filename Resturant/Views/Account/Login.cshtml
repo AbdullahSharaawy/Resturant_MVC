@@ -146,65 +146,52 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                     class="img-fluid" alt="Sample image">
+                     class="img-fluid" alt="Sample image" />
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
+
+                <form asp-action="SaveLogin" method="post">
                     <h2 class="form-heading">Welcome Back</h2>
 
-                    <div class="social-login d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
 
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-google"></i>
-                        </button>
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-instagram"></i>
-                        </button>
-                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
-                    </div>
 
                     <div class="form-outline mb-4">
-                        <input type="email" id="form3Example3" class="form-control form-control-lg"
-                               placeholder="Enter a valid email address" />
-                        <label class="form-label" for="form3Example3">Email address</label>
+                        <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter your email" />
+                        <label asp-for="Email" class="form-label"></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
+
 
                     <div class="form-outline mb-3">
-                        <input type="password" id="form3Example4" class="form-control form-control-lg"
-                               placeholder="Enter password" />
-                        <label class="form-label" for="form3Example4">Password</label>
+                        <input asp-for="Password" class="form-control form-control-lg" placeholder="Enter password" />
+                        <label asp-for="Password" class="form-label"></label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                            <label class="form-check-label" for="form2Example3">
-                                Remember me
-                            </label>
-                        </div>
-                        <a href="#!" class="text-body">Forgot password?</a>
+
+                    <div class="form-check mb-4">
+                        <input asp-for="RememberMe" class="form-check-input me-2" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
                     </div>
+
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="button" class="btn btn-primary btn-lg"
+                        <button type="submit" class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
                             Login
                         </button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Don't have an account? <a href="#!" class="link-danger">Register</a>
+                            Don't have an account? <a href="/Account/Register" class="link-danger">Register</a>
                         </p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-   
 </section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

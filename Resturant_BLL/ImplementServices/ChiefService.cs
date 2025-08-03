@@ -49,7 +49,7 @@ namespace Chief_BLL.Services
             t.IsDeleted = true;
             t.DeletedOn = DateTime.UtcNow;
             t.DeletedBy = "Current User"; // This should be replaced with the actual user context
-            _CR.Delete(t);
+            _CR.Update(t);
             return true;
         }
 

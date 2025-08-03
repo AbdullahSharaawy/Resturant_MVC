@@ -153,84 +153,65 @@
                      class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
+                <!--  FORM START-->
+                <form asp-action="SaveRegister" method="post">
                     <h2 class="form-heading">Create Account</h2>
 
-                    <div class="social-register d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">Register with</p>
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-google"></i>
-                        </button>
-                        <button type="button" class="btn btn-floating mx-1">
-                            <i class="fab fa-instagram"></i>
-                        </button>
-                    </div>
-
-                    <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-md-6">
+                    <!--  Shows validation summary -->
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <!--name-->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="formRegisterFirstName" class="form-control form-control-lg"
-                                       placeholder="First name" />
-                                <label class="form-label" for="formRegisterFirstName">First Name</label>
+                                <input type="text" id="firstName" asp-for="@Model.FirstName" class="form-control form-control-lg" placeholder="First Name" />
+                                <label class="form-label" asp-for="@Model.FirstName"></label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="formRegisterLastName" class="form-control form-control-lg"
-                                       placeholder="Last name" />
-                                <label class="form-label" for="formRegisterLastName">Last Name</label>
+                                <input type="text" id="lastName" asp-for="@Model.LastName" class="form-control form-control-lg" placeholder="Last Name" />
+                                <label class="form-label" asp-for="@Model.LastName"></label>
                             </div>
                         </div>
                     </div>
-
+                    <!--  Email -->
                     <div class="form-outline mb-4">
-                        <input type="email" id="formRegisterEmail" class="form-control form-control-lg"
-                               placeholder="Enter a valid email address" />
-                        <label class="form-label" for="formRegisterEmail">Email address</label>
+                        <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter email" />
+                        <label asp-for="Email" class="form-label"></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
+                    <!--  Password -->
                     <div class="form-outline mb-3">
-                        <input type="password" id="formRegisterPassword" class="form-control form-control-lg"
-                               placeholder="Enter password" />
-                        <label class="form-label" for="formRegisterPassword">Password</label>
+                        <input asp-for="Password" class="form-control form-control-lg" placeholder="Enter password" />
+                        <label asp-for="Password" class="form-label"></label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
+                    <!--  Confirm Password -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="formRegisterConfirmPassword" class="form-control form-control-lg"
-                               placeholder="Confirm password" />
-                        <label class="form-label" for="formRegisterConfirmPassword">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm password" />
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="formRegisterTerms" />
-                            <label class="form-check-label" for="formRegisterTerms">
-                                I agree to the <a href="#!" class="terms-link">terms and conditions</a>
-                            </label>
-                        </div>
-                    </div>
-
+                    <!--  Submit -->
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
                             Register
                         </button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Already have an account? <a href="#!" class="link-danger">Login</a>
+                            Already have an account? <a href="/Account/Login" class="link-danger">Login</a>
                         </p>
                     </div>
                 </form>
+                <!--  FORM END -->
             </div>
         </div>
     </div>
-
-   
 </section>
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+}

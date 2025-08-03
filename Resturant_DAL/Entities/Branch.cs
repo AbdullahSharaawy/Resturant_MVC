@@ -27,6 +27,7 @@ namespace Resturant_DAL.Entities
         public string City { get;  set; }
         public string Area { get;  set; }
         public string BuildingNo { get; set; }
+        public string LocationSelector { get; set; }// value of google maps
         public string StreetName { get;  set; }
         public DateTime CreatedOn { get;  set; }
         public string CreatedBy { get;  set; }

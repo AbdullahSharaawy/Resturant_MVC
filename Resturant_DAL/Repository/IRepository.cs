@@ -12,6 +12,6 @@ namespace Resturant_DAL.Repository
         public T GetByID(int id);
         public void Update(T entity);
         public void Delete(T entity);
-        public void Create(T entity);
+        public int? Create(T entity);
     }
 }

@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
         public Reservation() { }
 
         public Reservation(int reservationID, int numberOfGuests, string status, DateTime dateTime,
-                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID)
+                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID, decimal cost)
         {
             ReservationID = reservationID;
             NumberOfGuests = numberOfGuests;
@@ -21,19 +21,20 @@ namespace Resturant_DAL.Entities
             CreatedBy = createdBy;
             BranchID = branchID;
             UserID = userID;
+            Cost = cost;
         }
 
         [Key]
         public int ReservationID { get; private set; }
 
-        public int NumberOfGuests { get; private set; }
+        public int NumberOfGuests { get;  set; }
 
-        public string Status { get; private set; }
-
-        public DateTime DateTime { get; private set; }
+        public string Status { get; set; }
+        public decimal Cost { get; set; }
+        public DateTime DateTime { get;  set; }
 
         [ForeignKey("Payment")]
-        public int PaymentID { get; private set; }
+        public int PaymentID { get; set; }
 
         public DateTime CreatedOn { get;  set; }
 
@@ -49,19 +50,19 @@ namespace Resturant_DAL.Entities
 
         public bool IsDeleted { get; set; }
 
-        public Payment Payment { get; private set; }
+        public Payment Payment { get;  set; }
 
         [ForeignKey("Branch")]
-        public int BranchID { get; private set; }
+        public int BranchID { get; set; }
 
         [ForeignKey("User")]
-        public string UserID { get; private set; }
+        public string UserID { get;  set; }
 
-        public User User { get; private set; }
+        public User User { get;  set; }
 
-        public Branch Branch { get; private set; }
+        public Branch Branch { get;  set; }
 
-        public List<ReservedTable> ReservedTables { get; private set; }
+        public List<ReservedTable> ReservedTables { get;  set; }
     }
 }
 

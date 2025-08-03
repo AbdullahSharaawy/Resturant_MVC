@@ -1,1 +1,66 @@
-﻿
+﻿@model UpdateReservationDTO
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Newtonsoft.Json
+@{
+    string? successMessage = TempData["SuccessMessage"]?.ToString();
+    string? errorMessage = TempData["ErrorMessage"]?.ToString();
+}
+<style>
+
+    /* Error message styling (if you add validation messages) */
+    .dark-form-container .text-danger {
+        color: #dc3545 !important; /* Bootstrap danger red */
+    }
+</style>
+<partial name="_NotificationModal" />
+<div class="profile-section">
+    <h3 class="profile-section-title">Quick Reservation</h3>
+    <form method="post" asp-action="SaveQuickReservation" asp-controller="Reservation">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="reservationDate" class="form-label">Date Time</label>
+                <input type="datetime-local" class="form-control" asp-for="@Model.ReservationDTO.DateTime">
+            </div>
+            
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="guests" class="form-label">Number of Guests</label>
+                <input type="number" asp-for="@Model.ReservationDTO.NumberOfGuests" />
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Branch</label>
+            <select class="form-control" asp-for="@Model.ReservationDTO.BranchID">
+                @foreach (var item in Model.Branches)
+                {
+                    <option value="@item.BranchID">
+                        @item.City Branch
+                    </option>
+                }
+            </select>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Book Table</button>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var successMessage = @Html.Raw(JsonConvert.SerializeObject(successMessage));
+            var errorMessage = @Html.Raw(JsonConvert.SerializeObject(errorMessage));
+
+            if (successMessage) {
+                // Set the message and show the modal
+                $('#notificationModalBody').text(successMessage);
+                $('#notificationModal').modal('show');
+            } else if (errorMessage) {
+                // You can customize the modal for errors
+                $('#notificationModalLabel').text("Error");
+                $('#notificationModalBody').text(errorMessage);
+                $('#notificationModal').modal('show');
+            }
+        });
+    </script>
+}
