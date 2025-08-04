@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
 
 namespace Resturant_PL.Controllers
@@ -19,15 +20,17 @@ namespace Resturant_PL.Controllers
             _ESS = eSS;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View("ContactUs",_branchService.GetList());
+            ContactDTO contactDTO = new ContactDTO();
+            contactDTO.branchDTOs = await _branchService.GetList();
+            return View("ContactUs",contactDTO);
         }
-        public async Task<IActionResult> SendEmail(string target_email,string subject,string message) 
-        { 
-           await _ESS.SendEmailAsync(_email, _password,target_email,subject,message,_host);
-            return RedirectToAction("Index");
-        }
+        //public async Task<IActionResult> SendEmail(string target_email,string subject,string message) 
+        //{ 
+        //   await _ESS.SendEmailAsync(_email, _password,target_email,subject,message,_host);
+        //    return RedirectToAction("Index");
+        //}
 
     }
 }

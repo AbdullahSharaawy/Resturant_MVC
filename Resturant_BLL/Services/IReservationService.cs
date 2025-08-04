@@ -1,22 +1,19 @@
-﻿using Resturant_BLL.DTOModels;
-using Resturant_DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Resturant_BLL.DTOModels;
+using Resturant_DAL.Entities;
 
 namespace Resturant_BLL.Services
 {
     public interface IReservationService
     {
-        public List<ReservationDTO> GetList();
-        public ReservationDTO? GetById(int id);
-        public Reservation? Create(ReservationDTO reservationDTO);
-        public int? Create(Reservation reservation);
-        public (Reservation?, List<ReservedTable>?,Payment?) CreateQuickReservation(ReservationDTO dto);
-        public Reservation? Update(ReservationDTO reservationDTO);
-        public bool Delete(int id);
-        public UpdateReservationDTO? GetCreateReservationInfo();
+        public Task<List<ReservationDTO>> GetList();
+        public Task<ReservationDTO?> GetById(int id);
+        public Task<Reservation?> Create(ReservationDTO reservationDTO);
+        public Task<int?> Create(Reservation reservation);
+        public Task<(Reservation?, List<ReservedTable>?, Payment?)> CreateQuickReservation(ReservationDTO dto);
+        public Task<Reservation?> Update(ReservationDTO reservationDTO);
+        public Task<bool> Delete(int id);
+        public Task<UpdateReservationDTO?> GetCreateReservationInfo();
     }
 }

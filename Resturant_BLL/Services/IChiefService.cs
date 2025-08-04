@@ -1,21 +1,18 @@
 ﻿using Resturant_BLL.DTOModels;
 using Resturant_DAL.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_BLL.Services
 {
     public interface IChiefService
     {
-        public List<ChiefDTO> GetList();
-        public ChiefDTO? GetById(int id);
-        public Chief? Create(ChiefDTO chief);
-        public Chief? Update(ChiefDTO chief);
-        public bool Delete(int id);
-        public UpdateChiefDTO? GetUpdateChiefInfo(int id);
-        public UpdateChiefDTO? GetCreateChiefInfo();
+        public Task<List<ChiefDTO>> GetList();
+        public Task<ChiefDTO?> GetById(int id);
+        public Task<Chief?> Create(ChiefDTO chief);
+        public Task<Chief?> Update(ChiefDTO chief);
+        public Task<bool> Delete(int id);
+        public Task<UpdateChiefDTO?> GetUpdateChiefInfo(int id);
+        public Task<UpdateChiefDTO?> GetCreateChiefInfo();
     }
 }

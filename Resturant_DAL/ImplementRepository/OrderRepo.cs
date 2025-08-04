@@ -1,10 +1,9 @@
-﻿using Resturant_DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -12,38 +11,44 @@ namespace Resturant_DAL.ImplementRepository
     public class OrderRepo : IRepository<Order>
     {
         private readonly ResturantContext _context;
+
         public OrderRepo(ResturantContext context)
         {
             _context = context;
         }
 
-        public int? Create(Order entity)
+        public async Task<int?> Create(Order entity)
         {
-            _context.Add(entity);
-            _context.SaveChanges();
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity.OrderID;
         }
 
-        public void Delete(Order entity)
+        public async Task Delete(Order entity)
         {
             _context.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Order> GetAll()
+        public async Task<List<Order>> GetAll()
         {
-            return _context.Order.ToList();
+            return await _context.Order
+                .Include(o => o.OrderItems) // Include related entities
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public Order GetByID(int id)
+        public async Task<Order> GetByID(int id)
         {
-            return _context.Order.FirstOrDefault(a => a.OrderID == id);
+            return await _context.Order
+                .Include(o => o.OrderItems) // Include related entities
+                .FirstOrDefaultAsync(o => o.OrderID == id);
         }
 
-        public void Update(Order entity)
+        public async Task Update(Order entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

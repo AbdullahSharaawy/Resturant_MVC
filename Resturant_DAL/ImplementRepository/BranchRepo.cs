@@ -1,4 +1,5 @@
-﻿using Resturant_DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System;
@@ -16,35 +17,54 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public int? Create(Branch entity)
+        public async Task<Branch> GetByID(int id)
         {
-            _context.Add(entity);
-            _context.SaveChanges();
+            return await _context.Branch
+                
+                .Where(r => r.IsDeleted == false)
+                .FirstOrDefaultAsync(c => c.BranchID == id);
+        }
+
+        public async Task<int?> Create(Branch entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity.BranchID;
         }
 
-        public void Delete(Branch entity)
+        public async Task Delete(Branch entity)
         {
-            _context.Remove(entity);
-            _context.SaveChanges();
+            if (entity == null)
+            {
+                return ;
+            }
+             _context.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public List<Branch> GetAll()
+        public async Task<List<Branch>> GetAll()
         {
-            List<Branch> Branchs = _context.Branch.Where(r => r.IsDeleted == false).ToList();
-            
-            return Branchs;
+            return await _context.Branch
+                         .Where(r => r.IsDeleted == false)
+                         .ToListAsync();
         }
 
-        public Branch GetByID(int id)
-        {
-            return _context.Branch.Where(r => r.IsDeleted == false).FirstOrDefault(c => c.BranchID == id);
-        }
+       
 
-        public void Update(Branch entity)
+        public async Task UpdateAsync(Branch entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+        }
+
+        public Task Update(Branch entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

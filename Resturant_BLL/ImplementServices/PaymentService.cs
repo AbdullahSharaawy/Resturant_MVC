@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
@@ -19,7 +18,7 @@ namespace Resturant_BLL.Services
             _PR = pr;
         }
 
-        public Payment? Create(PaymentDTO payment)
+        public async Task<Payment?> Create(PaymentDTO payment)
         {
             if (payment == null)
                 return null;
@@ -29,18 +28,18 @@ namespace Resturant_BLL.Services
             mappedPayment.CreatedBy = "Current User";
             mappedPayment.IsDeleted = false;
 
-            _PR.Create(mappedPayment);
+            await _PR.Create(mappedPayment);
             return mappedPayment;
         }
 
-        public int? Create(Payment payment)
+        public async Task<int?> Create(Payment payment)
         {
-           return _PR.Create(payment);
+            return await _PR.Create(payment);
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            Payment p = _PR.GetByID(id);
+            Payment p = await _PR.GetByID(id);
             if (p == null || p.IsDeleted == true)
             {
                 return false;
@@ -50,13 +49,13 @@ namespace Resturant_BLL.Services
             p.DeletedOn = DateTime.UtcNow;
             p.DeletedBy = "Current User";
 
-            _PR.Update(p);
+            await _PR.Update(p);
             return true;
         }
 
-        public PaymentDTO? GetById(int id)
+        public async Task<PaymentDTO?> GetById(int id)
         {
-            Payment p = _PR.GetByID(id);
+            Payment p = await _PR.GetByID(id);
             if (p == null || p.IsDeleted == true)
             {
                 return null;
@@ -65,9 +64,9 @@ namespace Resturant_BLL.Services
             return new PaymentMapper().MapToPaymentDTO(p);
         }
 
-        public List<PaymentDTO> GetList()
+        public async Task<List<PaymentDTO>> GetList()
         {
-            List<Payment> payments = _PR.GetAll().Where(p => p.IsDeleted == false).ToList();
+            List<Payment> payments = (await _PR.GetAll()).Where(p => p.IsDeleted == false).ToList();
 
             if (payments == null || payments.Count == 0)
             {
@@ -77,7 +76,7 @@ namespace Resturant_BLL.Services
             return new PaymentMapper().MapToPaymentDTOList(payments);
         }
 
-        public Payment? Update(PaymentDTO payment)
+        public async Task<Payment?> Update(PaymentDTO payment)
         {
             if (payment == null)
                 return null;
@@ -87,9 +86,8 @@ namespace Resturant_BLL.Services
             mappedPayment.ModifiedBy = "Current User";
             mappedPayment.IsDeleted = false;
 
-            _PR.Update(mappedPayment);
+            await _PR.Update(mappedPayment);
             return mappedPayment;
         }
     }
 }
-

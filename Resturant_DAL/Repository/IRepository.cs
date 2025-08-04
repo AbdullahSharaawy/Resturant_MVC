@@ -8,10 +8,10 @@ namespace Resturant_DAL.Repository
 {
     public interface IRepository<T> where T : class
     {
-        public List<T> GetAll();
-        public T GetByID(int id);
-        public void Update(T entity);
-        public void Delete(T entity);
-        public int? Create(T entity);
+        public Task<List<T>> GetAll();
+        public Task<T> GetByID(int id);
+        public Task Update(T entity);
+        public Task Delete(T entity);
+        public Task<int?> Create(T entity);
     }
 }

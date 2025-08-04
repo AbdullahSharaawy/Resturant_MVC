@@ -1,10 +1,9 @@
-﻿using Resturant_DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -16,33 +15,34 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public int? Create(Payment entity)
+
+        public async Task<int?> Create(Payment entity)
         {
             _context.Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return entity.PaymentID;
         }
 
-        public void Delete(Payment entity)
+        public async Task Delete(Payment entity)
         {
             _context.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Payment> GetAll()
+        public async Task<List<Payment>> GetAll()
         {
-            return _context.Payment.ToList();
+            return await _context.Payment.ToListAsync();
         }
 
-        public Payment GetByID(int id)
+        public async Task<Payment> GetByID(int id)
         {
-            return _context.Payment.FirstOrDefault(a => a.PaymentID == id);
+            return await _context.Payment.FirstOrDefaultAsync(a => a.PaymentID == id);
         }
 
-        public void Update(Payment entity)
+        public async Task Update(Payment entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

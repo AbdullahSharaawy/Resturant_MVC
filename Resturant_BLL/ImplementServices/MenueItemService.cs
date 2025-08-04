@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
@@ -10,7 +8,7 @@ using Resturant_DAL.Repository;
 
 namespace Resturant_BLL.Services
 {
-    public class MenueItemService: IMenueItemService
+    public class MenueItemService : IMenueItemService
     {
         private readonly IRepository<MenueItem> _CR;
 
@@ -18,21 +16,21 @@ namespace Resturant_BLL.Services
         {
             _CR = rR;
         }
-        public List<MenueItemDTO> GetList()
+
+        public async Task<List<MenueItemDTO>> GetList()
         {
-            List<MenueItem> MenuItems = new List<MenueItem>();
-            List<MenueItemDTO> MenuItemDTOs = new List<MenueItemDTO>();
-            MenuItems = _CR.GetAll();
+            List<MenueItem> MenuItems = await _CR.GetAll();
             if (MenuItems == null || MenuItems.Count == 0)
             {
                 return null;
             }
-            MenuItemDTOs = new MenueItemMapper().MapToMenueItemDTOList(MenuItems);
+            List<MenueItemDTO> MenuItemDTOs = new MenueItemMapper().MapToMenueItemDTOList(MenuItems);
             return new List<MenueItemDTO>();
         }
-        public MenueItemDTO? GetById(int id)
+
+        public async Task<MenueItemDTO?> GetById(int id)
         {
-            MenueItem menuItem = _CR.GetByID(id);
+            MenueItem menuItem = await _CR.GetByID(id);
             if (menuItem == null || menuItem.IsDeleted == true)
             {
                 return null;
@@ -40,7 +38,8 @@ namespace Resturant_BLL.Services
             MenueItemDTO menuItemDTO = new MenueItemMapper().MapToMenueItemDTO(menuItem);
             return menuItemDTO;
         }
-        public MenueItemDTO? Create(MenueItemDTO menueItem)
+
+        public async Task<MenueItemDTO?> Create(MenueItemDTO menueItem)
         {
             if (menueItem == null)
             {
@@ -50,10 +49,11 @@ namespace Resturant_BLL.Services
             menuItem.CreatedOn = DateTime.UtcNow;
             menuItem.CreatedBy = "Current User";
             menuItem.IsDeleted = false;
-            _CR.Create(menuItem);
+            await _CR.Create(menuItem);
             return menueItem;
         }
-        public MenueItemDTO? Update(MenueItemDTO menueItem)
+
+        public async Task<MenueItemDTO?> Update(MenueItemDTO menueItem)
         {
             if (menueItem == null)
             {
@@ -63,19 +63,21 @@ namespace Resturant_BLL.Services
             menuItem.ModifiedOn = DateTime.UtcNow;
             menuItem.ModifiedBy = "Current User";
             menuItem.IsDeleted = false;
-            _CR.Update(menuItem);
+            await _CR.Update(menuItem);
             return menueItem;
         }
-        public bool Delete(int id)
+
+        public async Task<bool> Delete(int id)
         {
-            MenueItem menuItem = _CR.GetByID(id);
+            MenueItem menuItem = await _CR.GetByID(id);
             if (menuItem == null || menuItem.IsDeleted == true)
             {
                 return false;
             }
             menuItem.IsDeleted = true;
             menuItem.DeletedOn = DateTime.UtcNow;
-            menuItem.DeletedBy = "Current User"; 
+            menuItem.DeletedBy = "Current User";
+            await _CR.Update(menuItem);
             return true;
         }
     }

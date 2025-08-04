@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
@@ -10,7 +8,7 @@ using Resturant_DAL.Repository;
 
 namespace Resturant_BLL.Services
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _CR;
 
@@ -18,21 +16,21 @@ namespace Resturant_BLL.Services
         {
             _CR = rR;
         }
-        public List<OrderDTO> GetList()
+
+        public async Task<List<OrderDTO>> GetList()
         {
-            List<Order> orders = new List<Order>();
-            List<OrderDTO> orderDTOs = new List<OrderDTO>();
-            orders = _CR.GetAll();
+            List<Order> orders = await _CR.GetAll();
             if (orders == null || orders.Count == 0)
             {
                 return null;
             }
-            orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
+            List<OrderDTO> orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
             return orderDTOs;
         }
-        public OrderDTO? GetById(int id)
+
+        public async Task<OrderDTO?> GetById(int id)
         {
-            Order order = _CR.GetByID(id);
+            Order order = await _CR.GetByID(id);
             if (order == null)
             {
                 return null;
@@ -40,7 +38,8 @@ namespace Resturant_BLL.Services
             OrderDTO orderDTO = new OrderMapper().MapToOrderDTO(order);
             return orderDTO;
         }
-        public OrderDTO? Create(OrderDTO orderDTO)
+
+        public async Task<OrderDTO?> Create(OrderDTO orderDTO)
         {
             if (orderDTO == null)
             {
@@ -50,12 +49,12 @@ namespace Resturant_BLL.Services
             order.CreatedOn = DateTime.UtcNow;
             order.CreatedBy = "Current User";
             order.IsDeleted = false;
-            _CR.Create(order);
+            await _CR.Create(order);
             return orderDTO;
         }
-        public OrderDTO? Update(OrderDTO orderDTO)
-        {
 
+        public async Task<OrderDTO?> Update(OrderDTO orderDTO)
+        {
             if (orderDTO == null)
             {
                 return null;
@@ -64,12 +63,13 @@ namespace Resturant_BLL.Services
             order.ModifiedOn = DateTime.UtcNow;
             order.ModifiedBy = "Current User";
             order.IsDeleted = false;
-            _CR.Update(order);
+            await _CR.Update(order);
             return orderDTO;
         }
-        public bool Delete(int id)
+
+        public async Task<bool> Delete(int id)
         {
-            Order orderItem = _CR.GetByID(id);
+            Order orderItem = await _CR.GetByID(id);
             if (orderItem == null || orderItem.IsDeleted == true)
             {
                 return false;
@@ -77,7 +77,7 @@ namespace Resturant_BLL.Services
             orderItem.IsDeleted = true;
             orderItem.DeletedOn = DateTime.UtcNow;
             orderItem.DeletedBy = "Current User";
-            _CR.Delete(orderItem);
+            await _CR.Delete(orderItem);
             return true;
         }
     }

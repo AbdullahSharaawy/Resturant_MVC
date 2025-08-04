@@ -2,10 +2,8 @@
 using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -19,41 +17,41 @@ namespace Resturant_DAL.ImplementRepository
             this.context = context;
         }
 
-        public int? Create(table entity)
+        public async Task<int?> Create(table entity)
         {
             context.Add(entity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return entity.TableID;
         }
 
-        public void Delete(table entity)
+        public async Task Delete(table entity)
         {
             context.Remove(entity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public List<table> GetAll()
+        public async Task<List<table>> GetAll()
         {
-            List<table> tables= context.Table.Where(r => r.IsDeleted == false).ToList();
+            List<table> tables = await context.Table.Where(r => r.IsDeleted == false).ToListAsync();
             foreach (var table in tables)
             {
-                context.Entry(table).Reference(t => t.Branch).Load();
+                await context.Entry(table).Reference(t => t.Branch).LoadAsync();
             }
             return tables;
         }
 
-        public table GetByID(int id)
+        public async Task<table> GetByID(int id)
         {
-            return context.Table
+            return await context.Table
                  .Include(t => t.Branch)
-                 .Where(r => r.IsDeleted == false).
-                 FirstOrDefault(t => t.TableID == id);
+                 .Where(r => r.IsDeleted == false)
+                 .FirstOrDefaultAsync(t => t.TableID == id);
         }
 
-        public void Update(table entity)
+        public async Task Update(table entity)
         {
             context.Update(entity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

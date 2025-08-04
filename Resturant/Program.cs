@@ -52,10 +52,10 @@ namespace Resturant_PL
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
             builder.Services.AddScoped<IMenueItemService, MenueItemService>();
            
-            builder.Services.AddScoped<IEventTypeService, EventTypeService>();
+            
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
-
+            builder.Services.AddScoped<IPaymentService,PaymentService>();
             builder.Services.AddScoped<IEmailSenderService,EmailSenderService>();
             // API/Web Project
            // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));

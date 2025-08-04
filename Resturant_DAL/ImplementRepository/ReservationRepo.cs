@@ -2,10 +2,8 @@
 using Resturant_DAL.DataBase;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -13,39 +11,52 @@ namespace Resturant_DAL.ImplementRepository
     public class ReservationRepo : IRepository<Reservation>
     {
         private readonly ResturantContext _context;
-        public int? Create(Reservation entity)
+
+        public ReservationRepo(ResturantContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<int?> Create(Reservation entity)
         {
             _context.Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return entity.ReservationID;
         }
 
-        public void Delete(Reservation entity)
+        public async Task Delete(Reservation entity)
         {
             _context.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Reservation> GetAll()
+        public async Task<List<Reservation>> GetAll()
         {
-            // Eager loading approach (single query - RECOMMENDED)
-            List<Reservation> Reservations = _context.Reservation.Where(r => r.IsDeleted == false).ToList();
-            foreach (var Reservation in Reservations)
+            List<Reservation> reservations = await _context.Reservation
+                .Where(r => r.IsDeleted == false)
+                .ToListAsync();
+
+            foreach (var reservation in reservations)
             {
-                _context.Entry(Reservation).Reference(t => t.Branch).Load();
+                await _context.Entry(reservation).Reference(t => t.Branch).LoadAsync();
             }
-            return Reservations;
+            return reservations;
         }
 
-        public Reservation GetByID(int id)
+        public async Task<Reservation> GetByID(int id)
         {
-            return _context.Reservation.Include(r=>r.User).Include(r=>r.Branch).Include(r=>r.Payment).Where(r => r.IsDeleted == false).FirstOrDefault(c => c.ReservationID == id);
+            return await _context.Reservation
+                .Include(r => r.User)
+                .Include(r => r.Branch)
+                .Include(r => r.Payment)
+                .Where(r => r.IsDeleted == false)
+                .FirstOrDefaultAsync(c => c.ReservationID == id);
         }
 
-        public void Update(Reservation entity)
+        public async Task Update(Reservation entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

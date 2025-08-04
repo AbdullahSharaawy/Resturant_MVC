@@ -5,7 +5,6 @@ using Resturant_DAL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -17,33 +16,34 @@ namespace Resturant_DAL.ImplementRepository
         {
             _context = context;
         }
-        public int? Create(MenueItem entity)
+
+        public async Task<int?> Create(MenueItem entity)
         {
-            _context.Add(entity);
-            _context.SaveChanges();
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity.ItemID;
         }
 
-        public void Delete(MenueItem entity)
+        public async Task Delete(MenueItem entity)
         {
             _context.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<MenueItem> GetAll()
+        public async Task<List<MenueItem>> GetAll()
         {
-            return _context.MenueItem.ToList();
+            return await _context.MenueItem.ToListAsync();
         }
 
-        public MenueItem GetByID(int id)
+        public async Task<MenueItem> GetByID(int id)
         {
-            return _context.MenueItem.FirstOrDefault(a => a.ItemID == id);
+            return await _context.MenueItem.FirstOrDefaultAsync(a => a.ItemID == id);
         }
 
-        public void Update(MenueItem entity)
+        public async Task Update(MenueItem entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

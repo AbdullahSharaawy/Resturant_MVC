@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Resturant_PL.Controllers
 {
@@ -11,6 +13,7 @@ namespace Resturant_PL.Controllers
         private readonly IBranchService _BR;
         private readonly IReservedTableService _RTS;
         private readonly IPaymentService _PS;
+
         public ReservationController(IReservationService reservationService, IBranchService bR, IReservedTableService rTS, IPaymentService pS)
         {
             this._RS = reservationService;
@@ -23,42 +26,43 @@ namespace Resturant_PL.Controllers
         {
             return View();
         }
-        public IActionResult QuickReservationForm()
+
+        public async Task<IActionResult> QuickReservationForm()
         {
-            return View("_QuickReservation", this._RS.GetCreateReservationInfo());
+            return PartialView("_QuickReservation", await _RS.GetCreateReservationInfo());
         }
-        public IActionResult SaveQuickReservation(UpdateReservationDTO updateReservationDTO)
+
+        public async Task<IActionResult> SaveQuickReservation(UpdateReservationDTO updateReservationDTO)
         {
             CheckOutDTO checkOutDTO = new CheckOutDTO();
-            (checkOutDTO.reservation, checkOutDTO.reservedTable,checkOutDTO.Payment) = _RS.CreateQuickReservation(updateReservationDTO.ReservationDTO);
+            var quickReservationResult = await _RS.CreateQuickReservation(updateReservationDTO.ReservationDTO);
+            checkOutDTO.reservation = quickReservationResult.Item1;
+            checkOutDTO.reservedTable = quickReservationResult.Item2;
+            checkOutDTO.Payment = quickReservationResult.Item3;
 
-            if ((checkOutDTO.reservation, checkOutDTO.reservedTable, checkOutDTO.Payment) == (null,null,null))
+            if ((checkOutDTO.reservation, checkOutDTO.reservedTable, checkOutDTO.Payment) == (null, null, null))
             {
-                TempData["SuccessMessage"] = "No Seats available for this number of guests.";
-                
-                updateReservationDTO.Branches=_BR.GetList();
-                return View("_QuickReservation", updateReservationDTO);
+                 updateReservationDTO.Branches = await _BR.GetList();
+                return Json(new {success=false, message="No Seats Available for this Number of Guests." });
             }
-            //TempData["CheckOutDTO"] = JsonConvert.SerializeObject(checkOutDTO);
-            // the valid loaction for these create operations is completeOrder method in CheckOutController
-           
-            
-            int paymentID= _PS.Create(checkOutDTO.Payment)??0;
-            if(paymentID!=0)
+
+            int paymentID = (await _PS.Create(checkOutDTO.Payment)) ?? 0;
+            if (paymentID != 0)
             {
                 checkOutDTO.reservation.PaymentID = paymentID;
-                int reservationID=_RS.Create(checkOutDTO.reservation)??0;
-                if (reservationID != 0) 
+                checkOutDTO.reservation.UserID = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                int reservationID = (await _RS.Create(checkOutDTO.reservation)) ?? 0;
+                if (reservationID != 0)
                 {
                     foreach (var r in checkOutDTO.reservedTable)
                     {
                         r.ReservationID = reservationID;
-                        _RTS.Create(r);
+                        await _RTS.Create(r);
                     }
                 }
-                
             }
-            return RedirectToAction("Index", "CheckOut");
+
+            return Json(new { success = true,message="Your Reservation is done Successfuly" });
         }
     }
 }
