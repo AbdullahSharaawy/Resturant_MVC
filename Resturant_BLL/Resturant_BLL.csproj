@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Resturant_DAL\Resturant_DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOModels\OrderItemDTOS\" />
+  </ItemGroup>
+
 </Project>

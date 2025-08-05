@@ -89,7 +89,7 @@ namespace Resturant_BLL.Services
             {
                 Amount = reservation.Cost,
                 Status = "Completed",
-                PaymentMethod = "Paypal",
+                PaymentMethod = PaymentMethod.Paypal,
                 CreatedBy = "user",
                 CreatedOn = DateTime.UtcNow,
                 IsDeleted = false,

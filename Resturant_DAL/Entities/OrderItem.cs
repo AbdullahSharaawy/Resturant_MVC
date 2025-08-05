@@ -26,16 +26,16 @@ namespace Resturant_DAL.Entities
         [ForeignKey("Order")]
         public int OrderID { get; private set; }
         [ForeignKey("MenueItem")]
-        public int ItemID { get; private set; }
-        public int Quantity { get; private set; }
-        
+        public int ItemID { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedOn { get;  set; }
-        public string? ModifiedBy { get;  set; }
-        public DateTime? DeletedOn { get;  set; }
-        public string? DeletedBy { get;  set; }
-        public bool IsDeleted { get;  set; }
+        public DateTime? ModifiedOn { get; set; }
+        public string? ModifiedBy { get; set; }
+        public DateTime? DeletedOn { get; set; }
+        public string? DeletedBy { get; set; }
+        public bool IsDeleted { get; set; }
         public Order Order { get; private set; }
         public MenueItem MenueItem { get; private set; }
     }

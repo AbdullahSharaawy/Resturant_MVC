@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
@@ -10,63 +12,83 @@ namespace Resturant_BLL.Services
 {
     public class OrderItemService : IOrderItemService
     {
-        private readonly IRepository<OrderItem> _CR;
 
-        public OrderItemService(IRepository<OrderItem> rR)
+        private readonly IRepository<OrderItem> _CR;
+        private readonly IRepository<MenueItem> _MenuRepo;
+
+        public OrderItemService(IRepository<OrderItem> rR, IRepository<MenueItem> _menuRepo)
         {
             _CR = rR;
-        }
+            _MenuRepo = _menuRepo;
 
-        public async Task<List<OrderItemDTO>> GetList()
+        }
+        public async Task<List<ReadOrderItemDTO>> GetList()
         {
-            List<OrderItem> orderItems = await _CR.GetAll();
+            var orderItems = await _CR.GetAll();
             if (orderItems == null || orderItems.Count == 0)
             {
-                return null;
+                return new List<ReadOrderItemDTO>();
             }
-            List<OrderItemDTO> orderItemDTOs = new OrderItemMapper().MapToOrderItemDTOList(orderItems);
+            List<ReadOrderItemDTO> orderItemDTOs = new OrderItemMapper().MapToOrderItemDTOList(orderItems);
             return orderItemDTOs;
         }
-
-        public async Task<OrderItemDTO?> GetById(int id)
+        public async Task<ReadOrderItemDTO?> GetById(int id)
         {
             OrderItem orderItem = await _CR.GetByID(id);
             if (orderItem == null)
             {
                 return null;
             }
-            OrderItemDTO orderItemDTO = new OrderItemMapper().MapToOrderItemDTO(orderItem);
+            ReadOrderItemDTO orderItemDTO = new OrderItemMapper().MapToReadOrderItemDTO(orderItem);
             return orderItemDTO;
         }
-
-        public async Task<OrderItemDTO?> Create(OrderItemDTO orderitem)
+        public async Task<CreateOrderItemDTO?> Create(CreateOrderItemDTO orderitem)
         {
             if (orderitem == null)
             {
                 return null;
             }
+
+            var menuItem = await _MenuRepo.GetByID(orderitem.MenueItem.ItemID);
+            if (menuItem == null)
+            {
+                return null;
+            }
+
             OrderItem orderItem = new OrderItemMapper().MapToOrderItem(orderitem);
+            orderItem.ItemID = orderitem.MenueItem.ItemID;
+            orderItem.Price = menuItem.Price * orderitem.Quantity; ;
             orderItem.CreatedOn = DateTime.UtcNow;
             orderItem.CreatedBy = "Current User";
             orderItem.IsDeleted = false;
+
             await _CR.Create(orderItem);
             return orderitem;
         }
-
-        public async Task<OrderItemDTO?> Update(OrderItemDTO orderitem)
+        public async Task<UpdateOrderItemDTO?> Update(UpdateOrderItemDTO orderitem)
         {
             if (orderitem == null)
             {
                 return null;
             }
-            OrderItem orderItem = new OrderItemMapper().MapToOrderItem(orderitem);
-            orderItem.ModifiedOn = DateTime.UtcNow;
-            orderItem.ModifiedBy = "Current User";
-            orderItem.IsDeleted = false;
-            await _CR.Update(orderItem);
+
+            var existingOrderItem = await _CR.GetByID(orderitem.OrderItemID);
+            if (existingOrderItem == null)
+                return null;
+
+            var menuItem = await _MenuRepo.GetByID(orderitem.MenueItem.ItemID);
+            if (menuItem == null)
+                return null;
+
+            existingOrderItem.Quantity = orderitem.Quantity;
+            existingOrderItem.Price = menuItem.Price * orderitem.Quantity;
+            existingOrderItem.ModifiedOn = DateTime.UtcNow;
+            existingOrderItem.ModifiedBy = "Current User";
+            existingOrderItem.IsDeleted = false;
+
+            await _CR.Update(existingOrderItem);
             return orderitem;
         }
-
         public async Task<bool> Delete(int id)
         {
             OrderItem orderItem = await _CR.GetByID(id);
@@ -77,8 +99,8 @@ namespace Resturant_BLL.Services
             orderItem.IsDeleted = true;
             orderItem.DeletedOn = DateTime.UtcNow;
             orderItem.DeletedBy = "Current User";
-            await _CR.Delete(orderItem);
-            return false;
+            await _CR.Update(orderItem);
+            return true;
         }
     }
 }
