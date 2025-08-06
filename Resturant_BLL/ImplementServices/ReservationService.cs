@@ -6,6 +6,7 @@ using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
+using AutoMapper;
 
 namespace Resturant_BLL.Services
 {
@@ -15,17 +16,21 @@ namespace Resturant_BLL.Services
         private readonly IRepository<table> _tableRepo;
         private readonly IRepository<ReservedTable> _reservedTableRepo;
         private readonly IRepository<Branch> _branchRepo;
+        private readonly IMapper _mapper;
 
         public ReservationService(IRepository<Reservation> reservationRepo,
-                                IRepository<table> tableRepo,
-                                IRepository<ReservedTable> reservedTableRepo,
-                                IRepository<Branch> branchRepo)
+                           IRepository<table> tableRepo,
+                           IRepository<ReservedTable> reservedTableRepo,
+                           IRepository<Branch> branchRepo,
+                           IMapper mapper)
         {
             _reservationRepo = reservationRepo;
             _tableRepo = tableRepo;
             _reservedTableRepo = reservedTableRepo;
             _branchRepo = branchRepo;
+            _mapper = mapper;
         }
+
 
         public async Task<Reservation?> Create(ReservationDTO dto)
         {
@@ -193,6 +198,13 @@ namespace Resturant_BLL.Services
         public async Task<int?> Create(Reservation reservation)
         {
             return await _reservationRepo.Create(reservation);
+        }
+        public async Task<List<ReservationDTO>> GetReservationsByUserId(string userId)
+        {
+            var reservations = await _reservationRepo.GetAllAsync(r => r.UserID == userId);
+
+            return _mapper.Map<List<ReservationDTO>>(reservations);
+
         }
     }
 }

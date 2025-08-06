@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +14,8 @@ namespace Resturant_DAL.Repository
         public Task Update(T entity);
         public Task Delete(T entity);
         public Task<int?> Create(T entity);
+
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);
+
     }
 }

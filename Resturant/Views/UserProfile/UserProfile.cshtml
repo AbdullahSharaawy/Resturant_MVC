@@ -334,6 +334,9 @@
                             <a class="nav-link" href="#reservations" data-bs-toggle="pill">My Reservations</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#reservations" data-bs-toggle="pill" onclick="GetMyReservations()">My Reservations</a>
+                        </li> 
+                        <li class="nav-item">
                             <a class="nav-link" href="#orders" data-bs-toggle="pill">My Orders</a>
                         </li>
                         <li class="nav-item">
@@ -395,86 +398,15 @@
                     </div>
                     <div class="tab-pane fade" id="QuickReservation">
                     </div>
+                    <div class="tab-pane fade" id="reservations">
+                         
+                    </div>
+
+
 
                     <!-- Reservations Tab -->
                     <div class="tab-pane fade" id="reservations">
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">My Reservations</h3>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12345</span>
-                                    <span class="badge badge-status badge-confirmed">Confirmed</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 30, 2024<br>7:30 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>2 people<br>Table by window</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm mb-2">Modify</button>
-                                            <button class="btn btn-outline-danger btn-sm mb-2">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12344</span>
-                                    <span class="badge badge-status badge-completed">Completed</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 15, 2024<br>6:00 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>4 people<br>Birthday celebration</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm">Book Again</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12343</span>
-                                    <span class="badge badge-status badge-cancelled">Cancelled</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 10, 2024<br>8:00 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>2 people<br>Anniversary</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm">Book Again</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4">
-                                <button class="btn btn-primary">Make New Reservation</button>
-                            </div>
-                        </div>
+                     
                     </div>
 
                     <!-- Orders Tab -->
@@ -660,6 +592,18 @@
             });
 
         }
+
+        function GetMyReservations() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Reservation/MyReservations",
+                success: function (result) {
+                    $("#reservations").html(result);
+                }
+            });
+        }
+
         $(document).on('submit', '#quickReservationForm', function (e) {
             e.preventDefault(); // prevent page refresh
             console.log("hi");

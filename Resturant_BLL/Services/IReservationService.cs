@@ -15,5 +15,7 @@ namespace Resturant_BLL.Services
         public Task<Reservation?> Update(ReservationDTO reservationDTO);
         public Task<bool> Delete(int id);
         public Task<UpdateReservationDTO?> GetCreateReservationInfo();
+        Task<List<ReservationDTO>> GetReservationsByUserId(string userId);
+
     }
 }
