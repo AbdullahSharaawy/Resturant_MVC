@@ -40,6 +40,7 @@ namespace Resturant_BLL.Services
                 return null;
             }
             ReadOrderItemDTO orderItemDTO = new OrderItemMapper().MapToReadOrderItemDTO(orderItem);
+            orderItemDTO.ItemName = (await _MenuRepo.GetByID(orderItem.ItemID))?.Name ?? "Unknown Item";
             return orderItemDTO;
         }
         public async Task<UpdateOrderItemDTO?> GetToUpdateById(int id)

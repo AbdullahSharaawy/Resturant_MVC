@@ -94,15 +94,12 @@ namespace Resturant_BLL.Services
                 return null;
             }
 
-            decimal price = 0;
-            foreach (var item in confirmedorder.OrderItems)
-            {
-                price += item.Price;
-            }
+            decimal price = confirmedorder.OrderItems.Sum(item => item.Price);
 
             confirmedorder.OrderStatus = OrderStatus.Confirmed;
             confirmedorder.OrderCost = price;
             confirmedorder.ShipmentCost = 2000;
+            confirmedorder.Address = orderDTO.Address;
             confirmedorder.TotalAmount = confirmedorder.OrderCost + confirmedorder.ShipmentCost;
             await _CR.Update(confirmedorder);
             return new OrderMapper().MapToConfirmedOrderDTO(confirmedorder); ;

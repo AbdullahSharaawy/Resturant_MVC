@@ -1,5 +1,74 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Resturant_BLL.DTOModels.OrderDTOs
+@using Resturant_BLL.DTOModels.OrderItemDTOs
+@model ConfirmedOrderDTO
+
+<form asp-action="Checkout" method="post">
+    <input type="hidden" name="OrderID" value="@Model.OrderID" />
+
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+        </tr>
+
+        @for (int i = 0; i < Model.OrderItems.Count; i++)
+        {
+            <tr>
+                <td>
+                    @(Model.OrderItems[i].MenueItem?.Name ?? Model.OrderItems[i].ItemName)
+                    <input type="hidden" name="OrderItems[@i].OrderItemID" value="@Model.OrderItems[i].OrderItemID" />
+                    <input type="hidden" name="OrderItems[@i].ItemName" value="@Model.OrderItems[i].ItemName" />
+                </td>
+                <td>
+                    <button type="button" id="minus-@i" onclick="decreaseQty(@i)">-</button>
+                    <input type="number" id="qty-@i" name="OrderItems[@i].Quantity" value="@Model.OrderItems[i].Quantity" min="0" readonly style="width: 50px; text-align: center;" />
+                    <button type="button" onclick="increaseQty(@i)">+</button>
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <div class="form-group">
+        <label for="Address">Delivery Address</label>
+        <input type="text" class="form-control" name="Address" id="Address" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Checkout</button>
+</form>
+
+<script>
+    function increaseQty(index) {
+        let input = document.getElementById(`qty-${index}`);
+        let minusBtn = document.getElementById(`minus-${index}`);
+
+        input.value = parseInt(input.value) + 1;
+        if (parseInt(input.value) > 0) {
+            minusBtn.style.display = "inline-block";
+        }
+    }
+
+    function decreaseQty(index) {
+        let input = document.getElementById(`qty-${index}`);
+        let minusBtn = document.getElementById(`minus-${index}`);
+
+        if (parseInt(input.value) > 0) {
+            input.value = parseInt(input.value) - 1;
+        }
+
+        if (parseInt(input.value) == 0) {
+            minusBtn.style.display = "none";
+        }
+    }
+
+    // Hide all "-" buttons with quantity == 0 initially
+    window.onload = function () {
+        const count = @Model.OrderItems.Count;
+        for (let i = 0; i < count; i++) {
+            let input = document.getElementById(`qty-${i}`);
+            let minusBtn = document.getElementById(`minus-${i}`);
+            if (parseInt(input.value) == 0) {
+                minusBtn.style.display = "none";
+            }
+        }
+    }
+ </script>

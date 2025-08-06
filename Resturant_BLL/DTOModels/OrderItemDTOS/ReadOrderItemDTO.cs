@@ -8,7 +8,9 @@ namespace Resturant_BLL.DTOModels.OrderItemDTOs
 {
     public class ReadOrderItemDTO
     {
+        public int OrderItemID { get; private set; }
         public MenueItemDTO MenueItem { get; private set; }
+        public string ItemName { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
     }

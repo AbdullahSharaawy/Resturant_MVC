@@ -11,5 +11,6 @@ namespace Resturant_BLL.DTOModels.OrderItemDTOs
         public int OrderItemID { get; set; }
         public int Quantity { get; set; }
         public MenueItemDTO MenueItem { get; set; }
+        public string ItemName { get; set; }
     }
 }

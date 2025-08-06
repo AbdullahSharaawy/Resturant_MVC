@@ -10,6 +10,7 @@ namespace Resturant_BLL.DTOModels.OrderDTOs
 {
     public class DraftOrderDTO
     {
-        public List<CreateOrderItemDTO> OrderItems { get; set; }
+        public int OrderID { get; set; }
+        public List<ReadOrderItemDTO> OrderItems { get; set; } = new();
     }
 }

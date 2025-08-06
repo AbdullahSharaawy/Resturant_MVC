@@ -11,7 +11,10 @@ namespace Resturant_BLL.DTOModels.OrderDTOs
     public class ConfirmedOrderDTO
     {
         public int OrderID { get; set; }
-        public List<CreateOrderItemDTO> OrderItems { get; set; }
+        public List<ReadOrderItemDTO> OrderItems { get; set; }
         public string Address { get; set; }
+        public decimal OrderCost { get; set; }
+        public decimal ShipmentCost { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }
