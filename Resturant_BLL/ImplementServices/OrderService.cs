@@ -61,8 +61,9 @@ namespace Resturant_BLL.Services
             ShippedOrderDTO orderDTO = new OrderMapper().MapToShippedOrderDTO(order);
             return orderDTO;
         }
-        public async Task<Order> CreateDraftOrder()
+        public async Task<Order?> CreateDraftOrder()
         {
+
             var order = new Order
             {
                 CreatedOn = DateTime.UtcNow,

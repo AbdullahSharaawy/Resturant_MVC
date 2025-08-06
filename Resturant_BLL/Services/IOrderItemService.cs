@@ -12,6 +12,7 @@ namespace Resturant_BLL.Services
     {
         public Task<List<ReadOrderItemDTO>> GetList();
         public Task<ReadOrderItemDTO?> GetById(int id);
+        public Task<UpdateOrderItemDTO?> GetToUpdateById(int id);
         public Task<CreateOrderItemDTO?> Create(CreateOrderItemDTO orderItem);
         public Task<UpdateOrderItemDTO?> Update(UpdateOrderItemDTO orderItem);
         public Task<bool> Delete(int id);

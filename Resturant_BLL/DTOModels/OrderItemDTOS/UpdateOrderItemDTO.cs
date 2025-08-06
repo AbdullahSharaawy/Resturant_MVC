@@ -9,7 +9,7 @@ namespace Resturant_BLL.DTOModels.OrderItemDTOs
     public class UpdateOrderItemDTO
     {
         public int OrderItemID { get; set; }
-        public int Quantity { get; private set; }
-        public MenueItemDTO MenueItem { get; private set; }
+        public int Quantity { get; set; }
+        public MenueItemDTO MenueItem { get; set; }
     }
 }

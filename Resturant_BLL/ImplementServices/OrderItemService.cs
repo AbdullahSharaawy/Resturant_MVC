@@ -42,6 +42,16 @@ namespace Resturant_BLL.Services
             ReadOrderItemDTO orderItemDTO = new OrderItemMapper().MapToReadOrderItemDTO(orderItem);
             return orderItemDTO;
         }
+        public async Task<UpdateOrderItemDTO?> GetToUpdateById(int id)
+        {
+            OrderItem orderItem = await _CR.GetByID(id);
+            if (orderItem == null)
+            {
+                return null;
+            }
+            UpdateOrderItemDTO orderItemDTO = new OrderItemMapper().MapToUpdateOrderItemDTO(orderItem);
+            return orderItemDTO;
+        }
         public async Task<CreateOrderItemDTO?> Create(CreateOrderItemDTO orderitem)
         {
             if (orderitem == null)
