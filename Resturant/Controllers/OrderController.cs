@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels.OrderDTOs;
 using Resturant_BLL.Services;
+using System.Security.Claims;
 
 namespace Resturant_PL.Controllers
 {
@@ -54,6 +55,16 @@ namespace Resturant_PL.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> MyOrders()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var orders = await _orderService.GetOrdersByUserId(userId);
+            return PartialView("~/Views/Shared/_MyOrders.cshtml", orders);
+        }
+
+
 
     }
 }
