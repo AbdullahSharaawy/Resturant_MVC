@@ -40,6 +40,12 @@ namespace Resturant_DAL.ImplementRepository
             return await _context.MenueItem.FirstOrDefaultAsync(a => a.ItemID == id);
         }
 
+        public async Task<List<MenueItem>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<MenueItem, bool>> filter)
+        {
+            return await _context.MenueItem
+                .Where(filter)
+                .ToListAsync();
+        }
         public async Task Update(MenueItem entity)
         {
             _context.Update(entity);

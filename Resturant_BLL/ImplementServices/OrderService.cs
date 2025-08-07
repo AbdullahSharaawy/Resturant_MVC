@@ -1,4 +1,6 @@
-﻿using Resturant_BLL.DTOModels.OrderDTOs;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
+using Resturant_BLL.DTOModels.OrderDTOs;
 using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_BLL.Mapperly;
@@ -11,10 +13,12 @@ namespace Resturant_BLL.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _CR;
+        private readonly UserManager<User> _user;
 
-        public OrderService(IRepository<Order> rR)
+        public OrderService(IRepository<Order> rR, UserManager<User> user)
         {
             _CR = rR;
+            _user = user;
         }
         public async Task<List<ReadOrderDTO>> GetList()
         {
@@ -116,6 +120,20 @@ namespace Resturant_BLL.Services
             order.DeletedBy = "Current User";
             await _CR.Update(order);
             return true;
+        }
+        public async Task<List<ReadOrderDTO>> GetOrdersByUserId(string userId)
+        {
+            return await FilterBy(order => order.UserID == userId);
+        }
+        public async Task<List<ReadOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
+        {
+            List<Order> orders = await _CR.GetAllAsync(filter);
+            if (orders == null || orders.Count == 0)
+            {
+                return null;
+            }
+            List<ReadOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
+            return ordersDTO;
         }
     }
 }

@@ -62,6 +62,7 @@ namespace Resturant_PL
             builder.Services.AddSingleton<OrderMapper>();
             builder.Services.AddSingleton<OrderItemMapper>();
             builder.Services.AddSingleton<MenueItemMapper>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // API/Web Project
             // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));

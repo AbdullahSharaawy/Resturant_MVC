@@ -7,6 +7,8 @@ using Resturant_BLL.DTOModels.OrderDTOs;
 using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_DAL.Entities;
+using Resturant_BLL.DTOModels.OrderDTOs;
+using System.Linq.Expressions;
 
 namespace Resturant_BLL.Services
 {
@@ -19,5 +21,7 @@ namespace Resturant_BLL.Services
         public Task<Order> CreateDraftOrder();
         public Task<ConfirmedOrderDTO?> ConfirmOrder(ConfirmedOrderDTO orderDTO);
         public Task<bool> Delete(int id);
+        public Task<List<ReadOrderDTO>> GetOrdersByUserId(string userId);
+        public Task<List<ReadOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter);
     }
 }

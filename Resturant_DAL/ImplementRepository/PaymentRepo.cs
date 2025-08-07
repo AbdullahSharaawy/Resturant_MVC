@@ -39,6 +39,12 @@ namespace Resturant_DAL.ImplementRepository
             return await _context.Payment.FirstOrDefaultAsync(a => a.PaymentID == id);
         }
 
+        public async Task<List<Payment>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<Payment, bool>> filter)
+        {
+            return await _context.Payment
+                .Where(filter)
+                .ToListAsync();
+        }
         public async Task Update(Payment entity)
         {
             _context.Update(entity);
