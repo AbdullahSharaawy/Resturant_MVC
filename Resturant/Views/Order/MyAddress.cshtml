@@ -22,15 +22,25 @@
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-4 mb-md-0">
                                     <div data-mdb-input-init class="form-outline">
-                                        <select id="country" class="form-select form-control-lg" required>
+                                        <select id="country" class="form-select form-control-lg country" required onchange="loadStates()">
                                             <option value="" selected disabled>Loading countries...</option>
                                         </select>
-                                        <label class="form-label" for="country">Country</label>
+                                        <label class="form-label " for="country">Country</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <select id="country" class="form-select form-control-lg state" required onchange="loadCities()">
+                                            <option value="" selected disabled>Loading states...</option>
+                                        </select>
+                                        <label class="form-label " for="state">State</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div data-mdb-input-init class="form-outline">
-                                        <input type="text" id="city" class="form-control form-control-lg" required />
+                                        <select id="city" class="form-select form-control-lg city" required >
+                                            <option value="" selected disabled>Loading cities...</option>
+                                        </select>
                                         <label class="form-label" for="city">City</label>
                                     </div>
                                 </div>
@@ -61,37 +71,92 @@
 
 <script>
     // Fetch countries from REST Countries API
-    document.addEventListener('DOMContentLoaded', function () {
-        const countrySelect = document.getElementById('country');
-        const apiEndpoint = 'https://restcountries.com/v3.1/all';
+    var config = {
+        cUrl: 'https://api.countrystatecity.in/v1/countries',
+        ckey: 'ZHJlSUwyeHQ1UlNOZVFNallmcTFYWlFIRGJiWlNpc0NZSHBBYnJ2SA=='
+    }
 
-        fetch(apiEndpoint)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
+
+    var countrySelect = document.querySelector('.country'),
+        stateSelect = document.querySelector('.state'),
+        citySelect = document.querySelector('.city')
+
+
+    function loadCountries() {
+
+        let apiEndPoint = config.cUrl
+
+        fetch(apiEndPoint, { headers: { "X-CSCAPI-KEY": config.ckey } })
+            .then(Response => Response.json())
             .then(data => {
-                // Clear loading message
-                countrySelect.innerHTML = '<option value="" selected disabled>Select Country</option>';
+                // console.log(data);
 
-                // Sort countries alphabetically
-                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-
-                // Add each country to the dropdown
                 data.forEach(country => {
-                    const option = document.createElement('option');
-                    // Use a more stable identifier if available, like CCA3 (three-letter country code)
-                    // or fall back to CCA2 if the former isn't consistently available
-                    option.value = country.cca2 || country.cca3;
-                    option.textContent = country.name.common;
-                    countrySelect.appendChild(option);
-                });
+                    const option = document.createElement('option')
+                    option.value = country.iso2
+                    option.textContent = country.name
+                    countrySelect.appendChild(option)
+                })
             })
-            .catch(error => {
-                console.error('Error fetching countries:', error);
-                countrySelect.innerHTML = '<option value="" selected disabled>Failed to load countries</option>';
-            });
-    });
+            .catch(error => console.error('Error loading countries:', error))
+
+        stateSelect.disabled = true
+        citySelect.disabled = true
+        stateSelect.style.pointerEvents = 'none'
+        citySelect.style.pointerEvents = 'none'
+    }
+
+
+    function loadStates() {
+        stateSelect.disabled = false
+        citySelect.disabled = true
+        stateSelect.style.pointerEvents = 'auto'
+        citySelect.style.pointerEvents = 'none'
+
+        const selectedCountryCode = countrySelect.value
+        // console.log(selectedCountryCode);
+        stateSelect.innerHTML = '<option value="">Select State</option>' // for clearing the existing states
+        citySelect.innerHTML = '<option value="">Select City</option>' // Clear existing city options
+
+        fetch(`${config.cUrl}/${selectedCountryCode}/states`, { headers: { "X-CSCAPI-KEY": config.ckey } })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+
+                data.forEach(state => {
+                    const option = document.createElement('option')
+                    option.value = state.iso2
+                    option.textContent = state.name
+                    stateSelect.appendChild(option)
+                })
+            })
+            .catch(error => console.error('Error loading countries:', error))
+    }
+
+
+    function loadCities() {
+        citySelect.disabled = false
+        citySelect.style.pointerEvents = 'auto'
+
+        const selectedCountryCode = countrySelect.value
+        const selectedStateCode = stateSelect.value
+        // console.log(selectedCountryCode, selectedStateCode);
+
+        citySelect.innerHTML = '<option value="">Select City</option>' // Clear existing city options
+
+        fetch(`${config.cUrl}/${selectedCountryCode}/states/${selectedStateCode}/cities`, { headers: { "X-CSCAPI-KEY": config.ckey } })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+
+                data.forEach(city => {
+                    const option = document.createElement('option')
+                    option.value = city.iso2
+                    option.textContent = city.name
+                    citySelect.appendChild(option)
+                })
+            })
+    }
+
+    window.onload = loadCountries
 </script>
