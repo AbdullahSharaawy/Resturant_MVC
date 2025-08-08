@@ -338,7 +338,7 @@
                             <a class="nav-link" href="#reservations" data-bs-toggle="pill" onclick="GetMyReservations()">My Reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#settings" data-bs-toggle="pill">Settings</a>
+                            <a class="nav-link" href="#settings" data-bs-toggle="pill" onclick="GetSettingsForm()">Settings</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Account/SignOut">Logout</a>
@@ -434,8 +434,32 @@
 
         }
 
+        $(document).on('submit', '#userProfileInfo', function (e) {
+            e.preventDefault();
 
+            $.ajax({
+                url: '/UserProfile/SaveEditProfileInfo',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Immediately redirect to the confirmation page
+                        window.location.href = response.redirectUrl;
 
+                       
+                    } else {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
         $(document).on('submit', '#quickReservationForm', function (e) {
             e.preventDefault(); // prevent page refresh
             console.log("hi");

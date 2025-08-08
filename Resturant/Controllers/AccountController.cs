@@ -253,5 +253,9 @@ namespace Resturant_PL.Controllers
 
             return RedirectToAction("RegisterConfirmation", new { email = email });
         }
+        public async Task<IActionResult> AdminAccountSettings()
+        {
+            return View();
+        }
     }
 }
