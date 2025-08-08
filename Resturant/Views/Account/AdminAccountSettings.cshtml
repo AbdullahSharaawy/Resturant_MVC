@@ -1,0 +1,216 @@
+﻿@{
+    Layout = "_ManagementLayout";
+    ViewData["Title"] = "Admin Settings";
+}
+
+@section HeaderLinks {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .settings-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+            .settings-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .settings-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #6c757d;
+        }
+
+        .settings-section {
+            margin-bottom: 40px;
+        }
+
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            background: #e9ecef;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+    </style>
+}
+
+<div class="container settings-section">
+    <partial name="_NotificationModal" />
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-cog me-2"></i>Admin Account Settings</h2>
+            <hr />
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true" onclick="GetUserProfileInfoForm()">
+                <i class="fas fa-user-cog me-2"></i>Profile Settings
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false" onclick="GetSettingsForm()">
+                <i class="fas fa-shield-alt me-2"></i>Security Settings
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3">
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            
+        </div>
+
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+           
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+            GetUserProfileInfoForm();
+        };
+        function GetUserProfileInfoForm() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/UserProfile/UserProfileInfo", success: function (result) {
+                    $("#profile").html(result);
+                }
+            });
+
+        }
+        function GetQuickResrvationForm() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Reservation/QuickReservationForm", success: function (result) {
+                    $("#QuickReservation").html(result);
+                }
+            });
+
+        }
+        function GetSettingsForm() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Account/AccountSettings", success: function (result) {
+                    $("#security").html(result);
+                }
+            });
+
+        }
+
+        function GetMyReservations() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Reservation/MyReservations",
+                success: function (result) {
+                    $("#reservations").html(result);
+                }
+            });
+        }
+        function GetMyOrders() {
+            event.preventDefault();
+
+        }
+
+        $(document).on('submit', '#userProfileInfo', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/UserProfile/SaveEditProfileInfo',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Immediately redirect to the confirmation page
+                        window.location.href = response.redirectUrl;
+
+
+                    } else {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+
+        $(document).on('submit', '#quickReservationForm', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Reservation/SaveQuickReservation',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+        $(document).on('submit', '#Settings', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Account/UpdateAccountSettings',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+    </script>
+}

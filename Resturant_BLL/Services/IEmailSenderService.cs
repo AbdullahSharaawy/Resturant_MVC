@@ -1,14 +1,15 @@
-﻿using Castle.DynamicProxy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using System.Net;
 using System.Threading.Tasks;
+using Resturant_BLL.ImplementServices;
 
 namespace Resturant_BLL.Services
 {
     public interface IEmailSenderService
     {
-       public  Task SendEmailAsync(string source_email,string source_password,string target_email,string subject,String message, string host_email);
+        public  Task SendEmailAsync(string email, string subject, string htmlMessage, EmailSettings emailSettings);
+       
+    
     }
 }

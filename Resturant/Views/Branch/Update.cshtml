@@ -1,8 +1,16 @@
 ﻿@model BranchDTO
 
-
+@{
+    Layout = "_ManagementLayout";
+}
 <div class="container mt-4 pt-5">
     <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         /* General form container styling */
         .dark-form-container {
             background-color: #212529; /* Very dark grey */
@@ -89,26 +97,39 @@
         <div class="mb-3">
             <label asp-for="@Model.Area" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.Area" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Area"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.City" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.City" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.City"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.StreetName" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.StreetName" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.StreetName"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.BuildingNo" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.BuildingNo" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.BuildingNo"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.LocationSelector" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.LocationSelector" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.LocationSelector"></span>
+            </div>
         </div>
+
 
         <button class="btn btn-dark" type="submit">Submit</button>
         </form>

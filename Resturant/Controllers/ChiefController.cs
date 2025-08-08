@@ -7,59 +7,78 @@ namespace Resturant_PL.Controllers
 {
     public class ChiefController : Controller
     {
-        private readonly IChiefService _chiefService;
+        private readonly IChiefService _CS;
+        private readonly IBranchService _BS;
 
-        public ChiefController(IChiefService chiefService)
+        public ChiefController(IChiefService chiefService, IBranchService bS)
         {
-            _chiefService = chiefService;
+            _CS = chiefService;
+            _BS = bS;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View("Chiefs", await _chiefService.GetList());
+            return View("Chiefs", await _CS.GetList());
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            return View("Update", await _chiefService.GetUpdateChiefInfo(id));
+            return View("Update", await _CS.GetUpdateChiefInfo(id));
         }
 
         public async Task<IActionResult> Create()
         {
-            return View("Create", await _chiefService.GetCreateChiefInfo());
+            return View("Create", await _CS.GetCreateChiefInfo());
         }
 
-        public async Task<IActionResult> SaveEdit(UpdateChiefDTO _UpdateTable)
+        public async Task<IActionResult> SaveEdit(UpdateChiefDTO _UpdateChief)
         {
-            if (await _chiefService.Update(_UpdateTable.chiefDTO) == null)
+
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Update", _UpdateTable);
-                TempData["ErrorMessage"] = "Failed to update the record.";
+
+                _UpdateChief.Branches = await _BS.GetList();
+
+                return View("Update", _UpdateChief);
             }
             else
             {
-                TempData["SuccessMessage"] = "Record updated successfully!";
+                if (await _CS.Update(_UpdateChief.chiefDTO) == null)
+                {
+                    return View("Update", _UpdateChief);
+                }
+
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
-            return View("Chiefs", await _chiefService.GetList());
+            return View("Chiefs", await _CS.GetList());
         }
 
         public async Task<IActionResult> SaveNew(UpdateChiefDTO _CreateChief)
         {
-            if (await _chiefService.Create(_CreateChief.chiefDTO) == null)
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Create", _CreateChief);
-                TempData["ErrorMessage"] = "Failed to create a new record.";
+
+                _CreateChief.Branches = await _BS.GetList();
+
+                return View("Update", _CreateChief);
             }
             else
             {
-                TempData["SuccessMessage"] = "New Record is created successfully!";
+                if (await _CS.Update(_CreateChief.chiefDTO) == null)
+                {
+                    return View("Update", _CreateChief);
+                }
+
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
-            return View("Chiefs", await _chiefService.GetList());
+            return View("Chiefs", await _CS.GetList());
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _chiefService.Delete(id))
+            if (await _CS.Delete(id) )
             {
                 TempData["SuccessMessage"] = "Record deleted successfully!";
             }

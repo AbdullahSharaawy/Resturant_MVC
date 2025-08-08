@@ -8,7 +8,7 @@ public class GeminiService
     public GeminiService(string apiKey)
     {
         _model = new GenerativeModel(
-            model: "mmodels/gemini-1.5-pro-latest",
+            model: "models/gemini-1.5-pro-latest",
             apiKey: apiKey
         );
     }

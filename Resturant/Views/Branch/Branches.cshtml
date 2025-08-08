@@ -1,8 +1,16 @@
 ﻿@model List<BranchDTO>
-
+@{
+    Layout = "_ManagementLayout";
+}
 
 <div class="container mt-4 pt-5">
     <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         #myTable {
             background-color: #212529; /* A very dark grey, close to black */
             color: #f8f9fa; /* Light text for contrast */

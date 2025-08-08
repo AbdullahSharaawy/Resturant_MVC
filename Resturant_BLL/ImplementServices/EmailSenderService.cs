@@ -1,30 +1,50 @@
-﻿using Castle.Core.Smtp;
-using Resturant_BLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Resturant_BLL.ImplementServices;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Resturant_BLL.ImplementServices
+namespace Resturant_BLL.Services
 {
     public class EmailSenderService : IEmailSenderService
     {
-       public  Task SendEmailAsync(string source_email, string source_password, string target_email, string subject, String message,string host_email) 
+        private readonly IConfiguration _configuration;
+       
+
+        public EmailSenderService(IConfiguration configuration)
         {
-           
-
-            using var client = new SmtpClient(host_email, 587)
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(source_email, source_password)
-            };
-
-            var mailMessage = new MailMessage(from: source_email, to: target_email, subject, message);
-            return client.SendMailAsync(mailMessage);
+            _configuration = configuration;
+         
         }
 
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage,EmailSettings emailSettings)
+        {
+           
+            await SendViaSmtp(email, subject, htmlMessage, emailSettings);
+        }
+
+        private async Task SendViaSmtp(string email, string subject, string htmlMessage, EmailSettings emailSettings)
+        {
+            string fromMail = emailSettings.SmtpUser;
+            string fromPassword =emailSettings.SmtpPassword; // You must fill this in with an App Password
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            message.Subject = subject;
+            message.To.Add(new MailAddress(email));
+            message.Body = htmlMessage;
+            message.IsBodyHtml = true;
+            
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = emailSettings.SmtpPort,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = emailSettings.SmtpUseSSL,
+
+            };
+
+            smtpClient.Send(message);
+        }
     }
 }

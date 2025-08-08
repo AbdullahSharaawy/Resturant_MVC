@@ -325,26 +325,23 @@
                 <div class="profile-section">
                     <ul class="nav nav-pills flex-column mb-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#profile" data-bs-toggle="pill">My Profile</a>
+                            <a class="nav-link active" href="#profile" data-bs-toggle="pill" onclick="GetUserProfileInfoForm()">My Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#QuickReservation" data-bs-toggle="pill" onclick="GetQuickResrvationForm()">Quick Reservation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#reservations" data-bs-toggle="pill">My Reservations</a>
+                            <a class="nav-link" href="#orders" data-bs-toggle="pill" onclick="GetMyOrders()">My Orders</a>
+                      
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#reservations" data-bs-toggle="pill" onclick="GetMyReservations()">My Reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#orders" data-bs-toggle="pill" onclick="GetMyOrders()">My Orders</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#settings" data-bs-toggle="pill">Settings</a>
+                            <a class="nav-link" href="#settings" data-bs-toggle="pill" onclick="GetSettingsForm()">Settings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Logout</a>
+                            <a class="nav-link" href="/Account/SignOut">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -355,48 +352,9 @@
                 <div class="tab-content">
                     <!-- Profile Info Tab -->
                     <div class="tab-pane fade show active" id="profile">
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">Personal Information</h3>
-                            <form>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" value="John">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" value="Smith">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" value="john.smith@example.com">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="phone" class="form-label">Phone</label>
-                                        <input type="tel" class="form-control" id="phone" value="+1 234 567 8900">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" rows="2">123 Main St, New York, NY 10001</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="dietary" class="form-label">Dietary Preferences</label>
-                                    <select class="form-select" id="dietary" multiple>
-                                        <option selected>None</option>
-                                        <option>Vegetarian</option>
-                                        <option>Vegan</option>
-                                        <option>Gluten-Free</option>
-                                        <option>Dairy-Free</option>
-                                        <option>Nut Allergy</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
-                            </form>
-                        </div>
+                                          
                     </div>
+                    <!--Quick Reservation Tab -->
                     <div class="tab-pane fade" id="QuickReservation">
                     </div>
                     <div class="tab-pane fade" id="reservations">
@@ -417,43 +375,7 @@
 
                     <!-- Settings Tab -->
                     <div class="tab-pane fade" id="settings">
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">Account Settings</h3>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="currentPassword" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" id="currentPassword">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Change Password</button>
-                            </form>
-                        </div>
-
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">Notification Preferences</h3>
-                            <form>
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
-                                    <label class="form-check-label" for="emailNotifications">Email Notifications</label>
-                                </div>
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
-                                    <label class="form-check-label" for="smsNotifications">SMS Notifications</label>
-                                </div>
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="promoEmails" checked>
-                                    <label class="form-check-label" for="promoEmails">Promotional Emails</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Preferences</button>
-                            </form>
-                        </div>
+                                            
                     </div>
                 </div>
             </div>
@@ -463,12 +385,35 @@
 
 @section Scripts{
     <script>
+        window.onload = function () {
+            GetUserProfileInfoForm();
+        };
+        function GetUserProfileInfoForm() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/UserProfile/UserProfileInfo", success: function (result) {
+                    $("#profile").html(result);
+                }
+            });
+
+        }
         function GetQuickResrvationForm() {
             event.preventDefault();
 
             $.ajax({
                 url: "/Reservation/QuickReservationForm", success: function (result) {
                     $("#QuickReservation").html(result);
+                }
+            });
+
+        }
+        function GetSettingsForm() {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Account/AccountSettings", success: function (result) {
+                    $("#settings").html(result);
                 }
             });
 
@@ -487,16 +432,34 @@
         function GetMyOrders() {
             event.preventDefault();
 
-            $.ajax({
-                url: "/Order/MyOrders",  
-                success: function (result) {
-                    $("#orders").html(result);  
-                }
-            });
         }
 
+        $(document).on('submit', '#userProfileInfo', function (e) {
+            e.preventDefault();
 
+            $.ajax({
+                url: '/UserProfile/SaveEditProfileInfo',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Immediately redirect to the confirmation page
+                        window.location.href = response.redirectUrl;
 
+                       
+                    } else {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
         $(document).on('submit', '#quickReservationForm', function (e) {
             e.preventDefault(); // prevent page refresh
             console.log("hi");
@@ -518,6 +481,33 @@
                 },
                 error: function () {
                    
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+        $(document).on('submit', '#Settings', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Account/UpdateAccountSettings',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+
                     $('#notificationModalLabel').text("Error");
                     $('#notificationModalBody').text('Please enter a valid data.');
                     $('#notificationModal').modal('show');

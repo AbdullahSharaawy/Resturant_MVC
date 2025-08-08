@@ -1,27 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
 using System.Threading.Tasks;
 
 namespace Resturant_PL.Controllers
 {
+  
     public class BranchController : Controller
     {
-        private readonly IBranchService _branchService;
+        private readonly IBranchService _BS;
 
         public BranchController(IBranchService branchService)
         {
-            _branchService = branchService;
+            _BS = branchService;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View("Branches", await _branchService.GetList());
+            return View("Branches", await _BS.GetList());
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            return View("Update", await _branchService.GetById(id));
+            return View("Update", await _BS.GetById(id));
         }
 
         public IActionResult Create()
@@ -31,35 +33,49 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> SaveEdit(BranchDTO _UpdateBranch)
         {
-            if (await _branchService.Update(_UpdateBranch) == null)
+
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Update", _UpdateBranch);
-                TempData["ErrorMessage"] = "Failed to update the record.";
+
+                return View("Update", _UpdateBranch);
             }
             else
             {
-                TempData["SuccessMessage"] = "Record updated successfully!";
+                if (await _BS.Update(_UpdateBranch) == null)
+                {
+                    return View("Update", _UpdateBranch);
+                }
+
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
-            return View("Branches", await _branchService.GetList());
+            return View("Branches", await _BS.GetList());
         }
 
         public async Task<IActionResult> SaveNew(BranchDTO _CreateBranch)
         {
-            if (await _branchService.Create(_CreateBranch) == null)
+
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Create", _CreateBranch);
-                TempData["ErrorMessage"] = "Failed to create a new record.";
+
+                return View("Update", _CreateBranch);
             }
             else
             {
-                TempData["SuccessMessage"] = "New Record is created successfully!";
+                if (await _BS.Create(_CreateBranch) == null)
+                {
+                    return View("Update", _CreateBranch);
+                }
+
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
-            return View("Branches", await _branchService.GetList());
+            return View("Branches", await _BS.GetList());
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _branchService.Delete(id))
+            if (await _BS.Delete(id) )
             {
                 TempData["SuccessMessage"] = "Record deleted successfully!";
             }

@@ -8,10 +8,11 @@ namespace Resturant_PL.Controllers
     public class TableController : Controller
     {
         private readonly ITableService _TS;
-
-        public TableController(ITableService tS)
+        private readonly IBranchService _BS;
+        public TableController(ITableService tS, IBranchService bS)
         {
             _TS = tS;
+            _BS = bS;
         }
 
         public async Task<IActionResult> Index()
@@ -31,35 +32,53 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> SaveEdit(UpdateTableDTO _UpdateTable)
         {
-            if (await _TS.Update(_UpdateTable.tableDTO) == null)
+            
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Update", _UpdateTable);
-                TempData["ErrorMessage"] = "Failed to update the record.";
+               
+                _UpdateTable.Branches=await _BS.GetList();
+               
+                return View("Update", _UpdateTable);
             }
             else
             {
-                TempData["SuccessMessage"] = "Record updated successfully!";
+               if( await _TS.Update(_UpdateTable.tableDTO) == null)
+                {
+                    return View("Update", _UpdateTable);
+                }
+                    
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
             return View("Tables", await _TS.GetList());
         }
 
         public async Task<IActionResult> SaveNew(UpdateTableDTO _CreateTable)
         {
-            if (await _TS.Create(_CreateTable.tableDTO) == null)
+
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Create", _CreateTable);
-                TempData["ErrorMessage"] = "Failed to create a new record.";
+
+                _CreateTable.Branches = await _BS.GetList();
+
+                return View("Update", _CreateTable);
             }
             else
             {
-                TempData["SuccessMessage"] = "New Record is created successfully!";
+                if (await _TS.Create(_CreateTable.tableDTO) == null)
+                {
+                    return View("Update", _CreateTable);
+                }
+
+                else
+                    TempData["SuccessMessage"] = "Record updated successfully!";
             }
             return View("Tables", await _TS.GetList());
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _TS.Delete(id))
+            if (await _TS.Delete(id) )
             {
                 TempData["SuccessMessage"] = "Record deleted successfully!";
             }

@@ -23,16 +23,17 @@ namespace Resturant_PL.Controllers
             PaypalSecret = configuration["PaypalSettings:Secret"];
             PaypalUrl = configuration["PaypalSettings:Url"];
             this.reservationService = reservationService;
-            this.reservedTableService = reservedTableService;
+            this.reservedTableService = reservedTableService;  
         }
         public IActionResult Index()
         {
             ViewBag.PaypalClientId = PaypalClientId;
-            var checkOutDTOJson = TempData["CheckOutDTO"] as string;
-            var checkOutDTO = checkOutDTOJson != null
-                ? JsonConvert.DeserializeObject<CheckOutDTO>(checkOutDTOJson)
-                : null;
-            return View("Index",checkOutDTO);
+            //var checkOutDTOJson = TempData["CheckOutDTO"] as string;
+            //var checkOutDTO = checkOutDTOJson != null
+            //    ? JsonConvert.DeserializeObject<CheckOutDTO>(checkOutDTOJson)
+            //    : null;
+            return View();
+           
         }
         [HttpPost]
         public async Task<JsonResult> CreateOrder([FromBody] JsonObject data)
@@ -43,7 +44,7 @@ namespace Resturant_PL.Controllers
 
             if (totalAmount == null)
             {
-                return new JsonResult(new { Id = "" });
+                return new JsonResult(new { id = "" });
             }
             JsonObject createOrderRequest = new JsonObject();
             createOrderRequest.Add("intent", "CAPTURE");
@@ -78,62 +79,65 @@ namespace Resturant_PL.Controllers
                     {
                         string paypalOrderId = jsonResponse["id"]?.ToString() ?? "";
 
-                        return new JsonResult(new { Id = paypalOrderId/*,checkOutDTO= checkOutDTOJson*/ });
+                        return new JsonResult(new { id = paypalOrderId });
+
                     }
                 }
 
             }
 
-            return new JsonResult(new { Id = "" });
+            return new JsonResult(new { id = "" });
         }
         [HttpPost]
         public async Task<JsonResult> CompleteOrder([FromBody] JsonObject data)
         {
             var orderId = data?["orderID"]?.ToString();
-            //var checkOutDTOJson = data?["CheckOutDTO"]?.ToString();
-            //var checkOutDTO = checkOutDTOJson != null
-            //    ? JsonConvert.DeserializeObject<CheckOutDTO>(checkOutDTOJson)
-            //    : null;
-          
-            if (orderId == null)
+
+            if (string.IsNullOrEmpty(orderId))
             {
-                return new JsonResult("error");
+                return new JsonResult(new { status = "error", message = "Order ID missing" });
             }
 
             string accessToken = await GetPaypalAccessToken();
             string url = PaypalUrl + $"/v2/checkout/orders/{orderId}/capture";
+
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-                requestMessage.Content = new StringContent("", null, "application/json");
+                // Send empty JSON object instead of ""
+                var httpResponse = await client.PostAsync(
+                    url,
+                    new StringContent("{}", Encoding.UTF8, "application/json")
+                );
 
-                var httpResponse = await client.SendAsync(requestMessage);
+                var strResponse = await httpResponse.Content.ReadAsStringAsync();
+
                 if (httpResponse.IsSuccessStatusCode)
                 {
-                    var strResponse = await httpResponse.Content.ReadAsStringAsync();
                     var jsonResponse = JsonNode.Parse(strResponse);
+                    string paypalOrderStatus = jsonResponse?["status"]?.ToString() ?? "";
 
-                    if (jsonResponse != null)
+                    if (paypalOrderStatus == "COMPLETED")
                     {
-                        string paypalOrderStatus = jsonResponse["status"]?.ToString() ?? "";
-                        if (paypalOrderStatus == "COMPLETED")
-                        {
-                            // save the order in the database
-                            //reservationService.Create(checkOutDTO.reservation);
-                            //foreach (var r in checkOutDTO.reservedTable)
-                            //{
-                            //    reservedTableService.Create(r);
-                            //}
-                            return new JsonResult("success");
-                        }
+                        // save reservation if needed
+                        //reservationService.Create(checkOutDTO.reservation);
+                        //foreach (var r in checkOutDTO.reservedTable)
+                        //{
+                        //    reservedTableService.Create(r);
+                        //}
+
+                        return new JsonResult(new { status = "success" });
+                    }
+                    else
+                    {
+                        return new JsonResult(new { status = "error", message = $"Status: {paypalOrderStatus}" });
                     }
                 }
 
+                return new JsonResult(new { status = "error", message = strResponse });
             }
-
-            return new JsonResult("error");
         }
 
 
@@ -155,13 +159,17 @@ namespace Resturant_PL.Controllers
                     // Create basic authentication header
                     string credentials = $"{PaypalClientId}:{PaypalSecret}";
                     string credentialsBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
-
-                    client.DefaultRequestHeaders.Add("Authorization", "Basic " + credentialsBase64);
+                    client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentialsBase64);
                     // Notice the space after "Basic"   
 
                     // Prepare request content
                     var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-                    requestMessage.Content=new StringContent("grant_type=client_credentials", null, "application/x-www-form-urlencoded");
+                    requestMessage.Content = new StringContent(
+                            "grant_type=client_credentials",
+                                          Encoding.UTF8,
+                             "application/x-www-form-urlencoded"
+);
                     // Send request
                     var response = await client.SendAsync( requestMessage);
 

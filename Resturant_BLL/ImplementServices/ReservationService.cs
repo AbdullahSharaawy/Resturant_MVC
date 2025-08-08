@@ -16,19 +16,18 @@ namespace Resturant_BLL.Services
         private readonly IRepository<table> _tableRepo;
         private readonly IRepository<ReservedTable> _reservedTableRepo;
         private readonly IRepository<Branch> _branchRepo;
-        private readonly IMapper _mapper;
+      
 
         public ReservationService(IRepository<Reservation> reservationRepo,
                            IRepository<table> tableRepo,
                            IRepository<ReservedTable> reservedTableRepo,
-                           IRepository<Branch> branchRepo,
-                           IMapper mapper)
+                           IRepository<Branch> branchRepo)
         {
             _reservationRepo = reservationRepo;
             _tableRepo = tableRepo;
             _reservedTableRepo = reservedTableRepo;
             _branchRepo = branchRepo;
-            _mapper = mapper;
+            
         }
 
 
@@ -203,7 +202,7 @@ namespace Resturant_BLL.Services
         {
             var reservations = await _reservationRepo.GetAllAsync(r => r.UserID == userId);
 
-            return _mapper.Map<List<ReservationDTO>>(reservations);
+            return new ReservationMapper().MapToReservationDTOList(reservations);
 
         }
     }

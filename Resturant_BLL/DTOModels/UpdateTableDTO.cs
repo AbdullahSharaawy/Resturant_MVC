@@ -10,6 +10,6 @@ namespace Resturant_BLL.DTOModels
     {
         public TableDTO tableDTO { get; set; }
        
-        public List<BranchDTO> Branches { get; set; }
+        public List<BranchDTO>? Branches { get; set; }
     }
 }

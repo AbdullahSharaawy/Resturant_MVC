@@ -1,9 +1,17 @@
 ﻿@model UpdateChiefDTO
 
-
+@{
+    Layout = "_ManagementLayout";
+}
 
 <div class="container mt-4 pt-5">
     <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         /* General form container styling */
         .dark-form-container {
             background-color: #212529; /* Very dark grey */
@@ -83,21 +91,30 @@
         <div class="mb-3">
             <label asp-for="@Model.chiefDTO.Name" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.chiefDTO.Name" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.chiefDTO.Name"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.chiefDTO.Email" class="form-label"></label>
             <input class="form-control" type="email" asp-for="@Model.chiefDTO.Email" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.chiefDTO.Email"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.chiefDTO.PhoneNumber" class="form-label"></label>
             <input class="form-control" type="number" asp-for="@Model.chiefDTO.PhoneNumber" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.chiefDTO.PhoneNumber"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label asp-for="@Model.chiefDTO.Position" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.chiefDTO.Position" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.chiefDTO.Position"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label class="form-label">Branch</label>
@@ -109,7 +126,9 @@
                     </option>
                 }
             </select>
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.chiefDTO.BranchID"></span>
+            </div>
 
         </div>
 

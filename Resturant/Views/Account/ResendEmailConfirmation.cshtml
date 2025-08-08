@@ -1,0 +1,29 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Resend Email Confirmation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Resend Email Confirmation</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ResendEmailConfirmation" method="post">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" value="@Model" required />
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Resend Confirmation</button>
+                            <a asp-action="Login" class="btn btn-secondary">Back to Login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

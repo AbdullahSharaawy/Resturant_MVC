@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Resturant_BLL.Services;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
@@ -8,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Chief_BLL.Services;
 using Microsoft.AspNetCore.Identity;
 using Resturant_BLL.ImplementServices;
-using Castle.Core.Smtp;
 using Resturant_BLL.Mapperly;
+
 
 
 namespace Resturant_PL
@@ -53,10 +52,11 @@ namespace Resturant_PL
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
             builder.Services.AddScoped<IMenueItemService, MenueItemService>();
            
-            
+            builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
             builder.Services.AddScoped<IPaymentService,PaymentService>();
+
             builder.Services.AddScoped<IEmailSenderService,EmailSenderService>();
 
             builder.Services.AddSingleton<OrderMapper>();
@@ -73,19 +73,29 @@ namespace Resturant_PL
             var apiKey = builder.Configuration["Gemini:ApiKey"];
             builder.Services.AddScoped<GeminiService>(_ => new GeminiService(apiKey));
 
-            // API/Web Project
-            // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));
+          
+
             builder.Services.AddIdentity<User, IdentityRole>(option =>
             {
                 option.Password.RequiredLength = 4;
                 option.Password.RequireDigit = false;
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<ResturantContext>();
+                option.SignIn.RequireConfirmedAccount = true;
+            }).AddEntityFrameworkStores<ResturantContext>().AddDefaultTokenProviders();
 
-            builder.Services.AddAutoMapper(typeof(Program)); 
+            builder.Services.AddAutoMapper(typeof(Program));
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy =>
+                   policy.RequireRole("Admin"));
+                options.AddPolicy("EmailConfirmed", policy =>
+                    policy.RequireClaim("EmailConfirmed", "true"));
+            });
+            
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

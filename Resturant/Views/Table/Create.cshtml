@@ -1,9 +1,17 @@
 ﻿@model UpdateTableDTO
 
-
+@{
+    Layout = "_ManagementLayout";
+}
 
 <div class="container mt-4 pt-5">
     <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         /* General form container styling */
         .dark-form-container {
             background-color: #212529; /* Very dark grey */
@@ -84,12 +92,17 @@
         <div class="mb-3">
             <label asp-for="@Model.tableDTO.TableNumber" class="form-label"></label>
             <input class="form-control" type="number" asp-for="@Model.tableDTO.TableNumber" required />
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.tableDTO.TableNumber"></span>
+            </div>
         </div>
 
         <div class="mb-3">
             <label asp-for="@Model.tableDTO.Capacity" class="form-label"></label>
             <input class="form-control" type="number" asp-for="@Model.tableDTO.Capacity" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.tableDTO.Capacity"></span>
+            </div>
         </div>
         <div class="mb-3">
             <label class="form-label">Branch</label>
@@ -101,7 +114,9 @@
                     </option>
                 }
             </select>
-
+            <div class="text-danger">
+                <span asp-validation-for="@Model.tableDTO.BranchID"></span>
+            </div>
 
         </div>
 

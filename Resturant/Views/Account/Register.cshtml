@@ -4,29 +4,37 @@
 }
 
 <style>
-    /* Dark Mode Base Styles - Restaurantly Theme */
+    /*
+     * Custom Styles for the registration page.
+     * The theme is a dark mode with golden accents, inspired by the "Restaurantly" theme.
+     * It uses the "Poppins" and "Playfair Display" fonts.
+     */
+
+    /* Base body and typography styles */
     body {
-        background-color: #0c0b09; /* Restaurantly dark background */
-        color: #fff; /* White text */
+        background-color: #0c0b09; /* Deep charcoal background */
+        color: #fff; /* White text for contrast */
         font-family: "Poppins", sans-serif;
     }
 
     .vh-100 {
-        background-color: #1a1814; /* Slightly lighter dark background */
+        background-color: #1a1814; /* Slightly lighter charcoal for container background */
+        padding: 40px 0;
     }
 
-    /* Divider color */
+    /* Decorative divider styling */
     .divider:after,
     .divider:before {
         content: "";
         flex: 1;
         height: 1px;
-        background: #2a2723; /* Restaurantly dark border color */
+        background: #2a2723; /* Darker line for separation */
     }
 
-    /* Custom height for mobile */
+    /* Custom height for a more responsive layout */
     .h-custom {
-        height: calc(100% - 73px);
+        height: auto;
+        min-height: calc(100vh - 73px);
     }
 
     @@media (max-width: 450px) {
@@ -35,116 +43,137 @@
         }
     }
 
+    /* Main form container styling */
+    .col-md-8.col-lg-6.col-xl-4.offset-xl-1 {
+        padding: 40px;
+        background-color: #1a1814;
+        border-radius: 12px; /* Smoother corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Enhanced, softer shadow */
+        border: 1px solid #2a2723; /* Subtle border for definition */
+    }
+
     /* Text color for labels and general text */
     .form-label,
     p,
     .text-body {
-        color: #fff !important;
+        color: #e0e0e0 !important; /* Off-white for labels and body text */
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
     }
 
-    /* Input field styling for dark mode */
+    /* Input field styling */
     .form-control {
-        background-color: #24211b; /* Dark input background */
-        color: #fff; /* White text */
-        border-color: #3a362e; /* Restaurantly dark border */
-        border-radius: 4px;
-        padding: 12px 15px;
+        background-color: #24211b; /* Darker input background */
+        color: #fff;
+        border: 1px solid #3a362e;
+        border-radius: 6px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease-in-out; /* Smooth transition for focus */
     }
 
-        .form-control::placeholder {
-            color: #aaaaaa; /* Light gray placeholder */
-        }
-
-        .form-control:focus {
-            background-color: #2a2721;
-            color: #fff;
-            border-color: #cda45e; /* Restaurantly gold accent */
-            box-shadow: 0 0 0 0.25rem rgba(205, 164, 94, 0.25); /* Gold shadow */
-        }
-
-    /* Checkbox styling */
-    .form-check-input {
-        background-color: #3a362e;
-        border-color: #4a453d;
+    .form-control::placeholder {
+        color: #888; /* Slightly lighter placeholder text */
+        font-size: 0.95rem;
     }
 
-        .form-check-input:checked {
-            background-color: #cda45e; /* Restaurantly gold */
-            border-color: #cda45e;
-        }
-
-    /* Button styling */
-    .btn-primary {
-        background-color: #cda45e !important; /* Restaurantly gold */
-        border-color: #cda45e !important;
-        color: #1a1814 !important; /* Dark text */
-        font-weight: 600;
-        border-radius: 4px;
-        padding: 12px 30px;
-        transition: all 0.3s;
+    .form-control:focus {
+        background-color: #2a2721;
+        color: #fff;
+        border-color: #cda45e; /* Golden border on focus */
+        box-shadow: 0 0 0 0.25rem rgba(205, 164, 94, 0.4); /* Golden glow on focus */
     }
 
-        .btn-primary:hover {
-            background-color: #d4af6a !important; /* Lighter gold */
-            border-color: #d4af6a !important;
-            color: #1a1814 !important;
-        }
-
-    .btn-floating {
-        background-color: #3a362e !important; /* Dark button */
-        border-color: #3a362e !important;
-        color: #cda45e !important; /* Gold icon */
-        transition: all 0.3s;
-    }
-
-        .btn-floating:hover {
-            background-color: #2a2723 !important;
-            border-color: #2a2723 !important;
-            color: #d4af6a !important;
-        }
-
-    /* Link color */
-    .link-danger,
-    a.text-body {
-        color: #cda45e !important; /* Gold links */
-        transition: all 0.3s;
-    }
-
-        .link-danger:hover,
-        a.text-body:hover {
-            color: #d4af6a !important; /* Lighter gold on hover */
-            text-decoration: none;
-        }
-
-    /* Form heading */
+    /* Form heading styling */
     .form-heading {
         font-family: "Playfair Display", serif;
         font-weight: 700;
-        color: #cda45e;
+        color: #cda45e; /* Prominent golden heading */
         margin-bottom: 30px;
+        font-size: 2.2rem;
+        text-align: center;
+        letter-spacing: 1px;
     }
 
-    /* Social login buttons */
-    .social-register {
-        margin-bottom: 30px;
+    /* Button styling */
+    .btn-primary {
+        background-color: #cda45e !important;
+        border: none !important;
+        color: #1a1814 !important; /* Dark text on golden button */
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 12px 30px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 15px rgba(205, 164, 94, 0.3);
     }
 
-    /* Terms checkbox */
-    .form-check-label {
-        color: #aaaaaa !important;
+    .btn-primary:hover {
+        background-color: #d4af6a !important; /* Lighter golden on hover */
+        box-shadow: 0 6px 20px rgba(205, 164, 94, 0.4);
+        transform: translateY(-2px); /* Subtle lift on hover */
     }
 
-    .terms-link {
+    /* Margin and spacing adjustments for a cleaner layout */
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+
+    .mt-4 {
+        margin-top: 2rem !important;
+    }
+
+    .pt-2 {
+        padding-top: 1rem !important;
+    }
+
+    /* Link styling */
+    .link-danger,
+    a.text-body {
         color: #cda45e !important;
+        font-size: 0.9rem;
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s ease-in-out;
     }
 
-    /* Footer styling */
-    .bg-primary {
-        background-color: #1a1814 !important;
-        border-top: 1px solid #2a2723;
+    .link-danger:hover,
+    a.text-body:hover {
+        color: #d4af6a !important;
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Validation messages */
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.4rem;
+        color: #ff6b6b !important; /* A more subtle red */
+    }
+
+    /* Responsive image container */
+    .col-md-9.col-lg-6.col-xl-5 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-fluid {
+        max-height: 550px;
+        width: auto;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Adjustments for the login link paragraph */
+    p.small.fw-bold.mt-2.pt-1.mb-0 {
+        font-size: 0.9rem;
+        color: #e0e0e0 !important;
     }
 </style>
-
 <section class="vh-100">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -153,65 +182,59 @@
                      class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <!--  FORM START-->
                 <form asp-action="SaveRegister" method="post">
                     <h2 class="form-heading">Create Account</h2>
 
-                    <!--  Shows validation summary -->
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <!--name-->
+
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="firstName" asp-for="@Model.FirstName" class="form-control form-control-lg" placeholder="First Name" />
-                                <label class="form-label" asp-for="@Model.FirstName"></label>
+                                <label class="form-label visually-hidden" asp-for="@Model.FirstName">First Name</label>
+                                <input type="text" id="firstName" asp-for="@Model.FirstName" class="form-control" placeholder="First Name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="lastName" asp-for="@Model.LastName" class="form-control form-control-lg" placeholder="Last Name" />
-                                <label class="form-label" asp-for="@Model.LastName"></label>
+                                <label class="form-label visually-hidden" asp-for="@Model.LastName">Last Name</label>
+                                <input type="text" id="lastName" asp-for="@Model.LastName" class="form-control" placeholder="Last Name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <!--  Email -->
+
                     <div class="form-outline mb-4">
-                        <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter email" />
-                        <label asp-for="Email" class="form-label"></label>
+                        <label asp-for="Email" class="form-label visually-hidden">Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
-                    <!--  Password -->
                     <div class="form-outline mb-3">
-                        <input asp-for="Password" class="form-control form-control-lg" placeholder="Enter password" />
-                        <label asp-for="Password" class="form-label"></label>
+                        <label asp-for="Password" class="form-label visually-hidden">Password</label>
+                        <input asp-for="Password" class="form-control" placeholder="Enter password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-                    <!--  Confirm Password -->
                     <div class="form-outline mb-4">
-                        <input asp-for="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm password" />
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <label asp-for="ConfirmPassword" class="form-label visually-hidden">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
 
-                    <!--  Submit -->
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="submit" class="btn btn-primary btn-lg"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
                             Register
                         </button>
-                        <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Already have an account? <a href="/Account/Login" class="link-danger">Login</a>
+                        <p class="small fw-bold mt-3 pt-1 mb-0 text-center">
+                            Already have an account? <a href="/Account/Login" class="link-danger">Login here</a>
                         </p>
                     </div>
                 </form>
-                <!--  FORM END -->
-            </div>
+                </div>
         </div>
     </div>
 </section>
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 }
