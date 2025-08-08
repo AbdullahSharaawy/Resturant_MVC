@@ -69,8 +69,8 @@ namespace Resturant_PL.Controllers
                 {
                     Email = registerDTO.Email,
                     UserName = registerDTO.Email,
-                    FirstName=registerDTO.FirstName,
-                    LastName=registerDTO.LastName,
+                    FirstName = registerDTO.FirstName,
+                    LastName = registerDTO.LastName,
                 };
 
                 IdentityResult result = await userManager.CreateAsync(appuser, registerDTO.Password);
@@ -89,6 +89,6 @@ namespace Resturant_PL.Controllers
 
             return View("Register", registerDTO);
         }
-        
+
     }
 }

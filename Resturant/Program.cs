@@ -64,6 +64,15 @@ namespace Resturant_PL
             builder.Services.AddSingleton<MenueItemMapper>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddScoped<GeminiService>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                var apiKey = configuration["Gemini:ApiKey"];
+                return new GeminiService(apiKey);
+            });
+            var apiKey = builder.Configuration["Gemini:ApiKey"];
+            builder.Services.AddScoped<GeminiService>(_ => new GeminiService(apiKey));
+
             // API/Web Project
             // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));
             builder.Services.AddIdentity<User, IdentityRole>(option =>
@@ -73,6 +82,8 @@ namespace Resturant_PL
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<ResturantContext>();
+
+            builder.Services.AddAutoMapper(typeof(Program)); 
 
             var app = builder.Build();
 
