@@ -331,13 +331,14 @@
                             <a class="nav-link" href="#QuickReservation" data-bs-toggle="pill" onclick="GetQuickResrvationForm()">Quick Reservation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#reservations" data-bs-toggle="pill">My Reservations</a>
+                            <a class="nav-link" href="#orders" data-bs-toggle="pill" onclick="GetMyOrders()">My Orders</a>
+                      
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#orders" data-bs-toggle="pill">My Orders</a>
+                            <a class="nav-link" href="#reservations" data-bs-toggle="pill" onclick="GetMyReservations()">My Reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#settings" data-bs-toggle="pill" onclick="GetSettingsForm()">Settings</a>
+                            <a class="nav-link" href="#settings" data-bs-toggle="pill">Settings</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Account/SignOut">Logout</a>
@@ -356,211 +357,20 @@
                     <!--Quick Reservation Tab -->
                     <div class="tab-pane fade" id="QuickReservation">
                     </div>
+                    <div class="tab-pane fade" id="reservations">
+                         
+                    </div>
+
+
 
                     <!-- Reservations Tab -->
                     <div class="tab-pane fade" id="reservations">
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">My Reservations</h3>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12345</span>
-                                    <span class="badge badge-status badge-confirmed">Confirmed</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 30, 2024<br>7:30 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>2 people<br>Table by window</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm mb-2">Modify</button>
-                                            <button class="btn btn-outline-danger btn-sm mb-2">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12344</span>
-                                    <span class="badge badge-status badge-completed">Completed</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 15, 2024<br>6:00 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>4 people<br>Birthday celebration</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm">Book Again</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card reservation-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Reservation #12343</span>
-                                    <span class="badge badge-status badge-cancelled">Cancelled</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5>Date & Time</h5>
-                                            <p>July 10, 2024<br>8:00 PM</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Details</h5>
-                                            <p>2 people<br>Anniversary</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Actions</h5>
-                                            <button class="btn btn-outline-primary btn-sm">Book Again</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4">
-                                <button class="btn btn-primary">Make New Reservation</button>
-                            </div>
-                        </div>
+                     
                     </div>
 
                     <!-- Orders Tab -->
                     <div class="tab-pane fade" id="orders">
-                        <div class="profile-section">
-                            <h3 class="profile-section-title">My Orders</h3>
-
-                            <div class="card order-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Order #54321</span>
-                                    <span class="badge badge-status badge-completed">Delivered</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="order-item d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/menu/lobster-bisque.jpg" alt="Menu Item" class="order-item-img me-3">
-                                            <div>
-                                                <h5 class="mb-1">Lobster Bisque</h5>
-                                                <p class="mb-0 text-muted">Large, Extra cheese</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <p class="mb-1">$14.95</p>
-                                            <p class="mb-0 text-muted small">Qty: 1</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="order-item d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/menu/caesar.jpg" alt="Menu Item" class="order-item-img me-3">
-                                            <div>
-                                                <h5 class="mb-1">Caesar Salad</h5>
-                                                <p class="mb-0 text-muted">No croutons</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <p class="mb-1">$9.95</p>
-                                            <p class="mb-0 text-muted small">Qty: 1</p>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5>Order Summary</h5>
-                                            <p>July 28, 2024 at 7:15 PM</p>
-                                            <p>Delivery to: 123 Main St</p>
-                                        </div>
-                                        <div class="col-md-6 text-end">
-                                            <p class="mb-1">Subtotal: $24.90</p>
-                                            <p class="mb-1">Delivery Fee: $3.99</p>
-                                            <p class="mb-1">Tax: $2.15</p>
-                                            <h5 class="mt-2">Total: $31.04</h5>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-end mt-3">
-                                        <button class="btn btn-outline-primary me-2">Reorder</button>
-                                        <button class="btn btn-outline-secondary">View Details</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card order-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Order #54320</span>
-                                    <span class="badge badge-status badge-completed">Delivered</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="order-item d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/menu/tuscan-grilled.jpg" alt="Menu Item" class="order-item-img me-3">
-                                            <div>
-                                                <h5 class="mb-1">Tuscan Grilled</h5>
-                                                <p class="mb-0 text-muted">Regular portion</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <p class="mb-1">$12.95</p>
-                                            <p class="mb-0 text-muted small">Qty: 1</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="order-item d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/menu/bread-barrel.jpg" alt="Menu Item" class="order-item-img me-3">
-                                            <div>
-                                                <h5 class="mb-1">Bread Barrel</h5>
-                                                <p class="mb-0 text-muted">Extra garlic</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <p class="mb-1">$4.95</p>
-                                            <p class="mb-0 text-muted small">Qty: 1</p>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5>Order Summary</h5>
-                                            <p>July 20, 2024 at 6:30 PM</p>
-                                            <p>Delivery to: 123 Main St</p>
-                                        </div>
-                                        <div class="col-md-6 text-end">
-                                            <p class="mb-1">Subtotal: $17.90</p>
-                                            <p class="mb-1">Delivery Fee: $3.99</p>
-                                            <p class="mb-1">Tax: $1.55</p>
-                                            <h5 class="mt-2">Total: $23.44</h5>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-end mt-3">
-                                        <button class="btn btn-outline-primary me-2">Reorder</button>
-                                        <button class="btn btn-outline-secondary">View Details</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4">
-                                <button class="btn btn-primary">Place New Order</button>
-                            </div>
-                        </div>
+                         
                     </div>
 
                     <!-- Settings Tab -->
@@ -608,32 +418,24 @@
             });
 
         }
-        $(document).on('submit', '#userProfileInfo', function (e) {
-            e.preventDefault(); // prevent page refresh
-            console.log("hi");
+
+        function GetMyReservations() {
+            event.preventDefault();
+
             $.ajax({
-                url: '/UserProfile/SaveEditProfileInfo',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-
-                        window.location.href = response.redirectUrl;
-                    } else {
-
-                        $('#notificationModalLabel').text("Error");
-                        $('#notificationModalBody').text(response.message);
-                        $('#notificationModal').modal('show');
-                    }
-                },
-                error: function () {
-
-                    $('#notificationModalLabel').text("Error");
-                    $('#notificationModalBody').text('Please enter a valid data.');
-                    $('#notificationModal').modal('show');
+                url: "/Reservation/MyReservations",
+                success: function (result) {
+                    $("#reservations").html(result);
                 }
             });
-        });
+        }
+        function GetMyOrders() {
+            event.preventDefault();
+
+        }
+
+
+
         $(document).on('submit', '#quickReservationForm', function (e) {
             e.preventDefault(); // prevent page refresh
             console.log("hi");

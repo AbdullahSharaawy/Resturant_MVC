@@ -1,0 +1,56 @@
+﻿@using Resturant_BLL.DTOModels.OrderDTOs
+@model ReadOrderDTO
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2 class="mb-4">Order Details</h2>
+
+<div class="mb-3">
+    <p><strong>Address:</strong> @Model.Address</p>
+    <p><strong>Order Status:</strong> @Model.OrderStatus</p>
+    <p><strong>Weight:</strong> @Model.Weight kg</p>
+</div>
+
+<hr />
+
+<h3>Items</h3>
+
+@if (Model.OrderItems != null && Model.OrderItems.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.ItemName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>@(item.Quantity * item.Price).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No items in this order.</p>
+}
+
+<hr />
+
+<h3>Summary</h3>
+<div>
+    <p><strong>Order Cost:</strong> @Model.OrderCost.ToString("C")</p>
+    <p><strong>Shipment Cost:</strong> @Model.ShipmentCost.ToString("C")</p>
+    <p><strong>Total Amount:</strong> <strong>@Model.TotalAmount.ToString("C")</strong></p>
+</div>

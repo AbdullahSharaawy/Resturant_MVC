@@ -47,7 +47,12 @@ namespace Resturant_DAL.ImplementRepository
                 .Where(r => r.IsDeleted == false)
                 .FirstOrDefaultAsync(c => c.ChiefID == id);
         }
-
+        public async Task<List<Chief>> GetAllAsync(System.Linq.Expressions.Expression<Func<Chief, bool>> filter)
+        {
+            return await _context.Chief
+                .Where(filter)
+                .ToListAsync();
+        }
         public async Task Update(Chief entity)
         {
             _context.Update(entity);

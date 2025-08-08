@@ -21,6 +21,12 @@ namespace Resturant_BLL.DTOModels
         public int PaymentID { get;  set; }
         public string City { get; set; }
         public int BranchID { get;  set; }
-       
+
+        public string? UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public string? ModifiedBy { get; set; }
+
     }
 }

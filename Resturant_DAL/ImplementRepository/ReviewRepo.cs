@@ -39,6 +39,12 @@ namespace Resturant_DAL.ImplementRepository
         {
             return await _context.Review.FirstOrDefaultAsync(a => a.ReviewID == id);
         }
+        public async Task<List<Review>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<Review, bool>> filter)
+        {
+            return await _context.Review
+                .Where(filter)
+                .ToListAsync();
+        }
 
         public async Task Update(Review entity)
         {

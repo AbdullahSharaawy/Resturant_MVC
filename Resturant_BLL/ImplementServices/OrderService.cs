@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Resturant_BLL.DTOModels;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
+using Resturant_BLL.DTOModels.OrderDTOs;
+using Resturant_BLL.DTOModels.OrderDTOS;
+using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
+using Resturant_DAL.ImplementRepository;
 using Resturant_DAL.Repository;
 
 namespace Resturant_BLL.Services
@@ -11,74 +13,127 @@ namespace Resturant_BLL.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _CR;
+        private readonly UserManager<User> _user;
 
-        public OrderService(IRepository<Order> rR)
+        public OrderService(IRepository<Order> rR, UserManager<User> user)
         {
             _CR = rR;
+            _user = user;
         }
-
-        public async Task<List<OrderDTO>> GetList()
+        public async Task<List<ReadOrderDTO>> GetList()
         {
-            List<Order> orders = await _CR.GetAll();
+            List<Order> orders = new List<Order>();
+            orders = await _CR.GetAll();
+
+            List<ReadOrderDTO> orderDTOs = new List<ReadOrderDTO>();
             if (orders == null || orders.Count == 0)
             {
-                return null;
+                return new List<ReadOrderDTO>();
             }
-            List<OrderDTO> orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
+            orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
             return orderDTOs;
         }
-
-        public async Task<OrderDTO?> GetById(int id)
+        public async Task<ReadOrderDTO?> GetById(int id)
         {
             Order order = await _CR.GetByID(id);
             if (order == null)
             {
                 return null;
             }
-            OrderDTO orderDTO = new OrderMapper().MapToOrderDTO(order);
+
+            ReadOrderDTO orderDTO = new OrderMapper().MapToReadOrderDTO(order);
             return orderDTO;
         }
-
-        public async Task<OrderDTO?> Create(OrderDTO orderDTO)
+        public async Task<DraftOrderDTO?> GetDraftOrderById(int id)
         {
-            if (orderDTO == null)
+            Order order = await _CR.GetByID(id);
+            if (order == null)
             {
                 return null;
             }
-            Order order = new OrderMapper().MapToOrder(orderDTO);
-            order.CreatedOn = DateTime.UtcNow;
-            order.CreatedBy = "Current User";
-            order.IsDeleted = false;
+
+            DraftOrderDTO orderDTO = new OrderMapper().MapToDraftOrderDTO(order);
+            return orderDTO;
+        }
+        public async Task<ShippedOrderDTO?> GetShippedOrder(int id)
+        {
+            Order order = await _CR.GetByID(id);
+            if (order == null)
+            {
+                return null;
+            }
+            ShippedOrderDTO orderDTO = new OrderMapper().MapToShippedOrderDTO(order);
+            return orderDTO;
+        }
+        public async Task<Order?> CreateDraftOrder()
+        {
+
+            var order = new Order
+            {
+                CreatedOn = DateTime.UtcNow,
+                CreatedBy = "User",
+                OrderStatus = OrderStatus.Draft,
+                IsDeleted = false
+            };
+
             await _CR.Create(order);
-            return orderDTO;
+            return order;
         }
-
-        public async Task<OrderDTO?> Update(OrderDTO orderDTO)
+        public async Task<ConfirmedOrderDTO?> ConfirmOrder(ConfirmedOrderDTO orderDTO)
         {
             if (orderDTO == null)
             {
                 return null;
             }
-            Order order = new OrderMapper().MapToOrder(orderDTO);
-            order.ModifiedOn = DateTime.UtcNow;
-            order.ModifiedBy = "Current User";
-            order.IsDeleted = false;
-            await _CR.Update(order);
-            return orderDTO;
-        }
 
+            if (orderDTO.OrderItems == null || orderDTO.OrderItems.Count == 0)
+            {
+                return null;
+            }
+
+            Order confirmedorder = await _CR.GetByID(orderDTO.OrderID);
+
+            if (confirmedorder == null)
+            {
+                return null;
+            }
+
+            decimal price = confirmedorder.OrderItems.Sum(item => item.Price);
+
+            confirmedorder.OrderStatus = OrderStatus.Confirmed;
+            confirmedorder.OrderCost = price;
+            confirmedorder.ShipmentCost = 2000;
+            confirmedorder.Address = orderDTO.Address;
+            confirmedorder.TotalAmount = confirmedorder.OrderCost + confirmedorder.ShipmentCost;
+            await _CR.Update(confirmedorder);
+            return new OrderMapper().MapToConfirmedOrderDTO(confirmedorder); ;
+        }
         public async Task<bool> Delete(int id)
         {
-            Order orderItem = await _CR.GetByID(id);
-            if (orderItem == null || orderItem.IsDeleted == true)
+            Order order = await _CR.GetByID(id);
+            if (order == null || order.IsDeleted == true)
             {
                 return false;
             }
-            orderItem.IsDeleted = true;
-            orderItem.DeletedOn = DateTime.UtcNow;
-            orderItem.DeletedBy = "Current User";
-            await _CR.Delete(orderItem);
+            order.IsDeleted = true;
+            order.DeletedOn = DateTime.UtcNow;
+            order.DeletedBy = "Current User";
+            await _CR.Update(order);
             return true;
+        }
+        public async Task<List<ReadOrderDTO>> GetOrdersByUserId(string userId)
+        {
+            return await FilterBy(order => order.UserID == userId);
+        }
+        public async Task<List<ReadOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
+        {
+            List<Order> orders = await _CR.GetAllAsync(filter);
+            if (orders == null || orders.Count == 0)
+            {
+                return null;
+            }
+            List<ReadOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
+            return ordersDTO;
         }
     }
 }
