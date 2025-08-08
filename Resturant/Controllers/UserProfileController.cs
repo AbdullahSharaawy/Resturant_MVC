@@ -13,9 +13,9 @@ namespace Resturant_PL.Controllers
         private readonly UserManager<User> _userManager;
        
         private readonly SignInManager<User> signInManager;
-        private readonly Resturant_BLL.Services.IEmailSender _emailSender;
+        private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-        public UserProfileController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSender emailSender, IConfiguration configuration)
+        public UserProfileController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSenderService emailSender, IConfiguration configuration)
         {
             _userManager = userManager;
             this.signInManager = signInManager;

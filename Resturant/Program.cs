@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Chief_BLL.Services;
 using Microsoft.AspNetCore.Identity;
 using Resturant_BLL.ImplementServices;
+using Resturant_BLL.Mapperly;
 
 
 
@@ -51,13 +52,29 @@ namespace Resturant_PL
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
             builder.Services.AddScoped<IMenueItemService, MenueItemService>();
            
-            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservedTableService, ReservedTableService>();
             builder.Services.AddScoped<IPaymentService,PaymentService>();
+
+            builder.Services.AddScoped<IEmailSenderService,EmailSenderService>();
+
+            builder.Services.AddSingleton<OrderMapper>();
+            builder.Services.AddSingleton<OrderItemMapper>();
+            builder.Services.AddSingleton<MenueItemMapper>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            builder.Services.AddScoped<GeminiService>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                var apiKey = configuration["Gemini:ApiKey"];
+                return new GeminiService(apiKey);
+            });
+            var apiKey = builder.Configuration["Gemini:ApiKey"];
+            builder.Services.AddScoped<GeminiService>(_ => new GeminiService(apiKey));
+
           
-            // API/Web Project
-           // builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PaypalSettings"));
+
             builder.Services.AddIdentity<User, IdentityRole>(option =>
             {
                 option.Password.RequiredLength = 4;
@@ -65,9 +82,9 @@ namespace Resturant_PL
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
                 option.SignIn.RequireConfirmedAccount = true;
-               
-
             }).AddEntityFrameworkStores<ResturantContext>().AddDefaultTokenProviders();
+
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddAuthorization(options =>
             {

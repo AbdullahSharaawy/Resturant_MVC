@@ -7,11 +7,11 @@ namespace Resturant_PL.Controllers
     public class ContactController : Controller
     {
         private readonly IBranchService _branchService;
-        private readonly IEmailSender _ESS;
+        private readonly IEmailSenderService _ESS;
         private readonly string _email;
         private readonly string _password;
         private readonly string _host;
-        public ContactController(IBranchService branchService, IConfiguration configuration, IEmailSender eSS)
+        public ContactController(IBranchService branchService, IConfiguration configuration, IEmailSenderService eSS)
         {
             _branchService = branchService;
             _email = configuration["Email:ResturantEmail"];

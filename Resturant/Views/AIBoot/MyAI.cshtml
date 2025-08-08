@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Ask Gemini";
+}
+
+<h2>Ask Gemini</h2>
+
+<form asp-action="Ask" method="post">
+    <div>
+        <label for="prompt">Your Prompt:</label><br />
+        <textarea id="prompt" name="prompt" rows="5" cols="50"></textarea>
+    </div>
+    <br />
+    <button type="submit">Ask</button>
+</form>
+
+@if (ViewBag.Reply != null)
+{
+    <h3>Gemini Reply:</h3>
+    <p>@ViewBag.Reply</p>
+}

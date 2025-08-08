@@ -15,9 +15,9 @@ namespace Resturant_PL.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly Resturant_BLL.Services.IEmailSender _emailSender;
+        private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSender emailSender, IConfiguration configuration)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSenderService emailSender, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -176,6 +176,7 @@ namespace Resturant_PL.Controllers
 
             return View("Register", registerDTO);
         }
+
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
