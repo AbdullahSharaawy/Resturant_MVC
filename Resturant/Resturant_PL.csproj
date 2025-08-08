@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Resturant_BLL\Resturant_BLL.csproj" />
+    <ProjectReference Include="..\Resturant_DAL\Resturant_DAL.csproj" />
   </ItemGroup>
 
 </Project>

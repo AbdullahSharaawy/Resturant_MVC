@@ -1,0 +1,123 @@
+﻿@model AdminOrderDTO
+
+@{
+    Layout = "_ManagementLayout";
+}
+
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        /* General form container styling */
+        .dark-form-container {
+            background-color: #212529; /* Very dark grey */
+            color: #f8f9fa; /* Light text */
+            padding: 2rem;
+            border-radius: .5rem; /* Slightly rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        }
+
+            /* Input field styling */
+            .dark-form-container .form-control {
+                background-color: #343a40; /* Slightly lighter dark for inputs */
+                color: #f8f9fa; /* Light text for input values */
+                border: 1px solid #495057; /* Darker border */
+            }
+
+                /* Input field focus state */
+                .dark-form-container .form-control:focus {
+                    background-color: #343a40; /* Keep background on focus */
+                    color: #f8f9fa;
+                    border-color: #007bff; /* Bootstrap primary blue for focus */
+                    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Focus glow */
+                }
+
+            /* Select dropdown styling */
+            .dark-form-container select.form-select { /* Use form-select for Bootstrap 5+ dropdowns */
+                background-color: #343a40;
+                color: #f8f9fa;
+                border: 1px solid #495057;
+                /* For custom select arrow in dark mode (optional, more advanced) */
+                /* appearance: none; */
+                /* background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); */
+                /* background-repeat: no-repeat; */
+                /* background-position: right .75rem center; */
+                /* background-size: 16px 12px; */
+            }
+
+                .dark-form-container select.form-select option {
+                    background-color: #343a40; /* Option background */
+                    color: #f8f9fa; /* Option text */
+                }
+
+            /* Button styling (using Bootstrap's btn-primary or btn-dark) */
+            /* If you want a primary blue button: */
+            .dark-form-container .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: #fff;
+            }
+
+                .dark-form-container .btn-primary:hover {
+                    background-color: #0056b3;
+                    border-color: #004085;
+                }
+
+            .dark-form-container .btn-dark {
+                background-color: #343a40; /* Match input fields/header for consistency */
+                border-color: #495057; /* A slightly darker border */
+                color: #f8f9fa; /* Light text */
+                transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            }
+
+                .dark-form-container .btn-dark:hover {
+                    background-color: #495057; /* Slightly lighter on hover */
+                    border-color: #5a6268; /* Darker border on hover */
+                    color: #fff; /* Make text a bit brighter white on hover */
+                }
+
+
+            /* Error message styling (if you add validation messages) */
+            .dark-form-container .text-danger {
+                color: #dc3545 !important; /* Bootstrap danger red */
+            }
+    </style>
+
+    <form action="/Chief/SaveNew" method="post" class="needs-validation dark-form-container">
+        <h2 class="text-center mb-4">Edit Table Details</h2>
+
+        <div class="mb-3">
+            <label asp-for="@Model.UserID" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.UserID" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.UserID"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Address" class="form-label"></label>
+            <input class="form-control" type="email" asp-for="@Model.Address" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Address"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Weight" class="form-label"></label>
+            <input class="form-control" type="number" asp-for="@Model.Weight" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Weight"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Weight" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.Weight" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Weight"></span>
+            </div>
+        </div>
+        <button class="btn btn-dark" type="submit">Submit</button>
+    </form>
+</div>

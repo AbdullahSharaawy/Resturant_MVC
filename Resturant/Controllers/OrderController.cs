@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels.OrderDTOs;
+using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_BLL.Mapperly;
 using Resturant_BLL.Services;
@@ -83,8 +83,6 @@ namespace Resturant_PL.Controllers
             var orders = await _orderService.GetOrdersByUserId(userId);
             return PartialView("~/Views/Shared/_MyOrders.cshtml", orders);
         }
-
-
 
     }
 }
