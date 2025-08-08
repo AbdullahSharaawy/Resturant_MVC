@@ -1,0 +1,33 @@
+﻿@model AccountSettingsDTO
+<div class="profile-section">
+    <h3 class="profile-section-title">Account Settings</h3>
+    <form method="post" id="Settings">
+        <div class="mb-3">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <input type="password" asp-for="CurrentPassword" class="form-control" id="currentPassword">
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" asp-for="NewPassword" class="form-control" id="newPassword">
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+            <input type="password" asp-for="@Model.ConfirmNewPassword" class="form-control" id="confirmPassword">
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+
+    <h3 class="profile-section-title">Notification Preferences</h3>
+    <form>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" asp-for="EmailNotification" id="emailNotifications" checked>
+            <label class="form-check-label" for="emailNotifications">Email Notifications</label>
+        </div>
+
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" asp-for="PromoEmails" type="checkbox" id="promoEmails" checked>
+            <label class="form-check-label" for="promoEmails">Promotional Emails</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Preferences</button>
+    </form>
+</div>

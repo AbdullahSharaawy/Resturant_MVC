@@ -1,0 +1,445 @@
+﻿@model List<UserRoleDTO>
+
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        #roleTable {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        #roleTable thead.thead-dark th {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        #roleTable tbody tr {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        #roleTable.table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.05);
+        }
+        #roleTable.table-hover tbody tr:hover {
+            background-color: rgba(255,255,255,.1);
+        }
+        .action-buttons {
+            text-align: center;
+            white-space: nowrap;
+        }
+        .action-buttons svg {
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
+            fill: #f8f9fa;
+            transition: fill 0.2s ease-in-out;
+        }
+        .action-buttons a:hover svg {
+            fill: #adb5bd;
+        }
+        .btn-outline-light {
+            color: #f8f9fa;
+            border-color: #f8f9fa;
+        }
+        .btn-outline-light:hover {
+            color: #212529;
+            background-color: #f8f9fa;
+            border-color: #f8f9fa;
+        }
+        .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-outline-danger:hover {
+            color: #f8f9fa;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .action-buttons .action-icon-btn {
+            margin: 0 3px;
+            padding: .25rem .5rem;
+            line-height: 1;
+        }
+        .modal-content.bg-dark {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        .form-control.bg-dark {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #495057;
+        }
+        .form-control.bg-dark:focus {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #6c757d;
+            box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
+        }
+        .form-select.bg-dark {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #495057;
+        }
+        .form-select.bg-dark:focus {
+            border-color: #6c757d;
+            box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
+        }
+    </style>
+    <partial name="_NotificationModal" />
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>User Role Management</h2>
+        <div>
+            <button class="btn btn-primary bg-dark text-white me-2" data-bs-toggle="modal" data-bs-target="#assignRoleModal">
+                Assign Role to User
+            </button>
+            <button class="btn btn-primary bg-dark text-white" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                Add New Role
+            </button>
+        </div>
+    </div>
+
+    <table id="roleTable" class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">User ID</th>
+                <th class="text-center">Username</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Current Roles</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserRoleDTO item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.UserId</td>
+                    <td class="text-center">@item.UserName</td>
+                    <td class="text-center">@item.Email</td>
+                    <td class="text-center">
+                        @if (item.Roles != null && item.Roles.Any())
+                        {
+                            <div class="d-flex flex-wrap justify-content-center gap-2">
+                                @foreach (var role in item.Roles)
+                                {
+                                    <span class="badge bg-secondary">@role</span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No roles assigned</span>
+                        }
+                    </td>
+                    <td class="text-center action-buttons">
+                        <a class="btn btn-sm btn-outline-light action-icon-btn" href="#" data-bs-toggle="modal" data-bs-target="#editRolesModal"
+                           data-user-id="@item.UserId" data-username="@item.UserName" data-current-roles="@string.Join(",", item.Roles ?? new List<string>())" title="Edit Roles">
+                            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g>
+                            </svg>
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger action-icon-btn" href="#" data-bs-toggle="modal" data-bs-target="#removeRolesModal"
+                          data-user-id="@item.UserId" data-username="@item.UserName" title="Remove All Roles">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"><path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"></path></g>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Assign Role to User Modal -->
+<div class="modal fade" id="assignRoleModal" tabindex="-1" aria-labelledby="assignRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignRoleModalLabel">Assign Role to User</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="AssignRole" id="AssignRole" asp-controller="Role" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="assignUserId" class="form-label">Select User</label>
+                        <select class="form-select bg-dark" id="assignUserId" name="userId" required>
+                            <option value="">-- Select User --</option>
+                            @foreach (var user in Model)
+                            {
+                                <option value="@user.UserId">@user.UserName (@user.Email)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="assignRoleName" class="form-label">Select Role</label>
+                        <select class="form-select bg-dark" id="assignRoleName" name="roleName" required>
+                            <option value="">-- Select Role --</option>
+                            @foreach (var role in ViewBag.AllRoles as List<string> ?? new List<string>())
+                            {
+                                <option value="@role">@role</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="/Role/Index">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Refresh()">Cancel</button>
+                    </a> 
+                    <button type="submit" class="btn btn-primary">Assign Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add New Role Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="NewRole" asp-action="AddRole" asp-controller="Role" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="newRoleName" class="form-label">Role Name</label>
+                        <input type="text" class="form-control bg-dark" id="newRoleName" name="roleName" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Roles Modal -->
+<div class="modal fade" id="editRolesModal" tabindex="-1" aria-labelledby="editRolesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRolesModalLabel">Edit User Roles</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editRoles" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editUserId" name="userId">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <p class="form-control-static fw-bold" id="editUsernameDisplay"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Roles</label>
+                        <div class="form-control bg-dark" style="height: auto; min-height: 100px; max-height: 200px; overflow-y: auto;">
+                            @foreach (var role in ViewBag.AllRoles as List<string> ?? new List<string>())
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="selectedRoles" value="@role" id="role-@role">
+                                    <label class="form-check-label" for="role-@role">@role</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Remove All Roles Modal -->
+<div class="modal fade" id="removeRolesModal" tabindex="-1" aria-labelledby="removeRolesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeRolesModalLabel">Remove All Roles</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="removeAllRoles"  method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="removeRolesUserId" name="userId" >
+                    <p>Are you sure you want to remove all roles from <span id="removeRolesUsername" class="fw-bold"></span>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Remove All Roles</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Edit Roles Modal
+            var editRolesModal = document.getElementById('editRolesModal');
+            if (editRolesModal) {
+                editRolesModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    var userId = button.getAttribute('data-user-id');
+                    var username = button.getAttribute('data-username');
+                    var currentRoles = button.getAttribute('data-current-roles').split(',');
+
+                    document.getElementById('editUserId').value = userId;
+                    document.getElementById('editUsernameDisplay').textContent = username;
+
+                    // Uncheck all checkboxes first
+                    var checkboxes = editRolesModal.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+
+                    // Check the boxes for current roles
+                    currentRoles.forEach(function(role) {
+                        if (role) {
+                            var checkbox = document.getElementById('role-' + role);
+                            if (checkbox) checkbox.checked = true;
+                        }
+                    });
+                });
+            }
+
+            // Remove All Roles Modal
+            var removeRolesModal = document.getElementById('removeRolesModal');
+            if (removeRolesModal) {
+                removeRolesModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    var userId = button.getAttribute('data-user-id');
+                    var username = button.getAttribute('data-username');
+
+                    document.getElementById('removeRolesUserId').value = userId;
+                    document.getElementById('removeRolesUsername').textContent = username;
+                });
+            }
+        });
+        $(document).on('submit', '#NewRole', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Role/AddRole',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                    error: function() {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text('Please enter a valid data.');
+                        $('#notificationModal').modal('show');
+                    }
+            });
+        });
+        $(document).on('submit', '#AssignRole', function (e) {
+            e.preventDefault(); // prevent page refresh
+            $.ajax({
+                url: '/Role/AssignRole',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function() {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+        $(document).on('submit', '#removeAllRoles', function (e) {
+            e.preventDefault(); // prevent page refresh
+            $.ajax({
+                url: '/Role/RemoveAllRoles',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+        $(document).on('submit', '#editRoles', function (e) {
+            e.preventDefault(); // prevent page refresh
+            $.ajax({
+                url: '/Role/RemoveSpecificRoles',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Refresh when cancel buttons clicked
+            $(document).on('click', '.cancel-btn', function () {
+                location.reload();
+            });
+
+            // Refresh when any modal closes
+            document.querySelectorAll('.modal').forEach(function (modal) {
+                modal.addEventListener('hidden.bs.modal', function () {
+                    location.reload();
+                });
+            });
+        });
+
+    </script>
+}

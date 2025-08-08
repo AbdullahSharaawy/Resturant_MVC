@@ -14,7 +14,7 @@ namespace Resturant_BLL.DTOModels
         public string PhoneNumber { get;  set; }
         public string Email { get; set; }
         public string Position { get;  set; }
-        public string City { get; set; }
+        public string? City { get; set; }
         public int BranchID { get; set; }
     }
 }

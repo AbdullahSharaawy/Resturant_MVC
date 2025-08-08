@@ -62,9 +62,10 @@ namespace Resturant_DAL.ImplementRepository
             await _context.SaveChangesAsync();
         }
 
-        public Task Update(Branch entity)
+        public async Task Update(Branch entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

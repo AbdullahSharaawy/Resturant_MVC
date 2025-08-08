@@ -1,0 +1,97 @@
+﻿<section class="h-100">
+    <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-normal mb-0">Shipping Information</h3>
+                </div>
+
+                <div class="card rounded-3 mb-4">
+                    <div class="card-body p-4">
+                        <form id="shippingForm">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <input type="tel" id="phoneNumber" class="form-control form-control-lg" required />
+                                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <select id="country" class="form-select form-control-lg" required>
+                                            <option value="" selected disabled>Loading countries...</option>
+                                        </select>
+                                        <label class="form-label" for="country">Country</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <input type="text" id="city" class="form-control form-control-lg" required />
+                                        <label class="form-label" for="city">City</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <textarea id="address" class="form-control form-control-lg" rows="3" required></textarea>
+                                        <label class="form-label" for="address">Full Address</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <button type="submit" form="shippingForm" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-block btn-lg">Save Shipping Information</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Fetch countries from REST Countries API
+    document.addEventListener('DOMContentLoaded', function () {
+        const countrySelect = document.getElementById('country');
+        const apiEndpoint = 'https://restcountries.com/v3.1/all';
+
+        fetch(apiEndpoint)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear loading message
+                countrySelect.innerHTML = '<option value="" selected disabled>Select Country</option>';
+
+                // Sort countries alphabetically
+                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                // Add each country to the dropdown
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    // Use a more stable identifier if available, like CCA3 (three-letter country code)
+                    // or fall back to CCA2 if the former isn't consistently available
+                    option.value = country.cca2 || country.cca3;
+                    option.textContent = country.name.common;
+                    countrySelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching countries:', error);
+                countrySelect.innerHTML = '<option value="" selected disabled>Failed to load countries</option>';
+            });
+    });
+</script>
