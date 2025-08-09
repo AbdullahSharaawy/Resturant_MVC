@@ -11,7 +11,6 @@ namespace Resturant_BLL.Services
     {
         private readonly IRepository<Order> _CR;
         private readonly UserManager<User> _user;
-
         public OrderService(IRepository<Order> rR, UserManager<User> user)
         {
             _CR = rR;
@@ -29,6 +28,20 @@ namespace Resturant_BLL.Services
             }
             orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
             return orderDTOs;
+        }
+        public async Task<(string, List<AdminOrderDTO>)> AdminGet()
+        {
+            List<Order> orders = new List<Order>();
+            orders = await _CR.GetAll();
+
+            List<AdminOrderDTO> orderDTOs = new List<AdminOrderDTO>();
+            if (orders == null || orders.Count == 0)
+            {
+                return ("-", new List<AdminOrderDTO>());
+            }
+            orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
+
+            return (orderDTOs, orderDTOs);
         }
         public async Task<AdminOrderDTO?> GetById(int id)
         {
@@ -134,13 +147,13 @@ namespace Resturant_BLL.Services
                 return null;
             }
 
-            var modifiedOrder = await _CR.GetByID(order.OrderID);
+            var modifiedOrder = await _CR.GetByID(order.OrderId);
             if (modifiedOrder == null)
                 return null;
-            modifiedOrder.OrderCost= order.OrderCost;
-            modifiedOrder.ShipmentCost = order.ShipmentCost;
-            modifiedOrder.Weight= order.Weight;
-            modifiedOrder.Address= order.Address;
+            modifiedOrder.OrderCost = 
+            modifiedOrder.ShipmentCost = 787;
+            modifiedOrder.Weight = order.Weight;
+            modifiedOrder.Address = order.Address;
             modifiedOrder.OrderStatus= order.OrderStatus;
             modifiedOrder.ModifiedOn = DateTime.UtcNow;
             modifiedOrder.ModifiedBy = "Current User";
@@ -163,7 +176,6 @@ namespace Resturant_BLL.Services
             List<AdminOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
             return ordersDTO;
         }
-
         public Task<Order> CreateDraftOrder()
         {
             throw new NotImplementedException();

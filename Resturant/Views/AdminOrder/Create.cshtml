@@ -87,8 +87,8 @@
             }
     </style>
 
-    <form action="/Chief/SaveNew" method="post" class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Table Details</h2>
+    <form action="/AdminOrder/SaveNew" method="post" class="needs-validation dark-form-container">
+        <h2 class="text-center mb-4">Add New Order</h2>
 
         <div class="mb-3">
             <label asp-for="@Model.UserID" class="form-label"></label>
@@ -99,7 +99,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="@Model.Address" class="form-label"></label>
-            <input class="form-control" type="email" asp-for="@Model.Address" required />
+            <input class="form-control" type="location" asp-for="@Model.Address" required />
             <div class="text-danger">
                 <span asp-validation-for="@Model.Address"></span>
             </div>
@@ -112,8 +112,8 @@
             </div>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.Weight" class="form-label"></label>
-            <input class="form-control" type="text" asp-for="@Model.Weight" required />
+            <label asp-for="@Model.OrderStatus" class="form-label"></label>
+            <input class="form-control" type="radio" asp-for="@Model.Weight" required />
             <div class="text-danger">
                 <span asp-validation-for="@Model.Weight"></span>
             </div>
