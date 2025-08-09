@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Resturant_BLL.DTOModels.ChifDTOS;
 using Resturant_DAL.Entities;
 using Riok.Mapperly.Abstractions;
 using System;

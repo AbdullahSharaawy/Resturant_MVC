@@ -15,9 +15,9 @@
         {
             <tr>
                 <td>
-                    @(Model.OrderItems[i].MenueItem?.Name ?? Model.OrderItems[i].ItemName)
+                    @(Model.OrderItems[i].MenueItem?.Name ?? Model.OrderItems[i].MenueItem.Name)
                     <input type="hidden" name="OrderItems[@i].OrderItemID" value="@Model.OrderItems[i].OrderItemID" />
-                    <input type="hidden" name="OrderItems[@i].ItemName" value="@Model.OrderItems[i].ItemName" />
+                    <input type="hidden" name="OrderItems[@i].ItemName" value="@Model.OrderItems[i].MenueItem.Name" />
                 </td>
                 <td>
                     <button type="button" id="minus-@i" onclick="decreaseQty(@i)">-</button>

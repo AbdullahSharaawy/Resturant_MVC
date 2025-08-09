@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
+using Resturant_BLL.DTOModels;
 using Resturant_BLL.DTOModels.OrderDTOs;
 using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.DTOModels.OrderItemDTOs;
@@ -125,6 +126,7 @@ namespace Resturant_BLL.Services
         {
             return await FilterBy(order => order.UserID == userId);
         }
+        
         public async Task<List<ReadOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
         {
             List<Order> orders = await _CR.GetAllAsync(filter);
@@ -133,7 +135,12 @@ namespace Resturant_BLL.Services
                 return null;
             }
             List<ReadOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
+            foreach (var order in ordersDTO) 
+            {
+            
+            }
             return ordersDTO;
         }
+
     }
 }

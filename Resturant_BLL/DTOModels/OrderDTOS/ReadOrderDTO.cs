@@ -6,6 +6,7 @@ namespace Resturant_BLL.DTOModels.OrderDTOs
     public class ReadOrderDTO
     {
         public List<ReadOrderItemDTO> OrderItems { get; set; }
+        public int OrderID { get;  set; }
         public decimal OrderCost { get; set; }
         public decimal ShipmentCost { get; set; }
         public decimal TotalAmount { get; set; }

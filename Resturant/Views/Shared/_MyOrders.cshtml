@@ -1,124 +1,58 @@
-﻿  @model UpdateReservationDTO
-@using Microsoft.AspNetCore.Mvc.Rendering
-@using Newtonsoft.Json
-
-
-<div class="profile-section">
+﻿@using Resturant_BLL.DTOModels.OrderDTOS
+@model MyOrdersDTO
+<div class="profile-section" >
     <h3 class="profile-section-title">My Orders</h3>
-
-    <div class="card order-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Order #54321</span>
-            <span class="badge badge-status badge-completed">Delivered</span>
-        </div>
-        <div class="card-body">
-            <div class="order-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="assets/img/menu/lobster-bisque.jpg" alt="Menu Item" class="order-item-img me-3">
-                    <div>
-                        <h5 class="mb-1">Lobster Bisque</h5>
-                        <p class="mb-0 text-muted">Large, Extra cheese</p>
-                    </div>
-                </div>
-                <div class="text-end">
-                    <p class="mb-1">$14.95</p>
-                    <p class="mb-0 text-muted small">Qty: 1</p>
-                </div>
+    @foreach (var Order in Model.Orders)
+    {
+        <div class="card order-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Order # @Order.OrderID</span>
+                <span class="badge badge-status badge-completed">Delivered</span>
             </div>
 
-            <div class="order-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="assets/img/menu/caesar.jpg" alt="Menu Item" class="order-item-img me-3">
-                    <div>
-                        <h5 class="mb-1">Caesar Salad</h5>
-                        <p class="mb-0 text-muted">No croutons</p>
+         
+            @foreach (var item in Order.OrderItems)
+            {
+                <div class="card-body">
+                    <div class="order-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/img/menu/lobster-bisque.jpg" alt="Menu Item" class="order-item-img me-3">
+                            <div>
+                                <h5 class="mb-1">@item.MenueItem.Name</h5>
+                                <p class="mb-0 text-muted">@item.MenueItem.Description</p>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-1">$ @item.Price</p>
+                            <p class="mb-0 text-muted small">Quantity: @item.Quantity</p>
+                        </div>
                     </div>
                 </div>
-                <div class="text-end">
-                    <p class="mb-1">$9.95</p>
-                    <p class="mb-0 text-muted small">Qty: 1</p>
-                </div>
-            </div>
+            }
 
+        
             <hr>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Order Summary</h5>
-                    <p>July 28, 2024 at 7:15 PM</p>
-                    <p>Delivery to: 123 Main St</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p class="mb-1">Subtotal: $24.90</p>
-                    <p class="mb-1">Delivery Fee: $3.99</p>
-                    <p class="mb-1">Tax: $2.15</p>
-                    <h5 class="mt-2">Total: $31.04</h5>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-outline-primary me-2">Reorder</button>
-                <button class="btn btn-outline-secondary">View Details</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="card order-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Order #54320</span>
-            <span class="badge badge-status badge-completed">Delivered</span>
-        </div>
-        <div class="card-body">
-            <div class="order-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="assets/img/menu/tuscan-grilled.jpg" alt="Menu Item" class="order-item-img me-3">
-                    <div>
-                        <h5 class="mb-1">Tuscan Grilled</h5>
-                        <p class="mb-0 text-muted">Regular portion</p>
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Order Summary</h5>
+                        <p>Order Status @Order.OrderStatus</p>
+                        <p>Weight @Order.Weight kg</p>
+                        <p>Delivery to: @Order.Address</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <p class="mb-1">Subtotal: $ @Order.OrderCost</p>
+                        <p class="mb-1">Delivery Fee: $ @Order.ShipmentCost</p>
+                        <h5 class="mt-2">Total: $ @Order.TotalAmount</h5>
                     </div>
                 </div>
-                <div class="text-end">
-                    <p class="mb-1">$12.95</p>
-                    <p class="mb-0 text-muted small">Qty: 1</p>
+                <div class="d-flex justify-content-end mt-3">
+                    <button class="btn btn-outline-primary me-2">Reorder</button>
+                    <button class="btn btn-outline-secondary">View Details</button>
                 </div>
-            </div>
-
-            <div class="order-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="assets/img/menu/bread-barrel.jpg" alt="Menu Item" class="order-item-img me-3">
-                    <div>
-                        <h5 class="mb-1">Bread Barrel</h5>
-                        <p class="mb-0 text-muted">Extra garlic</p>
-                    </div>
-                </div>
-                <div class="text-end">
-                    <p class="mb-1">$4.95</p>
-                    <p class="mb-0 text-muted small">Qty: 1</p>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Order Summary</h5>
-                    <p>July 20, 2024 at 6:30 PM</p>
-                    <p>Delivery to: 123 Main St</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p class="mb-1">Subtotal: $17.90</p>
-                    <p class="mb-1">Delivery Fee: $3.99</p>
-                    <p class="mb-1">Tax: $1.55</p>
-                    <h5 class="mt-2">Total: $23.44</h5>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-outline-primary me-2">Reorder</button>
-                <button class="btn btn-outline-secondary">View Details</button>
             </div>
         </div>
-    </div>
+    }
 
     <div class="text-center mt-4">
         <button class="btn btn-primary">Place New Order</button>

@@ -1,13 +1,16 @@
 ﻿using Castle.Core.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.AccountDTOS;
 using Resturant_BLL.ImplementServices;
 using Resturant_BLL.Services;
 using Resturant_DAL.Entities;
 using System.Configuration;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using static GenerativeAI.VertexAIModels;
 
 namespace Resturant_PL.Controllers
 {
@@ -17,6 +20,8 @@ namespace Resturant_PL.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
+       
+
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSenderService emailSender, IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -176,7 +181,14 @@ namespace Resturant_PL.Controllers
 
             return View("Register", registerDTO);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> ConfirmResetPassword(string userId, string code)
+            {
+            ResetPasswordEditDTO resetPasswordEditDTO = new ResetPasswordEditDTO();
+            resetPasswordEditDTO.token = code;
+            resetPasswordEditDTO.userId = userId;
+            return View("ResetPasswordEdit", resetPasswordEditDTO);
+        }
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
@@ -184,7 +196,7 @@ namespace Resturant_PL.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
+           
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -196,7 +208,8 @@ namespace Resturant_PL.Controllers
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
             }
-
+            
+                
             return View("ConfirmEmail");
         }
         [HttpGet]
@@ -257,6 +270,62 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> AdminAccountSettings()
         {
             return View();
+        }
+        public async Task<IActionResult> ResetPassword()
+        {
+            return View();
+        }
+        public async Task<IActionResult> ConfirmResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            if (ModelState.IsValid) 
+            {
+                User user = await userManager.FindByEmailAsync(resetPasswordDTO.Email);
+                if (user != null)
+                {
+                    var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "ConfirmResetPassword",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+                    EmailSettings emailSettings = new EmailSettings
+                    {
+                        SmtpHost = _configuration["EmailSettings:SmtpHost"],
+                        SmtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]),
+                        SmtpUseSSL = bool.Parse(_configuration["EmailSettings:SmtpUseSSL"]),
+                        SmtpUser = _configuration["EmailSettings:SmtpUser"],
+                        SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
+                        FromName = _configuration["EmailSettings:FromName"]
+                    };
+
+                    await _emailSender.SendEmailAsync(
+                        resetPasswordDTO.Email,
+                        "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", emailSettings);
+
+                    // Don't sign in automatically - require email confirmation first
+                    return RedirectToAction("RegisterConfirmation", new { email = resetPasswordDTO.Email });
+
+                }
+                ModelState.AddModelError("", "Please Enter a valid Email");
+            }
+            return View("ResetPassword",resetPasswordDTO);
+        }
+        public async Task<IActionResult> NewPassword(ResetPasswordEditDTO resetPasswordEditDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByIdAsync(resetPasswordEditDTO.userId);
+                var result = await userManager.ResetPasswordAsync(user, resetPasswordEditDTO.token, resetPasswordEditDTO.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    // Password was successfully updated.
+                    // You can now redirect the user to a success page or the login page.
+                    return RedirectToAction("Login");
+                }
+            }
+            return View("ResetPasswordEdit",resetPasswordEditDTO);
         }
     }
 }

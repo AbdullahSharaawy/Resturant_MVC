@@ -13,7 +13,7 @@ namespace Resturant_BLL.DTOModels
         public int ReservationID { get; set; }  
         public int NumberOfGuests { get;  set; }
 
-        public string Status { get;  set; }
+       
 
         public DateTime DateTime { get; set; }
 

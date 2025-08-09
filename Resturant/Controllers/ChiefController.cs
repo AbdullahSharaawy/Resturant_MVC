@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ChifDTOS;
 using Resturant_BLL.Services;
 using System.Threading.Tasks;
 
@@ -20,7 +20,10 @@ namespace Resturant_PL.Controllers
         {
             return View("Chiefs", await _CS.GetList());
         }
-
+        public async Task<IActionResult> ChiefsPartialView()
+        {
+            return PartialView("_Chiefs", await _CS.GetList());
+        }
         public async Task<IActionResult> Update(int id)
         {
             return View("Update", await _CS.GetUpdateChiefInfo(id));

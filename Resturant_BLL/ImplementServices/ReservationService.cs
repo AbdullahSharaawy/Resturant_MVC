@@ -7,6 +7,7 @@ using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using AutoMapper;
+using Castle.Core.Configuration;
 
 namespace Resturant_BLL.Services
 {
@@ -16,7 +17,7 @@ namespace Resturant_BLL.Services
         private readonly IRepository<table> _tableRepo;
         private readonly IRepository<ReservedTable> _reservedTableRepo;
         private readonly IRepository<Branch> _branchRepo;
-      
+        
 
         public ReservationService(IRepository<Reservation> reservationRepo,
                            IRepository<table> tableRepo,
@@ -27,6 +28,7 @@ namespace Resturant_BLL.Services
             _tableRepo = tableRepo;
             _reservedTableRepo = reservedTableRepo;
             _branchRepo = branchRepo;
+           
             
         }
 
@@ -71,9 +73,9 @@ namespace Resturant_BLL.Services
             var reservation = new ReservationMapper().MapToReservation(dto);
             reservation.Cost = reservation.NumberOfGuests * 5;
             reservation.CreatedOn = DateTime.UtcNow;
-            reservation.CreatedBy = "Current User";
+           
             reservation.IsDeleted = false;
-            reservation.Status = "Completed";
+            reservation.CreatedBy=dto.CreatedBy;
 
             List<ReservedTable> reservedTables = new List<ReservedTable>();
             foreach (var table in selectedTables)
@@ -83,7 +85,7 @@ namespace Resturant_BLL.Services
                     TableID = table.TableID,
                     ReservationID = reservation.ReservationID,
                     DateTime = dto.DateTime,
-                    CreatedBy = "user",
+                    CreatedBy = dto.CreatedBy,
                     CreatedOn = DateTime.UtcNow,
                 };
                 reservedTables.Add(resrvedTable);
@@ -92,9 +94,8 @@ namespace Resturant_BLL.Services
             Payment payment = new Payment
             {
                 Amount = reservation.Cost,
-                Status = "Completed",
-                PaymentMethod = PaymentMethod.Paypal,
-                CreatedBy = "user",
+                Status = "Progress",
+                CreatedBy = dto.CreatedBy,
                 CreatedOn = DateTime.UtcNow,
                 IsDeleted = false,
                 Date = DateTime.UtcNow,
