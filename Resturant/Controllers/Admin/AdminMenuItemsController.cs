@@ -60,9 +60,12 @@ namespace Resturant_PL.Controllers.Admin
                 return View("Create", menueItem);
             }
             TempData["SuccessMessage"] = "Record Saved successfully!";
-            return View("MenuItems", await _MenuService.GetList());
+            // return View("MenuItems", await _MenuService.GetList());
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _MenuService.Delete(id))

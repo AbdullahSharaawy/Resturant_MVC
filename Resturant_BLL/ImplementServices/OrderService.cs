@@ -20,13 +20,13 @@ namespace Resturant_BLL.Services
         {
             List<Order> orders = new List<Order>();
             orders = await _CR.GetAll();
-
-            List<AdminOrderDTO> orderDTOs = new List<AdminOrderDTO>();
+            orders = orders.Where(a => !a.IsDeleted).ToList();
+            
             if (orders == null || orders.Count == 0)
             {
                 return new List<AdminOrderDTO>();
             }
-            orderDTOs = new OrderMapper().MapToAdminOrderDTOList(orders);
+            List<AdminOrderDTO> orderDTOs = new OrderMapper().MapToAdminOrderDTOList(orders);
             return orderDTOs;
         }
         public async Task<AdminOrderDTO?> GetById(int id)

@@ -97,9 +97,7 @@
                 <th class="text-center">Description</th>
                 <th class="text-center">Category</th>
                 <th class="text-center">DietaryInfo</th>
-                <th class="text-center">ShipmentCost</th>
                 <th class="text-center">Price</th>
-                <th class="text-center">OrderStatus</th>
                 <th class="text-center">Availability</th>
             </tr>
         </thead>
@@ -148,25 +146,25 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmDeleteButton" href="#" class="btn btn-danger">Delete</a>
+
+                <form id="deleteForm" method="post" asp-action="Delete" asp-controller="AdminMenuItems">
+                    <input type="hidden" name="id" id="deleteItemId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
+
         </div>
     </div>
 </div>
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () {
             var deleteModal = document.getElementById('deleteModal');
             if (deleteModal) {
                 deleteModal.addEventListener('show.bs.modal', function (event) {
-                    // Button that triggered the modal
                     var button = event.relatedTarget;
-                    // Extract info from data-* attributes
                     var itemId = button.getAttribute('data-item-id');
-
-                    // Update the modal's delete button href attribute
-                    var confirmDeleteButton = document.getElementById('confirmDeleteButton');
-                    confirmDeleteButton.href = '/AdminMenuItems/Delete?id=' + itemId;
+                    document.getElementById('deleteItemId').value = itemId;
                 });
             }
         });
