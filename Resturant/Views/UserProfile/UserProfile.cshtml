@@ -518,5 +518,32 @@
                 }
             });
         });
+        $(document).on('click', '.btn-outline-danger', function (e) {
+            e.preventDefault();
+            var id = $(this).data('item-id');
+           
+            console.log(id);
+           
+                $.ajax({
+                    url: '/Reservation/DeleteMyReservation/' + id, // Include ID in URL
+                    type: 'DELETE',
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = response.redirectUrl;
+                           
+                        } else {
+                            $('#notificationModalLabel').text("Error");
+                            $('#notificationModalBody').text(response.message);
+                            $('#notificationModal').modal('show');
+                        }
+                    },
+                    error: function () {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text('An error occurred while processing your request.');
+                        $('#notificationModal').modal('show');
+                    }
+                });
+            
+        });
     </script>
 }

@@ -1,8 +1,54 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-}
+    Layout = "_ResturantLayout";
+    ViewData["Title"] = "Cemetery of the Greats";
+} 
+<!-- Hero Section -->
+<section id="hero" class="hero section dark-background">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <img src="~/assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 d-flex flex-column align-items-center align-items-lg-start">
+                <h2 data-aos="fade-up" data-aos-delay="100">Welcome to <span>Restaurantly</span></h2>
+                <p data-aos="fade-up" data-aos-delay="200">Delivering great food for more than 18 years!</p>
+                <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#menu" class="cta-btn">Our Menu</a>
+                    <a href="#book-a-table" class="cta-btn">Book a Table</a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-center mt-5 mt-lg-0">
+                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+            </div>
+        </div>
+    </div>
+
+</section><!-- /Hero Section -->
+<!-- About Section -->
+<!-- Chefs Section -->
+<section id="chefs" class="chefs section">
+
+    
+    
+
+</section><!-- /Chefs Section -->
+      
+
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+            GetChiefs();
+        };
+        function GetChiefs() {
+            event.preventDefault();
+            console.log("hi");
+            $.ajax({
+                url: "/Chief/ChiefsPartialView", success: function (result) {
+                    $("#chefs").html(result);
+                }
+            });
+
+        }
+    </script>
+}

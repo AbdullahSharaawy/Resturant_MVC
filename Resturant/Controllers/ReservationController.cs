@@ -119,6 +119,13 @@ namespace Resturant_PL.Controllers
             }
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> DeleteMyReservation(int id)
+        {
+            if (await _RS.Delete(id))
+                return Json(new { success = true, redirectUrl = Url.Action("Index", "UserProfile") });
+            return Json(new { success = false, message = "Failed to delete the record." });
+
+        }
         public async Task<IActionResult> PaymentCompleted(int id)
         {
             var reservation = await _RS.GetById(id);

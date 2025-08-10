@@ -68,7 +68,7 @@ namespace Resturant_PL.Controllers
             }
             else
             {
-                if (await _CS.Update(_CreateChief.chiefDTO) == null)
+                if (await _CS.Create(_CreateChief.chiefDTO) == null)
                 {
                     return View("Update", _CreateChief);
                 }

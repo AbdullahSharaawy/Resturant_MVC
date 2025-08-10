@@ -288,7 +288,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<List<ReservationDTO>> GetReservationsByUserId(string userId)
         {
-            var reservations = await _RR.GetAllAsync(r => r.UserID == userId);
+            var reservations = await _RR.GetAllAsync(r => r.UserID == userId && r.IsDeleted==false);
 
             return new ReservationMapper().MapToReservationDTOList(reservations);
 
