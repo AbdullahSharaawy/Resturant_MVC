@@ -43,7 +43,8 @@ namespace Resturant_DAL.ImplementRepository
         public async Task<List<Order>> GetAllAsync(Expression<Func<Order, bool>> filter)
         {
             return await _context.Order
-                .Include(o => o.OrderItems) // Include related entities
+                .Include(o => o.OrderItems)
+                .ThenInclude(o=>o.MenueItem) // Include related entities
                 .Where(filter)
                 .ToListAsync();
         }

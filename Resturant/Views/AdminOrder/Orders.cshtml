@@ -1,4 +1,4 @@
-﻿@model List<ReadOrderDTO>
+﻿@model List<AdminOrderDTO>
 
 
 @{
@@ -116,14 +116,14 @@
                     <td class="text-center">@item.OrderStatus</td>
                     <td class="text-center">@item.Address</td>
                     <td class="text-center action-buttons">
-                        <a class="btn btn-sm btn-outline-light action-icon-btn" href="/Chief/Update?id=@item.OrderID" title="Edit">
+                        <a class="btn btn-sm btn-outline-light action-icon-btn" href="/AdminOrder/Update?id=@item.OrderId" title="Edit">
                             <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g>
                             </svg>
                         </a>
-                        <a class="btn btn-sm btn-outline-danger action-icon-btn" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-id="@item.OrderID" title="Delete">
+                        <a class="btn btn-sm btn-outline-danger action-icon-btn" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-id="@item.OrderId" title="Delete">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -135,7 +135,7 @@
             }
         </tbody>
     </table>
-    <a class="btn btn-primary bg-dark text-white" asp-action="Create" asp-controller="Chief">New</a>
+    <a class="btn btn-primary bg-dark text-white" asp-action="Create" asp-controller="AdminOrder">New</a>
 
 </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -168,7 +168,7 @@
 
                     // Update the modal's delete button href attribute
                     var confirmDeleteButton = document.getElementById('confirmDeleteButton');
-                    confirmDeleteButton.href = '/Order/Delete?id=' + itemId;
+                    confirmDeleteButton.href = '/AdminOrder/Delete?id=' + itemId;
                 });
             }
         });

@@ -1,0 +1,174 @@
+﻿@model List<MenueItemDTO>
+
+
+@{
+    Layout = "_ManagementLayout";
+}
+
+
+<h2>My Specific Page</h2>
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        #myTable {
+            background-color: #212529; /* A very dark grey, close to black */
+            color: #f8f9fa; /* Light text for contrast */
+        }
+
+            #myTable thead.thead-dark th {
+                background-color: #343a40; /* Slightly lighter dark for header */
+                color: #f8f9fa;
+            }
+
+            #myTable tbody tr {
+                background-color: #212529; /* Apply to rows for consistency */
+                color: #f8f9fa;
+            }
+            /* You might want to adjust striped and hover colors as well */
+            #myTable.table-striped tbody tr:nth-of-type(odd) {
+                background-color: rgba(0,0,0,.05); /* Adjust for dark background */
+            }
+
+            #myTable.table-hover tbody tr:hover {
+                background-color: rgba(255,255,255,.1); /* Lighter hover for dark background */
+            }
+        /* Center content within action cell */
+        .action-buttons {
+            text-align: center;
+            white-space: nowrap; /* Prevents buttons/icons from wrapping */
+        }
+
+            /* Style for the SVG icons inside action buttons */
+            .action-buttons svg {
+                width: 1.2em; /* Adjust size as needed, e.g., 1em, 16px */
+                height: 1.2em; /* Keep aspect ratio */
+                vertical-align: middle; /* Align nicely with text if any */
+                /* Set the fill color to white or a light color for visibility on dark background */
+                fill: #f8f9fa; /* Light text color defined for the table */
+                transition: fill 0.2s ease-in-out; /* Smooth transition on hover */
+            }
+
+            /* Hover effect for the SVG icons */
+            .action-buttons a:hover svg {
+                fill: #adb5bd; /* Slightly darker light color on hover */
+            }
+
+        /* Adjust Bootstrap button styles for the dark theme */
+        /* Using btn-outline-light for edit, btn-outline-danger for delete */
+        .btn-outline-light {
+            color: #f8f9fa; /* Text/border color */
+            border-color: #f8f9fa; /* Border color */
+        }
+
+            .btn-outline-light:hover {
+                color: #212529; /* Text color on hover */
+                background-color: #f8f9fa; /* Background on hover */
+                border-color: #f8f9fa; /* Border on hover */
+            }
+
+        .btn-outline-danger {
+            color: #dc3545; /* Red for delete */
+            border-color: #dc3545;
+        }
+
+            .btn-outline-danger:hover {
+                color: #f8f9fa;
+                background-color: #dc3545;
+                border-color: #dc3545;
+            }
+
+        /* Add some margin between the buttons */
+        .action-buttons .action-icon-btn {
+            margin: 0 3px; /* Small horizontal margin */
+            padding: .25rem .5rem; /* Adjust padding to make buttons smaller */
+            line-height: 1; /* Helps vertically center icon in button */
+        }
+    </style>
+    <table id="myTable" class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">DietaryInfo</th>
+                <th class="text-center">ShipmentCost</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">OrderStatus</th>
+                <th class="text-center">Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MenueItemDTO item in @Model)
+            {
+                <tr>
+                    <td class="text-center">@item.Name</td>
+                    <td class="text-center">@item.Description</td>
+                    <td class="text-center">@item.Category</td>
+                    <td class="text-center">@item.DietaryInfo</td>
+                    <td class="text-center">@item.Price</td>
+                    <td class="text-center">@item.Availability</td>
+                    <td class="text-center action-buttons">
+                        <a class="btn btn-sm btn-outline-light action-icon-btn" href="/AdminMenuItems/Update?id=@item.ItemID" title="Edit">
+                            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"><path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path></g>
+                            </svg>
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger action-icon-btn" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-id="@item.ItemID" title="Delete">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"><path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"></path></g>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-primary bg-dark text-white" asp-action="Create" asp-controller="AdminMenuItems">New</a>
+
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteButton" href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteModal = document.getElementById('deleteModal');
+            if (deleteModal) {
+                deleteModal.addEventListener('show.bs.modal', function (event) {
+                    // Button that triggered the modal
+                    var button = event.relatedTarget;
+                    // Extract info from data-* attributes
+                    var itemId = button.getAttribute('data-item-id');
+
+                    // Update the modal's delete button href attribute
+                    var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+                    confirmDeleteButton.href = '/AdminMenuItems/Delete?id=' + itemId;
+                });
+            }
+        });
+    </script>
+    }

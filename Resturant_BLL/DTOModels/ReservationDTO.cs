@@ -12,11 +12,7 @@ namespace Resturant_BLL.DTOModels
     {
         public int ReservationID { get; set; }  
         public int NumberOfGuests { get;  set; }
-
-        public string Status { get;  set; }
-
         public DateTime DateTime { get; set; }
-
         public string PaymentMethod { get;  set; }
         public int PaymentID { get;  set; }
         public string City { get; set; }

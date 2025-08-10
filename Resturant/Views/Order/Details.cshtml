@@ -32,7 +32,7 @@
             @foreach (var item in Model.OrderItems)
             {
                 <tr>
-                    <td>@item.ItemName</td>
+                    <td>@item.MenueItem.Name</td>
                     <td>@item.Quantity</td>
                     <td>@item.Price</td>
                     <td>@(item.Quantity * item.Price).ToString("C")</td>

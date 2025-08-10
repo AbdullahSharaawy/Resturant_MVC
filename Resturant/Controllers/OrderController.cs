@@ -1,11 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels.OrderDTOS;
-using Resturant_BLL.DTOModels.OrderItemDTOs;
-using Resturant_BLL.Mapperly;
 using Resturant_BLL.Services;
-using Resturant_DAL.Entities;
-using System.Security.Claims;
 
 namespace Resturant_PL.Controllers
 {
@@ -76,13 +72,27 @@ namespace Resturant_PL.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> MyOrders()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var orders = await _orderService.GetOrdersByUserId(userId);
-            return PartialView("~/Views/Shared/_MyOrders.cshtml", orders);
-        }
+
+        //public async Task<IActionResult> MyOrders()
+        //{
+        //    var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        //    if (string.IsNullOrEmpty(userId))
+        //    {
+        //        return Unauthorized(); // Redirect or show error
+        //    }
+
+        //    var orders = await _orderService.GetOrdersByUserId(userId);
+
+
+        //    var model = new MyOrdersDTO
+        //    {
+        //        Orders = orders
+
+        //    };
+
+        //    return PartialView("_MyOrders", model);
+        //}
 
     }
 }

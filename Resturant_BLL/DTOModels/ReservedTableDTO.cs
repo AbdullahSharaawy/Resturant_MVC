@@ -12,7 +12,6 @@ namespace Resturant_BLL.DTOModels
         public ReservedTableDTO() { }
         public int ReservedTableID { get;  set; }
         public DateTime DateTime { get;  set; }
-        
         public int TableID { get; set; }
         public int ReservationID { get;  set; } 
 

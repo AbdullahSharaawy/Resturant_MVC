@@ -53,7 +53,7 @@ namespace Resturant_PL.Controllers.Admin
         public IActionResult Create()
         {
             var model = new AdminOrderDTO();
-            return View("Create", model);
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> SaveNew(AdminOrderDTO _NewOrder)
@@ -61,18 +61,14 @@ namespace Resturant_PL.Controllers.Admin
             if (!ModelState.IsValid)
             {
                 _NewOrder.OrderItems = await _orderItemService.GetList();
-                return View("_NewOrder");
+                return View("Create",_NewOrder);
             }
-            else
+            var created = await _orderService.CreateOrderByAdmin(_NewOrder);
+            if (created== null)
             {
-                if (await _orderService.Update(_NewOrder) == null)
-                {
-                    return View("Update", _NewOrder);
-                }
-
-                else
-                    TempData["SuccessMessage"] = "Record updated successfully!";
+                return View("Create", _NewOrder);
             }
+            TempData["SuccessMessage"] = "Record Saved successfully!";
             return View("Orders", await _orderService.GetList());
         }
 

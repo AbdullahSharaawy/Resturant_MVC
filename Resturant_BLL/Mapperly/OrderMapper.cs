@@ -7,16 +7,16 @@ namespace Resturant_BLL.Mapperly
     [Mapper]
     public partial class OrderMapper
     {
-        public partial AdminOrderDTO MapToReadOrderDTO(Order order);
+        public partial AdminOrderDTO MapToAdminOrderDTO(Order order);
         public partial DraftOrderDTO MapToDraftOrderDTO(Order order);
         public partial ReadOrderDTO MapToReadtOrderDTO(Order order);
         public partial ConfirmedOrderDTO MapToConfirmedOrderDTO(Order order);
         public partial ShippedOrderDTO MapToShippedOrderDTO(Order order);
-        public partial AdminOrderDTO MapToAdminOrderDTO(Order order);
         public partial Order MapToOrder(ConfirmedOrderDTO orderDTO);
         public partial Order MapToOrder(DraftOrderDTO orderDTO);
         public partial ReadOrderDTO MapToReadtOrderDTO(DraftOrderDTO orderDTO);
         public partial Order MapToOrder(AdminOrderDTO orderDTO);
         public partial List<AdminOrderDTO> MapToOrderDTOList(List<Order> orders);
+        public partial List<AdminOrderDTO> MapToAdminOrderDTOList(List<Order> orders);
     }
 }

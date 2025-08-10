@@ -1,4 +1,5 @@
-﻿@model AdminOrderDTO
+﻿@using Resturant_DAL.Entities
+@model AdminOrderDTO
 
 @{
     Layout = "_ManagementLayout";
@@ -88,6 +89,7 @@
     </style>
 
     <form action="/AdminOrder/SaveNew" method="post" class="needs-validation dark-form-container">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <h2 class="text-center mb-4">Add New Order</h2>
 
         <div class="mb-3">
@@ -112,10 +114,54 @@
             </div>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.OrderStatus" class="form-label"></label>
-            <input class="form-control" type="radio" asp-for="@Model.Weight" required />
+            <label class="form-label">Order Items</label>
+            <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc; padding:10px;">
+                @if (Model.OrderItems != null && Model.OrderItems.Any())
+                {
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td>@item.ItemName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">No items added yet.</p>
+                }
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Order Status</label>
+            @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+            {
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           asp-for="OrderStatus"
+                           value="@status"
+                           id="status_@status" />
+                    <label class="form-check-label" for="status_@status">
+                        @status
+                    </label>
+                </div>
+            }
             <div class="text-danger">
-                <span asp-validation-for="@Model.Weight"></span>
+                <span asp-validation-for="OrderStatus"></span>
             </div>
         </div>
         <button class="btn btn-dark" type="submit">Submit</button>

@@ -26,22 +26,8 @@ namespace Resturant_BLL.Services
             {
                 return new List<AdminOrderDTO>();
             }
-            orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
+            orderDTOs = new OrderMapper().MapToAdminOrderDTOList(orders);
             return orderDTOs;
-        }
-        public async Task<(string, List<AdminOrderDTO>)> AdminGet()
-        {
-            List<Order> orders = new List<Order>();
-            orders = await _CR.GetAll();
-
-            List<AdminOrderDTO> orderDTOs = new List<AdminOrderDTO>();
-            if (orders == null || orders.Count == 0)
-            {
-                return ("-", new List<AdminOrderDTO>());
-            }
-            orderDTOs = new OrderMapper().MapToOrderDTOList(orders);
-
-            return (orderDTOs, orderDTOs);
         }
         public async Task<AdminOrderDTO?> GetById(int id)
         {
@@ -51,8 +37,56 @@ namespace Resturant_BLL.Services
                 return null;
             }
 
-            AdminOrderDTO orderDTO = new OrderMapper().MapToReadOrderDTO(order);
+            AdminOrderDTO orderDTO = new OrderMapper().MapToAdminOrderDTO(order);
             return orderDTO;
+        }
+        public async Task<AdminOrderDTO?> CreateOrderByAdmin(AdminOrderDTO Neworder)
+        {
+            var order = new OrderMapper().MapToOrder(Neworder);
+            order.CreatedOn = DateTime.UtcNow;
+            order.CreatedBy = "User";
+            order.IsDeleted = false;
+            order = await _CR.GetByID(order.OrderID);
+            await _CR.Create(order);
+            return new OrderMapper().MapToAdminOrderDTO(order);
+        }
+        public async Task<AdminOrderDTO?> Update(AdminOrderDTO order)
+        {
+            if (order == null)
+            {
+                return null;
+            }
+
+            var modifiedOrder = await _CR.GetByID(order.OrderId);
+            if (modifiedOrder == null)
+                return null;
+
+            modifiedOrder.OrderCost = order.OrderCost;
+            modifiedOrder.ShipmentCost = order.ShipmentCost;
+            modifiedOrder.Weight = order.Weight;
+            modifiedOrder.Address = order.Address;
+            modifiedOrder.OrderStatus = order.OrderStatus;
+            modifiedOrder.ModifiedOn = DateTime.UtcNow;
+            modifiedOrder.ModifiedBy = "Current User";
+            modifiedOrder.IsDeleted = false;
+            await _CR.Update(modifiedOrder);
+
+            return new OrderMapper().MapToAdminOrderDTO(modifiedOrder);
+
+        }
+        public async Task<List<AdminOrderDTO>> GetOrdersByUserId(string userId)
+        {
+            return await FilterBy(order => order.UserID == userId);
+        }
+        public async Task<List<AdminOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
+        {
+            List<Order> orders = await _CR.GetAllAsync(filter);
+            if (orders == null || orders.Count == 0)
+            {
+                return null;
+            }
+            List<AdminOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
+            return ordersDTO;
         }
         public async Task<DraftOrderDTO?> GetDraftOrderById(int id)
         {
@@ -74,17 +108,6 @@ namespace Resturant_BLL.Services
             }
             ShippedOrderDTO orderDTO = new OrderMapper().MapToShippedOrderDTO(order);
             return orderDTO;
-        }
-        public async Task<Order?> CreateOrderByAdmin(DTOModels.OrderDTOS.AdminOrderDTO Neworder)
-        {
-
-            var order = new OrderMapper().MapToOrder(Neworder);
-            order.CreatedOn = DateTime.UtcNow;
-            order.CreatedBy = "User";
-            order.OrderStatus = OrderStatus.Draft;
-            order.IsDeleted = false;
-            await _CR.Create(order);
-            return order;
         }
         public async Task<Order?> CreateDraftOrder(DraftOrderDTO Neworder)
         {
@@ -139,42 +162,6 @@ namespace Resturant_BLL.Services
             order.DeletedBy = "Current User";
             await _CR.Update(order);
             return true;
-        }
-        public async Task<AdminOrderDTO?> Update(AdminOrderDTO order)
-        {
-            if (order == null)
-            {
-                return null;
-            }
-
-            var modifiedOrder = await _CR.GetByID(order.OrderId);
-            if (modifiedOrder == null)
-                return null;
-            modifiedOrder.OrderCost = 
-            modifiedOrder.ShipmentCost = 787;
-            modifiedOrder.Weight = order.Weight;
-            modifiedOrder.Address = order.Address;
-            modifiedOrder.OrderStatus= order.OrderStatus;
-            modifiedOrder.ModifiedOn = DateTime.UtcNow;
-            modifiedOrder.ModifiedBy = "Current User";
-            modifiedOrder.IsDeleted = false;
-
-            await _CR.Update(modifiedOrder);
-            return order;
-        }
-        public async Task<List<AdminOrderDTO>> GetOrdersByUserId(string userId)
-        {
-            return await FilterBy(order => order.UserID == userId);
-        }
-        public async Task<List<AdminOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
-        {
-            List<Order> orders = await _CR.GetAllAsync(filter);
-            if (orders == null || orders.Count == 0)
-            {
-                return null;
-            }
-            List<AdminOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
-            return ordersDTO;
         }
         public Task<Order> CreateDraftOrder()
         {

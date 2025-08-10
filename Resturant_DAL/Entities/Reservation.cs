@@ -9,12 +9,12 @@ namespace Resturant_DAL.Entities
     {
         public Reservation() { }
 
-        public Reservation(int reservationID, int numberOfGuests, string status, DateTime dateTime,
+        public Reservation(int reservationID, int numberOfGuests, DateTime dateTime,
                            int paymentID, DateTime createdOn, string createdBy, int branchID, string userID, decimal cost)
         {
             ReservationID = reservationID;
             NumberOfGuests = numberOfGuests;
-            Status = status;
+          
             DateTime = dateTime;
             PaymentID = paymentID;
             CreatedOn = createdOn;
@@ -29,7 +29,7 @@ namespace Resturant_DAL.Entities
 
         public int NumberOfGuests { get;  set; }
 
-        public string Status { get; set; }
+       
         public decimal Cost { get; set; }
         public DateTime DateTime { get;  set; }
 

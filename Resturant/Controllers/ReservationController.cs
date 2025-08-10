@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
+using Resturant_DAL.Entities;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -13,13 +15,14 @@ namespace Resturant_PL.Controllers
         private readonly IBranchService _BR;
         private readonly IReservedTableService _RTS;
         private readonly IPaymentService _PS;
-
-        public ReservationController(IReservationService reservationService, IBranchService bR, IReservedTableService rTS, IPaymentService pS)
+        private readonly UserManager<User> userManager;
+        public ReservationController(IReservationService reservationService, IBranchService bR, IReservedTableService rTS, IPaymentService pS, UserManager<User> userManager)
         {
             this._RS = reservationService;
             _BR = bR;
             _RTS = rTS;
             _PS = pS;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -36,6 +39,8 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> SaveQuickReservation(UpdateReservationDTO updateReservationDTO)
         {
             CheckOutDTO checkOutDTO = new CheckOutDTO();
+           var user= await userManager.GetUserAsync(User);
+            updateReservationDTO.ReservationDTO.CreatedBy = user.FirstName+" "+user.LastName;
             var quickReservationResult = await _RS.CreateQuickReservation(updateReservationDTO.ReservationDTO);
             checkOutDTO.reservation = quickReservationResult.Item1;
             checkOutDTO.reservedTable = quickReservationResult.Item2;
@@ -52,6 +57,7 @@ namespace Resturant_PL.Controllers
             {
                 checkOutDTO.reservation.PaymentID = paymentID;
                 checkOutDTO.reservation.UserID = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                
                 int reservationID = (await _RS.Create(checkOutDTO.reservation)) ?? 0;
                 if (reservationID != 0)
                 {

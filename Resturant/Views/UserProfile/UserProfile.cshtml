@@ -431,7 +431,12 @@
         }
         function GetMyOrders() {
             event.preventDefault();
-
+            $.ajax({
+                url: "/Order/MyOrders",
+                success: function (result) {
+                    $("#orders").html(result);
+                }
+            });
         }
 
         $(document).on('submit', '#userProfileInfo', function (e) {
