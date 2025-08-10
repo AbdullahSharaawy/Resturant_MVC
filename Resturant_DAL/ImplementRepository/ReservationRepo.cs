@@ -33,13 +33,14 @@ namespace Resturant_DAL.ImplementRepository
         public async Task<List<Reservation>> GetAll()
         {
             List<Reservation> reservations = await _context.Reservation
+                .Include(r=>r.Branch)
+                .Include(r=>r.Payment)
+                .Include(r=>r.ReservedTables)
+                .Include(r=>r.User)
                 .Where(r => r.IsDeleted == false)
                 .ToListAsync();
 
-            foreach (var reservation in reservations)
-            {
-                await _context.Entry(reservation).Reference(t => t.Branch).LoadAsync();
-            }
+          
             return reservations;
         }
 
@@ -49,6 +50,7 @@ namespace Resturant_DAL.ImplementRepository
                 .Include(r => r.User)
                 .Include(r => r.Branch)
                 .Include(r => r.Payment)
+                .Include(r=>r.ReservedTables)
                 .Where(r => r.IsDeleted == false)
                 .FirstOrDefaultAsync(c => c.ReservationID == id);
         }

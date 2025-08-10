@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ReservationDTOS;
+
+
 using Resturant_BLL.Services;
 using Resturant_DAL.Entities;
 using System.Security.Claims;
@@ -12,14 +15,14 @@ namespace Resturant_PL.Controllers
     public class ReservationController : Controller
     {
         private readonly IReservationService _RS;
-        private readonly IBranchService _BR;
+        private readonly IBranchService _BS;
         private readonly IReservedTableService _RTS;
         private readonly IPaymentService _PS;
         private readonly UserManager<User> userManager;
         public ReservationController(IReservationService reservationService, IBranchService bR, IReservedTableService rTS, IPaymentService pS, UserManager<User> userManager)
         {
             this._RS = reservationService;
-            _BR = bR;
+            _BS = bR;
             _RTS = rTS;
             _PS = pS;
             this.userManager = userManager;
@@ -28,7 +31,7 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> Index()
         {
             var allReservations = await _RS.GetList();
-            return View("Reservations", allReservations);
+            return View("Index", allReservations);
         }
 
         public async Task<IActionResult> QuickReservationForm()
@@ -38,38 +41,10 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> SaveQuickReservation(UpdateReservationDTO updateReservationDTO)
         {
-            CheckOutDTO checkOutDTO = new CheckOutDTO();
-           var user= await userManager.GetUserAsync(User);
-            updateReservationDTO.ReservationDTO.CreatedBy = user.FirstName+" "+user.LastName;
-            var quickReservationResult = await _RS.CreateQuickReservation(updateReservationDTO.ReservationDTO);
-            checkOutDTO.reservation = quickReservationResult.Item1;
-            checkOutDTO.reservedTable = quickReservationResult.Item2;
-            checkOutDTO.Payment = quickReservationResult.Item3;
-
-            if ((checkOutDTO.reservation, checkOutDTO.reservedTable, checkOutDTO.Payment) == (null, null, null))
-            {
-                updateReservationDTO.Branches = await _BR.GetList();
-                return Json(new { success = false, message = "No Seats Available for this Number of Guests." });
-            }
-
-            int paymentID = (await _PS.Create(checkOutDTO.Payment)) ?? 0;
-            if (paymentID != 0)
-            {
-                checkOutDTO.reservation.PaymentID = paymentID;
-                checkOutDTO.reservation.UserID = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                
-                int reservationID = (await _RS.Create(checkOutDTO.reservation)) ?? 0;
-                if (reservationID != 0)
-                {
-                    foreach (var r in checkOutDTO.reservedTable)
-                    {
-                        r.ReservationID = reservationID;
-                        await _RTS.Create(r);
-                    }
-                }
-            }
-
-            return Json(new { success = true, message = "Your Reservation is done Successfully" });
+            
+            if(await _RS.FinishQuickReservation(updateReservationDTO))
+                return Json(new { success = true, message = "Your Reservation is done Successfully" });
+            return Json(new { success = false, message = "No Seats Available for this Number of Guests." });
         }
 
 
@@ -83,7 +58,7 @@ namespace Resturant_PL.Controllers
             }
 
             var reservations = await _RS.GetReservationsByUserId(userId);
-            var branches = await _BR.GetList();
+            var branches = await _BS.GetList();
 
             var model = new UpdateReservationDTO
             {
@@ -98,10 +73,10 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var model = await _RS.GetCreateReservationInfo();
+            UpdateReservationDTO model = await _RS.GetCreateReservationInfo();
             return View("Create", model);
         }
-
+       
         public async Task<IActionResult> Update(int id)
         {
             var reservation = await _RS.GetById(id);
@@ -114,58 +89,46 @@ namespace Resturant_PL.Controllers
             var updateModel = new UpdateReservationDTO
             {
                 ReservationDTO = reservation,
-                Branches = await _BR.GetList()
+                Branches = await _BS.GetList()
             };
 
             return View("Update", updateModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveNew(UpdateReservationDTO dto)
-        {
-            dto.ReservationDTO.UserID = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            dto.ReservationDTO.CreatedOn = DateTime.UtcNow;
-            dto.ReservationDTO.CreatedBy = "Current User";
-
-            var result = await _RS.Create(dto.ReservationDTO);
-            if (result == null)
-            {
-                TempData["ErrorMessage"] = "Failed to create reservation.";
-                return RedirectToAction("Create");
-            }
-
-            TempData["SuccessMessage"] = "Reservation created successfully!";
-            return View("Reservations", await _RS.GetList());
-        }
+       
 
         [HttpPost]
         public async Task<IActionResult> SaveEdit(UpdateReservationDTO dto)
         {
-            dto.ReservationDTO.ModifiedOn = DateTime.UtcNow;
-            dto.ReservationDTO.ModifiedBy = "Current User";
 
-            var result = await _RS.Update(dto.ReservationDTO);
-            if (result == null)
-            {
-                TempData["ErrorMessage"] = "Failed to update reservation.";
-                return RedirectToAction("Update", new { id = dto.ReservationDTO.ReservationID });
-            }
+            if (await _RS.Update(dto.ReservationDTO)!=null)
+                return Json(new { success = true, message = "Your Update is done Successfully" });
+            return Json(new { success = false, message = "No Seats Available for this Number of Guests." });
 
-            TempData["SuccessMessage"] = "Reservation updated successfully!";
-            return View("Reservations", await _RS.GetList());
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             if (await _RS.Delete(id))
             {
-                TempData["SuccessMessage"] = "Reservation deleted successfully!";
+                TempData["SuccessMessage"] = "Record deleted successfully!";
             }
             else
             {
-                TempData["ErrorMessage"] = "Failed to delete the reservation.";
+                TempData["ErrorMessage"] = "Failed to delete the record.";
             }
-
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> PaymentCompleted(int id)
+        {
+            var reservation = await _RS.GetById(id);
+            var payment = await _PS.GetById(reservation.PaymentID);
+            payment.Status = "Completed";
+            
+            if(await _PS.Update(payment)!=null)
+                TempData["SuccessMessage"] = "Record deleted successfully.";
+            else
+                TempData["ErrorMessage"] = "Failed to delete the record.";
             return RedirectToAction("Index");
         }
     }
@@ -183,14 +146,14 @@ namespace Resturant_PL.Controllers
     public class ReservationController : Controller
     {
         private readonly IReservationService _RS;
-        private readonly IBranchService _BR;
+        private readonly IBranchService _BS;
         private readonly IReservedTableService _RTS;
         private readonly IPaymentService _PS;
 
         public ReservationController(IReservationService reservationService, IBranchService bR, IReservedTableService rTS, IPaymentService pS)
         {
             this._RS = reservationService;
-            _BR = bR;
+            _BS = bR;
             _RTS = rTS;
             _PS = pS;
         }
@@ -215,7 +178,7 @@ namespace Resturant_PL.Controllers
 
             if ((checkOutDTO.reservation, checkOutDTO.reservedTable, checkOutDTO.Payment) == (null, null, null))
             {
-                 updateReservationDTO.Branches = await _BR.GetList();
+                 updateReservationDTO.Branches = await _BS.GetList();
                 return Json(new {success=false, message="No Seats Available for this Number of Guests." });
             }
 

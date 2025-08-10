@@ -8,42 +8,59 @@ using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using AutoMapper;
 using Castle.Core.Configuration;
+using Resturant_BLL.DTOModels.ReservationDTOS;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Resturant_BLL.Services
 {
     public class ReservationService : IReservationService
     {
-        private readonly IRepository<Reservation> _reservationRepo;
-        private readonly IRepository<table> _tableRepo;
-        private readonly IRepository<ReservedTable> _reservedTableRepo;
-        private readonly IRepository<Branch> _branchRepo;
-        
-
+        private readonly IRepository<Reservation> _RR;
+        private readonly IRepository<table> _TR;
+        private readonly IRepository<ReservedTable> _RTR;
+        private readonly IRepository<Branch> _BR;
+        private readonly IReservedTableService _RTS;
+        private readonly IPaymentService _PS;
+        private readonly IBranchService _BS;
+        private readonly UserManager<User> userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public ReservationService(IRepository<Reservation> reservationRepo,
                            IRepository<table> tableRepo,
                            IRepository<ReservedTable> reservedTableRepo,
-                           IRepository<Branch> branchRepo)
+                           IRepository<Branch> branchRepo,
+                           IReservedTableService rTS,
+                           IPaymentService pS,
+                           UserManager<User> userManager,
+                           IBranchService bS,
+                           IHttpContextAccessor httpContextAccessor)
         {
-            _reservationRepo = reservationRepo;
-            _tableRepo = tableRepo;
-            _reservedTableRepo = reservedTableRepo;
-            _branchRepo = branchRepo;
-           
-            
+            _RR = reservationRepo;
+            _TR = tableRepo;
+            _RTR = reservedTableRepo;
+            _BR = branchRepo;
+            _RTS = rTS;
+            _PS = pS;
+            this.userManager = userManager;
+            _BS = bS;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
-        public async Task<Reservation?> Create(ReservationDTO dto)
+        private async Task<Reservation?> Create(ReservationDTO dto)
         {
             if (dto == null)
                 return null;
 
-            Reservation mappedReservation = new ReservationMapper().MapToReservation(dto);
-            mappedReservation.CreatedOn = DateTime.UtcNow;
-            mappedReservation.CreatedBy = "Current User";
-            mappedReservation.IsDeleted = false;
-            await _reservationRepo.Create(mappedReservation);
-            return mappedReservation;
+            var reservation = new ReservationMapper().MapToReservation(dto);
+           
+            reservation.CreatedOn = DateTime.UtcNow;
+
+            reservation.IsDeleted = false;
+            reservation.CreatedBy = dto.CreatedBy;
+
+            return reservation;
         }
 
         public async Task<(Reservation?, List<ReservedTable>?, Payment)> CreateQuickReservation(ReservationDTO dto)
@@ -51,16 +68,8 @@ namespace Resturant_BLL.Services
             if (dto == null) return (null, null, null);
 
             // Get all tables and reserved tables first
-            var allTables = await _tableRepo.GetAll();
-            var allReservedTables = await _reservedTableRepo.GetAll();
-
             // Get available tables at the specified time and branch
-            var availableTables = allTables
-                .Where(t => t.BranchID == dto.BranchID && !t.IsDeleted)
-                .Where(t => !allReservedTables
-                    .Any(rt => rt.DateTime == dto.DateTime && rt.TableID == t.TableID))
-                .OrderBy(t => t.Capacity)
-                .ToList();
+            var availableTables =await AvailableTables( dto);
 
             // Rest of the method remains the same...
             var selectedTables = FindOptimalTables(availableTables, dto.NumberOfGuests);
@@ -69,13 +78,8 @@ namespace Resturant_BLL.Services
             {
                 return (null, null, null);
             }
-
-            var reservation = new ReservationMapper().MapToReservation(dto);
-            reservation.Cost = reservation.NumberOfGuests * 5;
-            reservation.CreatedOn = DateTime.UtcNow;
-           
-            reservation.IsDeleted = false;
-            reservation.CreatedBy=dto.CreatedBy;
+            // create object without save in database
+            var reservation =await Create(dto);
 
             List<ReservedTable> reservedTables = new List<ReservedTable>();
             foreach (var table in selectedTables)
@@ -91,17 +95,32 @@ namespace Resturant_BLL.Services
                 reservedTables.Add(resrvedTable);
             }
 
-            Payment payment = new Payment
+             Payment payment = new Payment
             {
-                Amount = reservation.Cost,
+                Amount = dto.NumberOfGuests*5,
                 Status = "Progress",
+                PaymentMethod="Cash",
                 CreatedBy = dto.CreatedBy,
                 CreatedOn = DateTime.UtcNow,
                 IsDeleted = false,
-                Date = DateTime.UtcNow,
+                Date = dto.DateTime,
             };
 
             return (reservation, reservedTables, payment);
+        }
+        private async Task<List<table>> AvailableTables(ReservationDTO dto)
+        {
+            var allTables = await _TR.GetAll();
+            var allReservedTables = await _RTR.GetAll();
+
+            // Get available tables at the specified time and branch
+            var availableTables = allTables
+                .Where(t => t.BranchID == dto.BranchID && !t.IsDeleted)
+                .Where(t => !allReservedTables
+                    .Any(rt => rt.DateTime == dto.DateTime && rt.TableID == t.TableID))
+                .OrderBy(t => t.Capacity)
+                .ToList();
+            return availableTables;
         }
         private List<table> FindOptimalTables(List<table> availableTables, int requiredCapacity)
         {
@@ -142,7 +161,7 @@ namespace Resturant_BLL.Services
         public async Task<UpdateReservationDTO?> GetCreateReservationInfo()
         {
             UpdateReservationDTO createChiefDTO = new UpdateReservationDTO();
-            createChiefDTO.Branches = (await _branchRepo.GetAll())
+            createChiefDTO.Branches = (await _BR.GetAll())
                 .Where(b => b.IsDeleted == false)
                 .Select(b => new BranchMapper().MapToBranchDTO(b))
                 .ToList();
@@ -153,33 +172,101 @@ namespace Resturant_BLL.Services
         {
             if (dto == null)
                 return null;
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            Reservation oldReservation=await _RR.GetByID(dto.ReservationID);
+            List<ReservedTable> allReservedTables = await _RTR.GetAll();
+            // delete the reserved tables from database for this reservation
+            List<ReservedTable> targetReservedTables = allReservedTables.Where(b => b.IsDeleted == false)
+                .Where(b=>b.DateTime== oldReservation.DateTime).ToList();
+           
+            foreach (var table in targetReservedTables)
+            {
+              await _RTS.Delete(table);
+            }
+            // get availabe tebes for the update reservation
+            List<table> availableTables = await AvailableTables(dto);
+            var selectedTables = FindOptimalTables(availableTables, dto.NumberOfGuests);
+            // return the old availabe tables to the database with new id
+            // the update operation is failed
+            if (selectedTables.Count == 0 || selectedTables == null)
+            {
+                foreach (var table in targetReservedTables)
+                {
+                    await _RTS.Create(table);
+                }
+                return null;
+            }
+            List<ReservedTable> reservedTables = new List<ReservedTable>();
+            foreach (var table in selectedTables)
+            {
+                var resrvedTable = new ReservedTable
+                {
+                    TableID = table.TableID,
+                    ReservationID = dto.ReservationID,
+                    DateTime = dto.DateTime,
+                    CreatedBy = user.FirstName+" "+user.LastName,
+                    CreatedOn = DateTime.UtcNow,
+                };
+                reservedTables.Add(resrvedTable);
+            }
+            // insert to the database the new reserved tables records based on the update
+            foreach (var reservedTable in reservedTables)
+            {
+                reservedTable.ReservationID = dto.ReservationID;
+                await _RTS.Create(reservedTable);
+            }
+            // update the payment
+            PaymentDTO payement = new PaymentDTO
+            {
+                Amount = dto.NumberOfGuests * 5,
+                PaymentMethod="Cash",
+                Date=dto.DateTime,
+                PaymentID=dto.PaymentID,
+                Status="Progress"
+            };
+            await _PS.Update(payement);
 
-            var reservation = new ReservationMapper().MapToReservation(dto);
-            reservation.ModifiedOn = DateTime.UtcNow;
-            reservation.ModifiedBy = "Current User";
-            reservation.IsDeleted = false;
+           
+           
+            oldReservation.BranchID = dto.BranchID;
+            oldReservation.NumberOfGuests = dto.NumberOfGuests;
+            oldReservation.DateTime = dto.DateTime;
+            oldReservation.ModifiedOn = DateTime.UtcNow;
+            oldReservation.ModifiedBy = user.FirstName + " " + user.LastName;
+            oldReservation.IsDeleted = false;
 
-            await _reservationRepo.Update(reservation);
-            return reservation;
+            await _RR.Update(oldReservation);
+            return oldReservation;
         }
 
         public async Task<bool> Delete(int id)
         {
-            var reservation = await _reservationRepo.GetByID(id);
+            var reservation = await _RR.GetByID(id);
+           
             if (reservation == null || reservation.IsDeleted)
                 return false;
 
+            if(await _PS.Delete(reservation.PaymentID))
+            {
+                foreach(var reservedTable in reservation.ReservedTables)
+                {
+                    if(! await _RTS.Delete(reservedTable.ReservedTableID))
+                        return false;
+                }
+            }
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
             reservation.IsDeleted = true;
             reservation.DeletedOn = DateTime.UtcNow;
-            reservation.DeletedBy = "Current User";
+            reservation.DeletedBy = user.FirstName + " " + user.LastName;
 
-            await _reservationRepo.Update(reservation);
+            await _RR.Update(reservation);
             return true;
         }
 
         public async Task<ReservationDTO?> GetById(int id)
         {
-            var reservation = await _reservationRepo.GetByID(id);
+            var reservation = await _RR.GetByID(id);
             if (reservation == null || reservation.IsDeleted)
                 return null;
 
@@ -188,7 +275,7 @@ namespace Resturant_BLL.Services
 
         public async Task<List<ReservationDTO>> GetList()
         {
-            var reservations = (await _reservationRepo.GetAll())
+            var reservations = (await _RR.GetAll())
                 .Where(r => !r.IsDeleted)
                 .ToList();
 
@@ -197,13 +284,50 @@ namespace Resturant_BLL.Services
 
         public async Task<int?> Create(Reservation reservation)
         {
-            return await _reservationRepo.Create(reservation);
+            return await _RR.Create(reservation);
         }
         public async Task<List<ReservationDTO>> GetReservationsByUserId(string userId)
         {
-            var reservations = await _reservationRepo.GetAllAsync(r => r.UserID == userId);
+            var reservations = await _RR.GetAllAsync(r => r.UserID == userId);
 
             return new ReservationMapper().MapToReservationDTOList(reservations);
+
+        }
+
+        public async Task<bool> FinishQuickReservation(UpdateReservationDTO updateReservationDTO)
+        {
+            CheckOutDTO checkOutDTO = new CheckOutDTO();
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            updateReservationDTO.ReservationDTO.CreatedBy = user.FirstName + " " + user.LastName;
+            var quickReservationResult = await CreateQuickReservation(updateReservationDTO.ReservationDTO);
+            checkOutDTO.reservation = quickReservationResult.Item1;
+            checkOutDTO.reservedTable = quickReservationResult.Item2;
+            checkOutDTO.Payment = quickReservationResult.Item3;
+
+            if ((checkOutDTO.reservation, checkOutDTO.reservedTable, checkOutDTO.Payment) == (null, null, null))
+            {
+                updateReservationDTO.Branches = await _BS.GetList();
+                return  false;
+            }
+
+            int paymentID = (await _PS.Create(checkOutDTO.Payment)) ?? 0;
+            if (paymentID != 0)
+            {
+                checkOutDTO.reservation.PaymentID = paymentID;
+                checkOutDTO.reservation.UserID = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                int reservationID = (await Create(checkOutDTO.reservation)) ?? 0;
+                if (reservationID != 0)
+                {
+                    foreach (var r in checkOutDTO.reservedTable)
+                    {
+                        r.ReservationID = reservationID;
+                        await _RTS.Create(r);
+                    }
+                }
+            }
+
+            return  true;
 
         }
     }

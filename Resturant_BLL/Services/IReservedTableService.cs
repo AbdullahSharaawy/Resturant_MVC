@@ -12,12 +12,12 @@ namespace Resturant_BLL.Services
 {
     public interface IReservedTableService
     {
-        public Task<ReservedTable?> Create(ReservedTableDTO dto);
-        public Task<ReservedTable?> Update(ReservedTableDTO dto);
+       
+       
+
+        public Task<bool> Delete(ReservedTable reservedTable);
 
         public Task<bool> Delete(int id);
-
-
         public  Task<ReservedTableDTO?> GetById(int id);
 
 
