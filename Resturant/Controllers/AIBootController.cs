@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-public class GeminiController : Controller
+public class AIBootController : Controller
 {
     private readonly GeminiService _geminiService;
 
-    public GeminiController(IConfiguration configuration)
+    public AIBootController(IConfiguration configuration)
     {
         var apiKey = configuration["Gemini:ApiKey"];
         _geminiService = new GeminiService(apiKey);

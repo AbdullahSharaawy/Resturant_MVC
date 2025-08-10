@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
@@ -20,12 +21,13 @@ namespace Resturant_BLL.Services
         public async Task<List<MenueItemDTO>> GetList()
         {
             List<MenueItem> MenuItems = await _CR.GetAll();
+            MenuItems = MenuItems.Where(a => !a.IsDeleted).ToList();
             if (MenuItems == null || MenuItems.Count == 0)
             {
-                return null;
+                return new List<MenueItemDTO>();
             }
             List<MenueItemDTO> MenuItemDTOs = new MenueItemMapper().MapToMenueItemDTOList(MenuItems);
-            return new List<MenueItemDTO>();
+            return MenuItemDTOs;
         }
 
         public async Task<MenueItemDTO?> GetById(int id)
@@ -50,6 +52,7 @@ namespace Resturant_BLL.Services
             menuItem.CreatedBy = "Current User";
             menuItem.IsDeleted = false;
             await _CR.Create(menuItem);
+
             return menueItem;
         }
 

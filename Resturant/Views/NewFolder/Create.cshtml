@@ -1,0 +1,122 @@
+﻿@using Resturant_BLL.DTOModels.ReservationDTOS
+ @model UpdateReservationDTO
+
+@{
+    Layout = "_ManagementLayout";
+}
+
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+         
+        .dark-form-container {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 2rem;
+            border-radius: .5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,.5);
+        }
+        .dark-form-container .form-control,
+        .dark-form-container .form-select {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border: 1px solid #495057;
+        }
+        .dark-form-container .form-control:focus,
+        .dark-form-container .form-select:focus {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0,123,255,.25);
+        }
+        .dark-form-container .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        .dark-form-container .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .dark-form-container .btn-dark {
+            background-color: #343a40;
+            border-color: #495057;
+            color: #f8f9fa;
+            transition: background-color .2s, border-color .2s;
+        }
+        .dark-form-container .btn-dark:hover {
+            background-color: #495057;
+            border-color: #5a6268;
+            color: #fff;
+        }
+        .dark-form-container .text-danger { color: #dc3545 !important; }
+    </style>
+
+    <form action="/Reservation/SaveNew" method="post" class="needs-validation dark-form-container">
+        @Html.AntiForgeryToken()
+
+        <h2 class="text-center mb-4">Create Reservation</h2>
+
+        <div class="mb-3">
+            <label asp-for="ReservationDTO.DateTime" class="form-label">Date & Time</label>
+            <input class="form-control" type="datetime-local" asp-for="ReservationDTO.DateTime" required />
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.DateTime"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ReservationDTO.NumberOfGuests" class="form-label">Number of Guests</label>
+            <input class="form-control" type="number" min="1" asp-for="ReservationDTO.NumberOfGuests" required />
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.NumberOfGuests"></span>
+            </div>
+        </div>
+        @* <div class="mb-3"> *@
+        @*     <label asp-for="ReservationDTO.Status" class="form-label">Status</label> *@
+        @*     <input class="form-control" type="text" asp-for="ReservationDTO.Status" /> *@
+        @*     <div class="text-danger"> *@
+        @*         <span asp-validation-for="ReservationDTO.Status"></span> *@
+        @*     </div> *@
+        @* </div> *@
+
+        <div class="mb-3">
+            <label class="form-label">Branch</label>
+            <select class="form-select" asp-for="ReservationDTO.BranchID" required>
+                <option value="">-- Select Branch --</option>
+                @if (Model?.Branches != null)
+                {
+                    foreach (var item in Model.Branches)
+                    {
+                        <option value="@item.BranchID">
+                            @item.City Branch
+                        </option>
+                    }
+                }
+            </select>
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.BranchID"></span>
+            </div>
+        </div>
+
+        
+        @*
+        <div class="mb-3">
+        <label asp-for="ReservationDTO.PaymentMethod" class="form-label">Payment Method</label>
+        <input class="form-control" type="text" asp-for="ReservationDTO.PaymentMethod" />
+        <div class="text-danger">
+        <span asp-validation-for="ReservationDTO.PaymentMethod"></span>
+        </div>
+        </div>
+        
+        *@
+
+        <button class="btn btn-dark" type="submit">Submit</button>
+        <a class="btn btn-outline-light ms-2" href="/Reservation/Index">Back</a>
+    </form>
+</div>

@@ -1,5 +1,5 @@
-﻿@using Resturant_BLL.DTOModels.ChifDTOS
-@model UpdateChiefDTO
+﻿@using Resturant_DAL.Entities
+@model AdminOrderDTO
 
 @{
     Layout = "_ManagementLayout";
@@ -88,57 +88,82 @@
             }
     </style>
 
-    <form action="/Chief/SaveEdit" method="post" class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Table Details</h2>
-        
+    <form action="/AdminOrder/SaveNew" method="post" class="needs-validation dark-form-container">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <h2 class="text-center mb-4">Add New Order</h2>
+
         <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.ChiefID" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="@Model.chiefDTO.ChiefID" readonly>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Name" class="form-label"></label>
-            <input class="form-control" type="text" asp-for="@Model.chiefDTO.Name" required />
+            <label asp-for="@Model.UserID" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.UserID" required />
             <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Name"></span>
+                <span asp-validation-for="@Model.UserID"></span>
             </div>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Email" class="form-label"></label>
-            <input class="form-control" type="email" asp-for="@Model.chiefDTO.Email" required />
+            <label asp-for="@Model.Address" class="form-label"></label>
+            <input class="form-control" type="location" asp-for="@Model.Address" required />
             <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Email"></span>
+                <span asp-validation-for="@Model.Address"></span>
             </div>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.PhoneNumber" class="form-label"></label>
-            <input class="form-control" type="number" asp-for="@Model.chiefDTO.PhoneNumber" required />
+            <label asp-for="@Model.Weight" class="form-label"></label>
+            <input class="form-control" type="number" asp-for="@Model.Weight" required />
             <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.PhoneNumber"></span>
+                <span asp-validation-for="@Model.Weight"></span>
             </div>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Position" class="form-label"></label>
-            <input class="form-control" type="text" asp-for="@Model.chiefDTO.Position" required />
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Position"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Branch</label>
-            <select class="form-control" asp-for="@Model.chiefDTO.BranchID">
-                @foreach (var item in Model.Branches)
+            <label class="form-label">Order Items</label>
+            <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc; padding:10px;">
+                @if (Model.OrderItems != null && Model.OrderItems.Any())
                 {
-                    <option value="@item.BranchID" selected="@(item.BranchID == Model.chiefDTO.BranchID)">
-                        @item.City Branch
-                    </option>
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td>@item.ItemName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 }
-            </select>
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.BranchID"></span>
+                else
+                {
+                    <p class="text-muted mb-0">No items added yet.</p>
+                }
             </div>
-
         </div>
 
+        <div class="mb-3">
+            <label class="form-label">Order Status</label>
+            @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+            {
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           asp-for="OrderStatus"
+                           value="@status"
+                           id="status_@status" />
+                    <label class="form-check-label" for="status_@status">
+                        @status
+                    </label>
+                </div>
+            }
+            <div class="text-danger">
+                <span asp-validation-for="OrderStatus"></span>
+            </div>
+        </div>
         <button class="btn btn-dark" type="submit">Submit</button>
-        </form>
+    </form>
 </div>

@@ -10,13 +10,13 @@ namespace Resturant_BLL.DTOModels.ReservationDTOS
 {
     public class ReservationDTO
     {
-        public int ReservationID { get; set; }
-        public int NumberOfGuests { get; set; }
-
+        public int ReservationID { get; set; }  
+        public int NumberOfGuests { get;  set; }
         public DateTime DateTime { get; set; }
+        public string PaymentMethod { get;  set; }
+        public int PaymentID { get;  set; }
         public Payment Payment { get; set; }
         public List<ReservedTable> ReservedTables { get; set; }
-        public int PaymentID { get; set; }
         public string City { get; set; }
         public Branch Branch { get; set; }
         public int BranchID { get; set; }

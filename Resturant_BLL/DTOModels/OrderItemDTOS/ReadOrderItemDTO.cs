@@ -10,7 +10,7 @@ namespace Resturant_BLL.DTOModels.OrderItemDTOs
     {
         public int OrderItemID { get; private set; }
         public MenueItemDTO MenueItem { get;  set; }
-       
+       public string ItemName => MenueItem.Name;
         public int Quantity { get; set; }
         public decimal Price { get; set; }
     }

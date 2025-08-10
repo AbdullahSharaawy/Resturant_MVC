@@ -1,10 +1,8 @@
-﻿@using Resturant_BLL.DTOModels.ChifDTOS
-@model UpdateChiefDTO
+﻿@model AdminOrderDTO
 
 @{
     Layout = "_ManagementLayout";
 }
-
 <div class="container mt-4 pt-5">
     <style>
         body {
@@ -88,57 +86,45 @@
             }
     </style>
 
-    <form action="/Chief/SaveEdit" method="post" class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Table Details</h2>
-        
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.ChiefID" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="@Model.chiefDTO.ChiefID" readonly>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Name" class="form-label"></label>
-            <input class="form-control" type="text" asp-for="@Model.chiefDTO.Name" required />
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Name"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Email" class="form-label"></label>
-            <input class="form-control" type="email" asp-for="@Model.chiefDTO.Email" required />
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Email"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.PhoneNumber" class="form-label"></label>
-            <input class="form-control" type="number" asp-for="@Model.chiefDTO.PhoneNumber" required />
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.PhoneNumber"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.chiefDTO.Position" class="form-label"></label>
-            <input class="form-control" type="text" asp-for="@Model.chiefDTO.Position" required />
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.Position"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Branch</label>
-            <select class="form-control" asp-for="@Model.chiefDTO.BranchID">
-                @foreach (var item in Model.Branches)
-                {
-                    <option value="@item.BranchID" selected="@(item.BranchID == Model.chiefDTO.BranchID)">
-                        @item.City Branch
-                    </option>
-                }
-            </select>
-            <div class="text-danger">
-                <span asp-validation-for="@Model.chiefDTO.BranchID"></span>
-            </div>
+    <form action="/AdminMenuItems/SaveEdit" method="post" class="needs-validation dark-form-container">
+        <h2 class="text-center mb-4">Edit Menue Details</h2>
 
+        <div class="mb-3">
+            <label asp-for="@Model.UserID" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.UserID" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.UserID"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.OrderStatus" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.OrderStatus" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.OrderStatus"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Weight" class="form-label"></label>
+            <input class="form-control" type="number" asp-for="@Model.Weight" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Weight"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Address" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.Address" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.Address"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.ShipmentCost" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="@Model.ShipmentCost" required />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.ShipmentCost"></span>
+            </div>
         </div>
 
         <button class="btn btn-dark" type="submit">Submit</button>
-        </form>
+    </form>
 </div>

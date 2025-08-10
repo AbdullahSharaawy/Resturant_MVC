@@ -25,18 +25,18 @@ namespace Resturant_DAL.Entities
 
         [Key]
         public int ItemID { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public decimal Price { get; private set; }
-        public string Category { get; private set; }
-        public string? DietaryInfo { get; private set; }
-        public bool Availability { get; private set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string Category { get; set; }
+        public string? DietaryInfo { get; set; }
+        public bool Availability { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedBy { get; set; }
-        public DateTime? DeletedOn { get;  set; }
-        public string? DeletedBy { get;  set; }
-        public bool IsDeleted { get;  set; }
+        public DateTime? DeletedOn { get; set; }
+        public string? DeletedBy { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

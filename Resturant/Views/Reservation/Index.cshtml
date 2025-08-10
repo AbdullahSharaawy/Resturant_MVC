@@ -1,4 +1,5 @@
-﻿ @model List<ReservationDTO>
+﻿@using Resturant_BLL.DTOModels.ReservationDTOS
+ @model List<ReservationDTO>
 
 @{
     Layout = "_ManagementLayout";
@@ -108,6 +109,9 @@
                     <td class="text-center">@item.User.FirstName @item.User.LastName</td>
                     <td class="text-center">@item.DateTime.ToString("MMM dd, yyyy hh:mm tt")</td>
                     <td class="text-center">@item.NumberOfGuests</td>
+                    @* <td class="text-center">@item.Status</td> *@
+                    <td class="text-center">@item.PaymentMethod</td>
+                    <td class="text-center">@item.City</td>
                     <td class="text-center">@item.Payment.Status</td>
                     <td class="text-center">@item.Payment.PaymentMethod</td>
                     <td class="text-center">@item.Payment.Amount</td>

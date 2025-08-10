@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels.OrderDTOs;
+﻿using Resturant_BLL.DTOModels.OrderDTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,11 @@ namespace Resturant_BLL.DTOModels.OrderDTOS
     public class MyOrdersDTO
     {
         
-
         public List<ReadOrderDTO> Orders { get; set; }
+
+        //public static implicit operator MyOrdersDTO(MyOrdersDTO v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Resturant_BLL.DTOModels.OrderItemDTOs;
 using Resturant_DAL.Entities;
 
-namespace Resturant_BLL.DTOModels.OrderDTOs
+namespace Resturant_BLL.DTOModels.OrderDTOS
 {
     public class ConfirmedOrderDTO
     {
