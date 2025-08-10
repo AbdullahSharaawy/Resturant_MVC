@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_ManagementLayout";
     ViewData["Title"] = "Admin Settings";
-}
+} 
 
 @section HeaderLinks {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -82,29 +82,7 @@
 
 @section Scripts {
     <script>
-        window.onload = function () {
-            GetUserProfileInfoForm();
-        };
-        function GetUserProfileInfoForm() {
-            event.preventDefault();
-
-            $.ajax({
-                url: "/UserProfile/UserProfileInfo", success: function (result) {
-                    $("#profile").html(result);
-                }
-            });
-
-        }
-        function GetQuickResrvationForm() {
-            event.preventDefault();
-
-            $.ajax({
-                url: "/Reservation/QuickReservationForm", success: function (result) {
-                    $("#QuickReservation").html(result);
-                }
-            });
-
-        }
+        
         function GetSettingsForm() {
             event.preventDefault();
 
@@ -116,75 +94,7 @@
 
         }
 
-        function GetMyReservations() {
-            event.preventDefault();
-
-            $.ajax({
-                url: "/Reservation/MyReservations",
-                success: function (result) {
-                    $("#reservations").html(result);
-                }
-            });
-        }
-        function GetMyOrders() {
-            event.preventDefault();
-
-        }
-
-        $(document).on('submit', '#userProfileInfo', function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: '/UserProfile/SaveEditProfileInfo',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        // Immediately redirect to the confirmation page
-                        window.location.href = response.redirectUrl;
-
-
-                    } else {
-                        $('#notificationModalLabel').text("Error");
-                        $('#notificationModalBody').text(response.message);
-                        $('#notificationModal').modal('show');
-                    }
-                },
-                error: function () {
-                    $('#notificationModalLabel').text("Error");
-                    $('#notificationModalBody').text('Please enter valid data.');
-                    $('#notificationModal').modal('show');
-                }
-            });
-        });
-
-        $(document).on('submit', '#quickReservationForm', function (e) {
-            e.preventDefault(); // prevent page refresh
-            console.log("hi");
-            $.ajax({
-                url: '/Reservation/SaveQuickReservation',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        // Set the message and show the modal
-                        $('#notificationModalBody').text(response.message);
-                        $('#notificationModal').modal('show');
-                    } else {
-
-                        $('#notificationModalLabel').text("Error");
-                        $('#notificationModalBody').text(response.message);
-                        $('#notificationModal').modal('show');
-                    }
-                },
-                error: function () {
-
-                    $('#notificationModalLabel').text("Error");
-                    $('#notificationModalBody').text('Please enter a valid data.');
-                    $('#notificationModal').modal('show');
-                }
-            });
-        });
+       
         $(document).on('submit', '#Settings', function (e) {
             e.preventDefault(); // prevent page refresh
             console.log("hi");

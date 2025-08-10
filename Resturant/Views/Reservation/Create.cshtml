@@ -1,10 +1,12 @@
-﻿ @model Resturant_BLL.DTOModels.UpdateReservationDTO
+﻿ @model UpdateReservationDTO
 
 @{
     Layout = "_ManagementLayout";
 }
+
 <div class="container mt-4 pt-5">
     <style>
+
         body {
             background-image: url("@Url.Content("~/Files/3274764.jpg")");
             background-size: cover;
@@ -65,19 +67,13 @@
             color: #dc3545 !important;
         }
     </style>
-
-    <form action="/Reservation/SaveEdit" method="post" class="needs-validation dark-form-container">
+     <partial name="_NotificationModal" />
+    <form id="NewReservation" method="post" class="needs-validation dark-form-container">
         @Html.AntiForgeryToken()
 
-        <h2 class="text-center mb-4">Edit Reservation Details</h2>
+        <h2 class="text-center mb-4">New Reservation</h2>
 
-    
-        <div class="mb-3">
-            <label asp-for="ReservationDTO.ReservationID" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="ReservationDTO.ReservationID" readonly />
-        </div>
 
-       
         <div class="mb-3">
             <label asp-for="ReservationDTO.DateTime" class="form-label">Date & Time</label>
             <input class="form-control" type="datetime-local" asp-for="ReservationDTO.DateTime" required />
@@ -86,7 +82,7 @@
             </div>
         </div>
 
-         
+
         <div class="mb-3">
             <label asp-for="ReservationDTO.NumberOfGuests" class="form-label">Number of Guests</label>
             <input class="form-control" type="number" min="1" asp-for="ReservationDTO.NumberOfGuests" required />
@@ -94,22 +90,16 @@
                 <span asp-validation-for="ReservationDTO.NumberOfGuests"></span>
             </div>
 
-            @* <div class="mb-3"> *@
-            @*     <label asp-for="ReservationDTO.Status" class="form-label">Status</label> *@
-            @*     <input class="form-control" type="text" asp-for="ReservationDTO.Status" /> *@
-            @*     <div class="text-danger"> *@
-            @*         <span asp-validation-for="ReservationDTO.Status"></span> *@
-            @*     </div> *@
-            @* </div> *@
+
         </div>
 
-         
+
         <div class="mb-3">
             <label class="form-label">Branch</label>
             <select class="form-select" asp-for="ReservationDTO.BranchID" required>
                 @foreach (var item in Model.Branches)
                 {
-                    <option value="@item.BranchID" selected="@(item.BranchID == Model.ReservationDTO.BranchID)">
+                    <option value="@item.BranchID">
                         @item.City Branch
                     </option>
                 }
@@ -119,18 +109,44 @@
             </div>
         </div>
 
-        
-        @*
-        <div class="mb-3">
-        <label asp-for="ReservationDTO.PaymentMethod" class="form-label">Payment Method</label>
-        <input class="form-control" type="text" asp-for="ReservationDTO.PaymentMethod" />
-        <div class="text-danger">
-        <span asp-validation-for="ReservationDTO.PaymentMethod"></span>
-        </div>
-        </div>
-        *@
+
+       
 
         <button class="btn btn-dark" type="submit">Submit</button>
         <a class="btn btn-outline-light ms-2" href="/Reservation/Index">Back</a>
     </form>
 </div>
+@section Scripts {
+    <script>
+
+
+
+        $(document).on('submit', '#NewReservation', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Reservation/SaveQuickReservation',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+    </script>
+}

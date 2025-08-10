@@ -21,7 +21,7 @@ namespace Resturant_PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddHttpContextAccessor();
             var con = builder.Configuration.GetConnectionString("DefaultConnection");
 
             //builder.Services.AddDbContext<SharaawyContext>(options => options.UseSqlServer(con));

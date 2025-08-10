@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
@@ -12,62 +14,46 @@ namespace Resturant_BLL.Services
 {
     public class ReservedTableService : IReservedTableService
     {
-        private readonly IRepository<ReservedTable> _reservedTableRepo;
-        private readonly IRepository<table> _tableRepo;
-
-        public ReservedTableService(IRepository<ReservedTable> reservedRepo, IRepository<table> tableRepo)
+        private readonly IRepository<ReservedTable> _RTR;
+        private readonly IRepository<table> _TR;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<User> _userManager;
+        public ReservedTableService(IRepository<ReservedTable> reservedRepo, IRepository<table> tableRepo, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager = null)
         {
-            _reservedTableRepo = reservedRepo;
-            _tableRepo = tableRepo;
+            _RTR = reservedRepo;
+            _TR = tableRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
         }
 
-        public async Task<ReservedTable?> Create(ReservedTableDTO dto)
-        {
-            if (dto == null)
-                return null;
 
-            ReservedTable mappedReservedTable = new ReservedTableMapper().MapToReservedTable(dto);
-            mappedReservedTable.CreatedOn = DateTime.UtcNow;
-            mappedReservedTable.CreatedBy = "Current User";
-            mappedReservedTable.IsDeleted = false;
-            await _reservedTableRepo.Create(mappedReservedTable);
-            return mappedReservedTable;
-        }
 
-        public async Task<ReservedTable?> Update(ReservedTableDTO dto)
-        {
-            if (dto == null)
-            {
-                return null;
-            }
-
-            ReservedTable UpdatedReservedTable = await _reservedTableRepo.GetByID(dto.ReservedTableID);
-            UpdatedReservedTable.TableID = dto.TableID;
-            UpdatedReservedTable.ReservationID = dto.ReservationID;
-            UpdatedReservedTable.ModifiedBy = "user";
-            UpdatedReservedTable.ModifiedOn = DateTime.UtcNow;
-            UpdatedReservedTable.DateTime = dto.DateTime;
-            UpdatedReservedTable.ModifiedBy = "Current User";
-            await _reservedTableRepo.Update(UpdatedReservedTable);
-            return UpdatedReservedTable;
-        }
 
         public async Task<bool> Delete(int id)
         {
-            var entity = await _reservedTableRepo.GetByID(id);
-            if (entity == null || entity.IsDeleted) return false;
+            ReservedTable t = await _RTR.GetByID(id);
+            if (t == null || t.IsDeleted == true)
+            {
+                return false;
+            }
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
-            entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.UtcNow;
-            entity.DeletedBy = "Current User";
-
-            await _reservedTableRepo.Update(entity);
+            t.IsDeleted = true;
+            t.DeletedOn = DateTime.UtcNow;
+            t.DeletedBy = user.FirstName+" "+user.LastName;
+            await _RTR.Update(t);
             return true;
         }
-
+        public async Task<bool> Delete(ReservedTable reservedTable)
+        {
+            if (reservedTable == null ) return false;
+            await _RTR.Delete(reservedTable);
+            return true;
+        }
+        
         public async Task<ReservedTableDTO?> GetById(int id)
         {
-            var entity = await _reservedTableRepo.GetByID(id);
+            var entity = await _RTR.GetByID(id);
             if (entity == null || entity.IsDeleted) return null;
 
             return new ReservedTableMapper().MapToReservedTableDTO(entity);
@@ -75,7 +61,7 @@ namespace Resturant_BLL.Services
 
         public async Task<List<ReservedTableDTO>> GetList()
         {
-            var all = (await _reservedTableRepo.GetAll())
+            var all = (await _RTR.GetAll())
                 .Where(r => !r.IsDeleted)
                 .ToList();
 
@@ -84,7 +70,7 @@ namespace Resturant_BLL.Services
 
         public async Task Create(ReservedTable reservedTable)
         {
-            await _reservedTableRepo.Create(reservedTable);
+            await _RTR.Create(reservedTable);
         }
     }
 }

@@ -18,8 +18,26 @@ namespace Resturant_DAL.ImplementRepository
 
         public async Task<int?> Create(ReservedTable entity)
         {
-            _context.Add(entity);
-            await _context.SaveChangesAsync();
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+
+            if (entity.ReservedTableID > 0)
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    "SET IDENTITY_INSERT ReservedTable ON");
+
+                _context.ReservedTable.Add(entity);
+                await _context.SaveChangesAsync();
+
+                await _context.Database.ExecuteSqlRawAsync(
+                    "SET IDENTITY_INSERT ReservedTable OFF");
+            }
+            else
+            {
+                _context.ReservedTable.Add(entity);
+                await _context.SaveChangesAsync();
+            }
+
+            await transaction.CommitAsync();
             return entity.ReservedTableID;
         }
 

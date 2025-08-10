@@ -10,7 +10,7 @@ namespace Resturant_DAL.Entities
         public Reservation() { }
 
         public Reservation(int reservationID, int numberOfGuests, DateTime dateTime,
-                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID, decimal cost)
+                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID)
         {
             ReservationID = reservationID;
             NumberOfGuests = numberOfGuests;
@@ -21,7 +21,7 @@ namespace Resturant_DAL.Entities
             CreatedBy = createdBy;
             BranchID = branchID;
             UserID = userID;
-            Cost = cost;
+           
         }
 
         [Key]
@@ -29,8 +29,6 @@ namespace Resturant_DAL.Entities
 
         public int NumberOfGuests { get;  set; }
 
-       
-        public decimal Cost { get; set; }
         public DateTime DateTime { get;  set; }
 
         [ForeignKey("Payment")]
