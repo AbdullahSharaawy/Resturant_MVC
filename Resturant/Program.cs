@@ -8,6 +8,10 @@ using Chief_BLL.Services;
 using Microsoft.AspNetCore.Identity;
 using Resturant_BLL.ImplementServices;
 using Resturant_BLL.Mapperly;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Resturant_PL.Language;
 
 
 
@@ -20,7 +24,16 @@ namespace Resturant_PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization(options =>
+{
+    options.DataAnnotationLocalizerProvider = (type, factory) =>
+        factory.Create(typeof(SharedResource));
+});
+            ;
+  
+    
             builder.Services.AddHttpContextAccessor();
             var con = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -116,6 +129,24 @@ namespace Resturant_PL
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            var supportedCultures = new[] {
+                      new CultureInfo("ar-EG"),
+                      new CultureInfo("en-US"),
+                };
+
+
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+                RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                new QueryStringRequestCultureProvider(),
+                new CookieRequestCultureProvider()
+                }
+            });
             app.Run();
         }
     }

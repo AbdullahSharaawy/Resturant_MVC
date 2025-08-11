@@ -10,3 +10,8 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Resturant_BLL.DTOModels.OrderDTOS
 @using Resturant_BLL.DTOModels.OrderItemDTOs
+ @using Microsoft.Extensions.Localization
+@using Resturant_PL.Language
+
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+ 
