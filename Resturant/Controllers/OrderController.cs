@@ -73,26 +73,26 @@ namespace Resturant_PL.Controllers
         }
 
 
-        //public async Task<IActionResult> MyOrders()
-        //{
-        //    var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        public async Task<IActionResult> MyOrders()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        //    if (string.IsNullOrEmpty(userId))
-        //    {
-        //        return Unauthorized(); // Redirect or show error
-        //    }
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Redirect or show error
+            }
 
-        //    var orders = await _orderService.GetOrdersByUserId(userId);
+            var orders = await _orderService.GetMyOrdersByUserId(userId);
 
 
-        //    var model = new MyOrdersDTO
-        //    {
-        //        Orders = orders
+            var model = new MyOrdersDTO
+            {
+                Orders = orders
 
-        //    };
+            };
 
-        //    return PartialView("_MyOrders", model);
-        //}
+            return PartialView("_MyOrders", model);
+        }
 
     }
 }

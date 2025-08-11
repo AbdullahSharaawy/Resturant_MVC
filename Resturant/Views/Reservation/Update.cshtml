@@ -64,6 +64,16 @@
         .dark-form-container .text-danger {
             color: #dc3545 !important;
         }
+        /* Make OK button close to black */
+        #notificationModal .btn-primary {
+            background-color: #212529; /* Bootstrap dark shade */
+            border-color: #212529;
+        }
+
+            #notificationModal .btn-primary:hover {
+                background-color: #000; /* Pure black on hover */
+                border-color: #000;
+            }
     </style>
     <partial name="_NotificationModal" />
     <form id="UpdateReservation" method="post" class="needs-validation dark-form-container">

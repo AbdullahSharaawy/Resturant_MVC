@@ -545,5 +545,11 @@
                 });
             
         });
+        $(document).on('click', '.modify-btn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('item-id');
+            window.location.href = '/Reservation/UpdateMyReservation/' + id;
+        });
+
     </script>
 }

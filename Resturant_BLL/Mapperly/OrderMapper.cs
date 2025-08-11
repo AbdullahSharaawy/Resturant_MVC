@@ -8,6 +8,8 @@ namespace Resturant_BLL.Mapperly
     public partial class OrderMapper
     {
         public partial AdminOrderDTO MapToAdminOrderDTO(Order order);
+        public partial ReadOrderDTO MapToReadMyOrderDTO(Order order);
+        public partial List<ReadOrderDTO> MapToMyOrderDTOList(List<Order> orders);
         public partial DraftOrderDTO MapToDraftOrderDTO(Order order);
         public partial ReadOrderDTO MapToReadtOrderDTO(Order order);
         public partial ConfirmedOrderDTO MapToConfirmedOrderDTO(Order order);

@@ -17,5 +17,7 @@ namespace Resturant_BLL.Services
         public Task<Order> CreateDraftOrder();
         public Task<ConfirmedOrderDTO?> ConfirmOrder(ConfirmedOrderDTO orderDTO);
         public Task<bool> Delete(int id);
+        public Task<List<ReadOrderDTO>> GetMyOrdersByUserId(string userId);
+        public Task<List<ReadOrderDTO>?> FilterMyOrdersBy(Expression<Func<Order, bool>> filter);
     }
 }

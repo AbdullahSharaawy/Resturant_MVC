@@ -74,6 +74,10 @@ namespace Resturant_BLL.Services
             return new OrderMapper().MapToAdminOrderDTO(modifiedOrder);
 
         }
+        public async Task<List<ReadOrderDTO>> GetMyOrdersByUserId(string userId)
+        {
+            return await FilterMyOrdersBy(order => order.UserID == userId);
+        }
         public async Task<List<AdminOrderDTO>> GetOrdersByUserId(string userId)
         {
             return await FilterBy(order => order.UserID == userId);
@@ -86,6 +90,17 @@ namespace Resturant_BLL.Services
                 return null;
             }
             List<AdminOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
+            return ordersDTO;
+        }
+        public async Task<List<ReadOrderDTO>?> FilterMyOrdersBy(Expression<Func<Order, bool>> filter)
+        {
+            List<Order> orders = await _CR.GetAllAsync(filter);
+            if (orders == null || orders.Count == 0)
+            {
+                return null;
+            }
+            List<ReadOrderDTO> ordersDTO = new OrderMapper().MapToMyOrderDTOList(orders);
+           
             return ordersDTO;
         }
         public async Task<DraftOrderDTO?> GetDraftOrderById(int id)

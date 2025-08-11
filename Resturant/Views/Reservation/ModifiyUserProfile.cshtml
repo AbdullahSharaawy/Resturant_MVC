@@ -1,0 +1,224 @@
+﻿ @model UpdateReservationDTO
+
+@section HeaderLinks {
+    <partial name="_HeaderLinks" />
+}
+
+<style>
+    /* Style for readonly inputs to match the others */
+    .form-control[readonly] {
+        background-color: #24211b; /* A lighter dark shade from the second code block */
+        color: var(--dark-text);
+        border: 1px solid var(--dark-border);
+        opacity: 1; /* Override the default browser opacity for readonly fields */
+    }
+    /* Use the color palette from the second code block */
+    :root {
+        --primary-color: #cda45e;
+        --secondary-color: #fff;
+        --dark-bg: #0c0b09;
+        --dark-card: #1a1814;
+        --dark-border: #2a2723;
+        --dark-text: #fff;
+        --dark-muted: #aaaaaa;
+    }
+
+    /* Apply the dark background image and style from the first code block, but with the new color palette */
+  
+
+    /* Container for forms and sections, combining styles from both blocks */
+    .dark-form-container, .profile-section {
+        background-color: var(--dark-card); /* Use the card background color from the second code block */
+        color: var(--dark-text); /* Light text from the second code block */
+        padding: 2rem;
+        border-radius: .5rem;
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.5); /* Use a more prominent shadow */
+        border: 1px solid var(--dark-border); /* Add the subtle border */
+    }
+
+    /* Input field styling, using the new color palette */
+    .form-control,
+    .form-select {
+        background-color: #24211b; /* A lighter dark shade from the second code block */
+        color: var(--dark-text);
+        border: 1px solid var(--dark-border);
+    }
+
+    /* Input field focus state, using the primary color from the second block */
+    .form-control:focus,
+    .form-select:focus {
+        background-color: #2a2721;
+        color: var(--dark-text);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(205, 164, 94, 0.25);
+    }
+
+    /* Button styling, using the new color palette */
+    .btn-dark {
+        background-color: var(--dark-card); /* Use the dark card color for the dark button */
+        border-color: var(--dark-border);
+        color: var(--dark-text);
+        transition: all 0.3s ease-in-out;
+    }
+    .btn-dark:hover {
+        background-color: #2a2723; /* A slightly lighter shade on hover */
+        border-color: #3a362e;
+        color: var(--secondary-color);
+    }
+
+    .btn-outline-light {
+        color: var(--dark-muted);
+        border-color: var(--dark-border);
+        background-color: transparent;
+        transition: all 0.3s;
+    }
+    .btn-outline-light:hover {
+        background-color: #2a2723;
+        border-color: var(--dark-border);
+        color: var(--dark-text);
+    }
+
+    /* Error message styling */
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
+    /* Make OK button close to black, using the new palette */
+    #notificationModal .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: #1a1814;
+    }
+
+    #notificationModal .btn-primary:hover {
+        background-color: #d4af6a;
+        border-color: #d4af6a;
+        color: #1a1814;
+    }
+
+    /* Modal styling from the second block */
+    .modal-body {
+        color: var(--dark-text);
+    }
+
+    .modal-content {
+        background-color: var(--dark-card);
+        border: 1px solid var(--dark-border);
+        color: var(--dark-text);
+    }
+
+    .modal-header,
+    .modal-footer {
+        border-color: var(--dark-border);
+    }
+
+    .modal-header .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    /* Heading style from the second code block, adapted for the form */
+    .form-heading {
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+        text-align: center;
+    }
+
+    .form-heading:after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: var(--primary-color);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    body {
+        background-color: #cda45e;
+        /* ... other styles for the body ... */
+    }
+</style>
+
+<div class="container mt-4 pt-5">
+    <partial name="_NotificationModal" />
+    <form id="UpdateReservation" method="post" class="needs-validation dark-form-container">
+        
+        <h2 class="form-heading">Edit Reservation Details</h2>
+
+        <input type="hidden" asp-for="@Model.ReservationDTO.PaymentID" />
+        <div class="mb-3">
+            <label asp-for="ReservationDTO.ReservationID" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="ReservationDTO.ReservationID" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ReservationDTO.DateTime" class="form-label">Date & Time</label>
+            <input class="form-control" type="datetime-local" asp-for="ReservationDTO.DateTime" required />
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.DateTime"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ReservationDTO.NumberOfGuests" class="form-label">Number of Guests</label>
+            <input class="form-control" type="number" min="1" asp-for="ReservationDTO.NumberOfGuests" required />
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.NumberOfGuests"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Branch</label>
+            <select class="form-select" asp-for="ReservationDTO.BranchID" required>
+                @foreach (var item in Model.Branches)
+                {
+                    <option value="@item.BranchID" selected="@(item.BranchID == Model.ReservationDTO.BranchID)">
+                        @item.City Branch
+                    </option>
+                }
+            </select>
+            <div class="text-danger">
+                <span asp-validation-for="ReservationDTO.BranchID"></span>
+            </div>
+        </div>
+
+        <button class="btn btn-dark" type="submit">Submit</button>
+        <a class="btn btn-outline-light ms-2" href="/UserProfile/Index">Back</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on('submit', '#UpdateReservation', function (e) {
+            e.preventDefault(); // prevent page refresh
+
+            $.ajax({
+                url: '/Reservation/SaveEdit',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please enter a valid data.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+    </script>
+}

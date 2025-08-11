@@ -82,7 +82,19 @@
 
 @section Scripts {
     <script>
-        
+            window.onload = function () {
+                GetUserProfileInfoForm();
+            };
+            function GetUserProfileInfoForm() {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "/UserProfile/UserProfileInfo", success: function (result) {
+                        $("#profile").html(result);
+                    }
+                });
+
+            }
         function GetSettingsForm() {
             event.preventDefault();
 
@@ -122,5 +134,31 @@
                 }
             });
         });
+            $(document).on('submit', '#userProfileInfo', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '/UserProfile/SaveEditProfileInfo',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            // Immediately redirect to the confirmation page
+                            window.location.href = response.redirectUrl;
+
+
+                        } else {
+                            $('#notificationModalLabel').text("Error");
+                            $('#notificationModalBody').text(response.message);
+                            $('#notificationModal').modal('show');
+                        }
+                    },
+                    error: function () {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text('Please enter valid data.');
+                        $('#notificationModal').modal('show');
+                    }
+                });
+            });
     </script>
 }

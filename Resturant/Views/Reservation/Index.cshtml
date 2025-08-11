@@ -5,10 +5,20 @@
     Layout = "_ManagementLayout";
 }
 
-<h2>Reservations</h2>
+<h2>Reservations Management</h2>
 
 <div class="container mt-4 pt-5">
     <style>
+        /* Make OK button close to black */
+        #notificationModal .btn-primary {
+            background-color: #212529; /* Bootstrap dark shade */
+            border-color: #212529;
+        }
+
+            #notificationModal .btn-primary:hover {
+                background-color: #000; /* Pure black on hover */
+                border-color: #000;
+            }
         body {
             background-image: url("@Url.Content("~/Files/3274764.jpg")");
             background-size: cover;
@@ -109,9 +119,9 @@
                     <td class="text-center">@item.User.FirstName @item.User.LastName</td>
                     <td class="text-center">@item.DateTime.ToString("MMM dd, yyyy hh:mm tt")</td>
                     <td class="text-center">@item.NumberOfGuests</td>
-                    @* <td class="text-center">@item.Status</td> *@
-                    <td class="text-center">@item.PaymentMethod</td>
-                    <td class="text-center">@item.City</td>
+                   
+                    
+                   
                     <td class="text-center">@item.Payment.Status</td>
                     <td class="text-center">@item.Payment.PaymentMethod</td>
                     <td class="text-center">@item.Payment.Amount</td>

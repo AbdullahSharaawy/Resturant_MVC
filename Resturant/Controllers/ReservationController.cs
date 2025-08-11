@@ -138,6 +138,25 @@ namespace Resturant_PL.Controllers
                 TempData["ErrorMessage"] = "Failed to delete the record.";
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> UpdateMyReservation(int id)
+        {
+
+            var reservation = await _RS.GetById(id);
+            if (reservation == null)
+            {
+                return NotFound("Reservation not found.");
+            }
+
+            var updateModel = new UpdateReservationDTO
+            {
+                ReservationDTO = reservation,
+                Branches = await _BS.GetList()
+            };
+           
+            return View("ModifiyUserProfile",updateModel);
+
+           
+        }
     }
 }
 /*
