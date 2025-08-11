@@ -82,6 +82,8 @@ namespace Resturant_PL
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
                 option.SignIn.RequireConfirmedAccount = true;
+                
+
             }).AddEntityFrameworkStores<ResturantContext>().AddDefaultTokenProviders();
 
             builder.Services.AddAutoMapper(typeof(Program));
@@ -90,8 +92,11 @@ namespace Resturant_PL
             {
                 options.AddPolicy("AdminOnly", policy =>
                    policy.RequireRole("Admin"));
-                options.AddPolicy("EmailConfirmed", policy =>
-                    policy.RequireClaim("EmailConfirmed", "true"));
+                options.AddPolicy("ConfirmedEmail", policy =>
+    policy.RequireAssertion(context =>
+        context.User.HasClaim(c =>
+            c.Type == "EmailConfirmed" &&
+            c.Value == "true")));
             });
             
             var app = builder.Build();

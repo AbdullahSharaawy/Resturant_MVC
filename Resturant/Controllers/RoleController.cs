@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Resturant_BLL.DTOModels;
@@ -7,6 +8,8 @@ using Resturant_DAL.Entities;
 
 namespace Resturant_PL.Controllers
 {
+    [Authorize(Policy = "AdminOnly")]
+    [Authorize]
     public class RoleController : Controller
     {
         private readonly UserManager<User> _userManager;

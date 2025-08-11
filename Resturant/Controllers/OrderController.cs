@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.Services;
 
 namespace Resturant_PL.Controllers
 {
+    
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -72,7 +74,7 @@ namespace Resturant_PL.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize]
         public async Task<IActionResult> MyOrders()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -82,9 +84,12 @@ namespace Resturant_PL.Controllers
                 return Unauthorized(); // Redirect or show error
             }
 
-            var orders = await _orderService.GetMyOrdersByUserId(userId);
+            List<ReadOrderDTO> orders = await _orderService.GetMyOrdersByUserId(userId);
 
-
+            if(orders==null)
+            {
+                 orders=new List<ReadOrderDTO>();
+            }
             var model = new MyOrdersDTO
             {
                 Orders = orders

@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
@@ -14,6 +15,7 @@ using static GenerativeAI.VertexAIModels;
 
 namespace Resturant_PL.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -39,16 +41,21 @@ namespace Resturant_PL.Controllers
         {
             return View("Login");
         }
-
+        
+        [Authorize]
         public async Task<IActionResult> SignOut()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        
+        [Authorize]
         public async Task<IActionResult> AccountSettings()
         {
             return PartialView("_AccountSettings");
         }
+        
+        [Authorize]
         public async Task<IActionResult> UpdateAccountSettings(AccountSettingsDTO accountSettingsDTO)
         {
             if (accountSettingsDTO == null)
@@ -108,7 +115,7 @@ namespace Resturant_PL.Controllers
             if (ModelState.IsValid)
             {
                 User appuser = await userManager.FindByEmailAsync(loginDTO.Email);
-                if (appuser != null)
+                if (appuser != null && appuser.EmailConfirmed)
                 {
                     bool found = await userManager.CheckPasswordAsync(appuser, loginDTO.Password);
                     if (found)
@@ -267,6 +274,8 @@ namespace Resturant_PL.Controllers
 
             return RedirectToAction("RegisterConfirmation", new { email = email });
         }
+        [Authorize(Policy = "AdminOnly")]
+        [Authorize]
         public async Task<IActionResult> AdminAccountSettings()
         {
             return View();
@@ -311,6 +320,8 @@ namespace Resturant_PL.Controllers
             }
             return View("ResetPassword",resetPasswordDTO);
         }
+      
+        [Authorize]
         public async Task<IActionResult> NewPassword(ResetPasswordEditDTO resetPasswordEditDTO)
         {
             if (ModelState.IsValid)

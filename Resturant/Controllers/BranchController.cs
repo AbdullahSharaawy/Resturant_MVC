@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Resturant_PL.Controllers
 {
-  
+    [Authorize(Policy = "AdminOnly")]
+    [Authorize]
     public class BranchController : Controller
     {
         private readonly IBranchService _BS;

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
 using System.Threading.Tasks;
 
 namespace Resturant_PL.Controllers
 {
+    [Authorize(Policy = "AdminOnly")]
+    [Authorize]
     public class TableController : Controller
     {
         private readonly ITableService _TS;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.ImplementServices;
@@ -8,6 +9,8 @@ using System.Text.Encodings.Web;
 
 namespace Resturant_PL.Controllers
 {
+    
+    [Authorize]
     public class UserProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -25,7 +28,7 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+           
             return View("UserProfile");
         }
         public async Task<IActionResult> UserProfileInfo()
