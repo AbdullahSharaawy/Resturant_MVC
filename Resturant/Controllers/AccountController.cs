@@ -39,6 +39,7 @@ namespace Resturant_PL.Controllers
 
         public IActionResult Login()
         {
+            ViewBag.GoogleClientId = _configuration["Authentication:Google:ClientId"];
             return View("Login");
         }
         

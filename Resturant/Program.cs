@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Resturant_PL.Language;
+using System.Configuration;
 
 
 
@@ -111,7 +112,12 @@ namespace Resturant_PL
             c.Type == "EmailConfirmed" &&
             c.Value == "true")));
             });
-            
+            builder.Services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:SecretKey"];
+            });
             var app = builder.Build();
 
 
