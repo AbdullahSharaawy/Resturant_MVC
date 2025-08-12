@@ -1,4 +1,44 @@
 ﻿@model UpdateReservationDTO
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<partial name="_NotificationModal" />
+
+<div class="profile-section">
+    <h3 class="profile-section-title">@Localizer["QuickReservation"]</h3>
+
+    <form method="post" id="quickReservationForm">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="reservationDate" class="form-label">@Localizer["DateTime"]</label>
+                <input type="datetime-local" class="form-control" asp-for="@Model.ReservationDTO.DateTime">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="guests" class="form-label">@Localizer["NumberOfGuests"]</label>
+                <input type="number" asp-for="@Model.ReservationDTO.NumberOfGuests" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">@Localizer["Branch"]</label>
+            <select class="form-control" asp-for="@Model.ReservationDTO.BranchID">
+                @foreach (var item in Model.Branches)
+                {
+                    <option value="@item.BranchID">
+                        @item.City Branch
+                    </option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">@Localizer["BookTable"]</button>
+    </form>
+</div>
+@*/
+@model UpdateReservationDTO
 
 
 <partial name="_NotificationModal" />
@@ -35,3 +75,4 @@
         <button type="submit" class="btn btn-primary">Book Table</button>
     </form>
 </div>
+@*/*@

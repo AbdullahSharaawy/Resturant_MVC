@@ -1,4 +1,40 @@
 ﻿@model AccountSettingsDTO
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+
+<div class="profile-section">
+    <h3 class="profile-section-title">@SharedLocalizer["AccountSettings"]</h3>
+    <form method="post" id="Settings">
+        <div class="mb-3">
+            <label for="currentPassword" class="form-label">@SharedLocalizer["CurrentPassword"]</label>
+            <input type="password" asp-for="CurrentPassword" class="form-control" id="currentPassword" />
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">@SharedLocalizer["NewPassword"]</label>
+            <input type="password" asp-for="NewPassword" class="form-control" id="newPassword" />
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">@SharedLocalizer["ConfirmNewPassword"]</label>
+            <input type="password" asp-for="@Model.ConfirmNewPassword" class="form-control" id="confirmPassword" />
+        </div>
+        <button type="submit" class="btn btn-primary">@SharedLocalizer["ChangePassword"]</button>
+    </form>
+
+    <h3 class="profile-section-title">@SharedLocalizer["NotificationPreferences"]</h3>
+    <form>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" asp-for="EmailNotification" id="emailNotifications" checked />
+            <label class="form-check-label" for="emailNotifications">@SharedLocalizer["EmailNotifications"]</label>
+        </div>
+
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" asp-for="PromoEmails" type="checkbox" id="promoEmails" checked />
+            <label class="form-check-label" for="promoEmails">@SharedLocalizer["PromotionalEmails"]</label>
+        </div>
+        <button type="submit" class="btn btn-primary">@SharedLocalizer["SavePreferences"]</button>
+    </form>
+</div>
+@*/
+@model AccountSettingsDTO
 <div class="profile-section">
     <h3 class="profile-section-title">Account Settings</h3>
     <form method="post" id="Settings">
@@ -31,3 +67,4 @@
         <button type="submit" class="btn btn-primary">Save Preferences</button>
     </form>
 </div>
+@*/*@

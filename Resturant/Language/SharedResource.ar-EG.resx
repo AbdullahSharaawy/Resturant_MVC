@@ -123,16 +123,221 @@
   <data name="Home" xml:space="preserve">
     <value>الرئيسية</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>سياسية الخصوصية</value>
-  </data>
-  <data name="CheckOut" xml:space="preserve">
-    <value>الدفع</value>
-  </data>
-  <data name="English" xml:space="preserve">
+  <data name="En" xml:space="preserve">
     <value>الإنجليزية</value>
   </data>
-  <data name="Arabic " xml:space="preserve">
+  <data name="Ar" xml:space="preserve">
     <value>العربية</value>
+  </data>
+  <data name="Restaurantly " xml:space="preserve">
+    <value>ريستورانتلي </value>
+  </data>
+  <data name="About  " xml:space="preserve">
+    <value>من نحن  </value>
+  </data>
+  <data name="Menu   " xml:space="preserve">
+    <value>القائمة  </value>
+  </data>
+  <data name="Specials " xml:space="preserve">
+    <value>العروض الخاصة</value>
+  </data>
+  <data name="Chefs  " xml:space="preserve">
+    <value>الطهاة   </value>
+  </data>
+  <data name="Contact " xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name=" Profile " xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="Login   " xml:space="preserve">
+    <value>تسجيل الدخول </value>
+  </data>
+  <data name="Register   " xml:space="preserve">
+    <value>تسجيل حساب </value>
+  </data>
+  <data name="BookATable" xml:space="preserve">
+    <value>احجز طاولة  </value>
+  </data>
+  <data name="Team " xml:space="preserve">
+    <value>الفريق</value>
+  </data>
+  <data name="TeamDescription" xml:space="preserve">
+    <value>التوصيف أو وصف الفريق</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>الفرع</value>
+  </data>
+  <data name="MyOrders" xml:space="preserve">
+    <value>طلباتي    </value>
+  </data>
+  <data name="Order   " xml:space="preserve">
+    <value>الطلب</value>
+  </data>
+  <data name="Delivered   " xml:space="preserve">
+    <value>تم التوصيل </value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>عنصر القائمة</value>
+  </data>
+  <data name="Quantity  " xml:space="preserve">
+    <value>الكمية   </value>
+  </data>
+  <data name="OrderSummary" xml:space="preserve">
+    <value>ملخص الطلب </value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>حالة الطلب  </value>
+  </data>
+  <data name="Weight   " xml:space="preserve">
+    <value>الوزن  </value>
+  </data>
+  <data name="DeliveryTo" xml:space="preserve">
+    <value>التسليم إلى </value>
+  </data>
+  <data name="Subtotal  " xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="DeliveryFee" xml:space="preserve">
+    <value>رسوم التوصيل </value>
+  </data>
+  <data name="Total    " xml:space="preserve">
+    <value>الإجمالي  </value>
+  </data>
+  <data name="Reorder  " xml:space="preserve">
+    <value>إعادة الطلب</value>
+  </data>
+  <data name="ViewDetails " xml:space="preserve">
+    <value>عرض التفاصيل</value>
+  </data>
+  <data name="PlaceNewOrder" xml:space="preserve">
+    <value>تقديم طلب جديد</value>
+  </data>
+  <data name="AccountSettings  " xml:space="preserve">
+    <value>إعدادات الحساب  </value>
+  </data>
+  <data name="CurrentPassword   " xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="NewPassword      " xml:space="preserve">
+    <value>كلمة المرور الجديدة     </value>
+  </data>
+  <data name="ConfirmNewPassword   " xml:space="preserve">
+    <value>تأكيد كلمة المرور الجديدة </value>
+  </data>
+  <data name="ChangePassword  " xml:space="preserve">
+    <value>تغيير كلمة المرور     </value>
+  </data>
+  <data name="NotificationPreferences" xml:space="preserve">
+    <value>تفضيلات الإشعارات</value>
+  </data>
+  <data name="EmailNotifications   " xml:space="preserve">
+    <value>إشعارات البريد الإلكتروني</value>
+  </data>
+  <data name="PromotionalEmails   " xml:space="preserve">
+    <value>رسائل ترويجية  </value>
+  </data>
+  <data name="SavePreferences " xml:space="preserve">
+    <value>حفظ التفضيلات </value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="RequestID" xml:space="preserve">
+    <value>معرف الطلب</value>
+  </data>
+  <data name="ErrorProcessingRequest" xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلبك.</value>
+  </data>
+  <data name="DevelopmentMode" xml:space="preserve">
+    <value>وضع التطوير</value>
+  </data>
+  <data name="DevelopmentModeDescription1" xml:space="preserve">
+    <value>التبديل إلى وضع التطوير سيعرض معلومات أكثر تفصيلاً عن الخطأ الذي حدث.
+</value>
+  </data>
+  <data name="WarningDevelopmentNotForProduction" xml:space="preserve">
+    <value>لا يجب تمكين وضع التطوير في التطبيقات المنشورة</value>
+  </data>
+  <data name="DevelopmentModeDescription2" xml:space="preserve">
+    <value>يمكن أن يؤدي ذلك إلى عرض معلومات حساسة من الاستثناءات للمستخدمين النهائيين. لتصحيح الأخطاء محليًا، قم بتمكين وضع التطوير عن طريق تعيين متغير البيئة ASPNETCORE_ENVIRONMENT إلى Development ثم إعادة تشغيل التطبيق</value>
+  </data>
+  <data name="Quick Reservation" xml:space="preserve">
+    <value>الحجز السريع</value>
+  </data>
+  <data name="Date Time" xml:space="preserve">
+    <value>التاريخ والوقت</value>
+  </data>
+  <data name="Number of Guests" xml:space="preserve">
+    <value>عدد الضيوف</value>
+  </data>
+  <data name="Branch " xml:space="preserve">
+    <value>الفرع</value>
+  </data>
+  <data name=" PersonalInformation" xml:space="preserve">
+    <value> المعلومات الشخصية</value>
+  </data>
+  <data name=" FirstName   " xml:space="preserve">
+    <value>الاسم الأول   </value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>اسم العائلة </value>
+  </data>
+  <data name="UpdateProfile  " xml:space="preserve">
+    <value>تحديث الملف الشخصي </value>
+  </data>
+  <data name="MyReservations" xml:space="preserve">
+    <value>حجوزاتي   </value>
+  </data>
+  <data name="ReservationNumber  " xml:space="preserve">
+    <value>الحجز رقم</value>
+  </data>
+  <data name=" DateAndTime " xml:space="preserve">
+    <value>التاريخ والوقت</value>
+  </data>
+  <data name="Details " xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>أشخاص  </value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="Actions    " xml:space="preserve">
+    <value>الإجراءات </value>
+  </data>
+  <data name="Modify  " xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="Cancel  " xml:space="preserve">
+    <value>إلغاء    </value>
+  </data>
+  <data name="MakeNewReservation" xml:space="preserve">
+    <value>عمل حجز جديد</value>
+  </data>
+  <data name="Unknown " xml:space="preserve">
+    <value>غير معروف </value>
+  </data>
+  <data name="Quick Reservation " xml:space="preserve">
+    <value>الحجز السريع</value>
+  </data>
+  <data name="Date Time " xml:space="preserve">
+    <value>التاريخ والوقت</value>
+  </data>
+  <data name="Number of Guests " xml:space="preserve">
+    <value>عدد الضيوف</value>
+  </data>
+  <data name="Branch  " xml:space="preserve">
+    <value>الفرع</value>
+  </data>
+  <data name="Book Table" xml:space="preserve">
+    <value>احجز الطاولة</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>إشعار</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>موافق</value>
   </data>
 </root>

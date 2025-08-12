@@ -1,4 +1,44 @@
-﻿ @model UpdateReservationDTO
+﻿@model UpdateReservationDTO
+@inject IStringLocalizer<SharedResource> Localizer
+
+<div class="profile-section">
+    <h3 class="profile-section-title">@Localizer["My Reservations"]</h3>
+
+    @foreach (var reservation in Model.Reservations)
+    {
+        var branch = Model.Branches.FirstOrDefault(b => b.BranchID == reservation.BranchID);
+        var location = branch != null ? $"{branch.City}, {branch.StreetName}, {branch.BuildingNo}" : Localizer["Unknown"];
+
+        <div class="card reservation-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>@Localizer["Reservation #"]@reservation.ReservationID</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>@Localizer["Date & Time"]</h5>
+                        <p>@reservation.DateTime.ToString("MMMM dd, yyyy")<br />@reservation.DateTime.ToString("hh:mm tt")</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>@Localizer["Details"]</h5>
+                        <p>@reservation.NumberOfGuests @Localizer["people"]<br /><strong>@Localizer["Location:"]</strong> @location</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>@Localizer["Actions"]</h5>
+                        <button class="btn btn-outline-primary btn-sm mb-2 modify-btn" data-item-id="@reservation.ReservationID">@Localizer["Modify"]</button>
+                        <button class="btn btn-outline-danger btn-sm mb-2 cancel-btn" data-item-id="@reservation.ReservationID">@Localizer["Cancel"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="text-center mt-4">
+        <button class="btn btn-primary">@Localizer["Make New Reservation"]</button>
+    </div>
+</div>
+@*/
+ @model UpdateReservationDTO
 
 <div class="profile-section">
     <h3 class="profile-section-title">My Reservations</h3>
@@ -39,4 +79,4 @@
         <button class="btn btn-primary">Make New Reservation</button>
     </div>
 </div>
-
+@*/*@

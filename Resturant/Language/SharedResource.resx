@@ -123,16 +123,221 @@
   <data name="Home" xml:space="preserve">
     <value> Home</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value> Privacy</value>
+  <data name="En" xml:space="preserve">
+    <value> En</value>
   </data>
-  <data name="CheckOut" xml:space="preserve">
-    <value> CheckOut</value>
+  <data name="Ar" xml:space="preserve">
+    <value> Ar</value>
   </data>
-  <data name="English" xml:space="preserve">
-    <value> English</value>
+  <data name="Restaurantly " xml:space="preserve">
+    <value>Restaurantly </value>
   </data>
-  <data name="Arabic " xml:space="preserve">
-    <value> Arabic </value>
+  <data name="About  " xml:space="preserve">
+    <value> About  </value>
+  </data>
+  <data name="Menu   " xml:space="preserve">
+    <value>Menu   </value>
+  </data>
+  <data name="Specials " xml:space="preserve">
+    <value>Specials </value>
+  </data>
+  <data name="Chefs  " xml:space="preserve">
+    <value>Chefs  </value>
+  </data>
+  <data name="Contact " xml:space="preserve">
+    <value>Contact </value>
+  </data>
+  <data name=" Profile " xml:space="preserve">
+    <value>Profile </value>
+  </data>
+  <data name="Login   " xml:space="preserve">
+    <value> Login</value>
+  </data>
+  <data name="Register   " xml:space="preserve">
+    <value>Register   </value>
+  </data>
+  <data name="BookATable" xml:space="preserve">
+    <value>BookATable</value>
+  </data>
+  <data name="Team " xml:space="preserve">
+    <value>Team </value>
+  </data>
+  <data name="TeamDescription" xml:space="preserve">
+    <value>TeamDescription</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="MyOrders" xml:space="preserve">
+    <value>MyOrders</value>
+  </data>
+  <data name="Order   " xml:space="preserve">
+    <value>Order   </value>
+  </data>
+  <data name="Delivered   " xml:space="preserve">
+    <value>Delivered   </value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>MenuItem</value>
+  </data>
+  <data name="Quantity  " xml:space="preserve">
+    <value>Quantity  </value>
+  </data>
+  <data name="OrderSummary" xml:space="preserve">
+    <value>OrderSummary</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>OrderStatus</value>
+  </data>
+  <data name="Weight   " xml:space="preserve">
+    <value>Weight    </value>
+  </data>
+  <data name="DeliveryTo" xml:space="preserve">
+    <value>DeliveryTo</value>
+  </data>
+  <data name="Subtotal  " xml:space="preserve">
+    <value>Subtotal  </value>
+  </data>
+  <data name="DeliveryFee" xml:space="preserve">
+    <value>DeliveryFee</value>
+  </data>
+  <data name="Total    " xml:space="preserve">
+    <value>Total    </value>
+  </data>
+  <data name="Reorder  " xml:space="preserve">
+    <value>Reorder  </value>
+  </data>
+  <data name="ViewDetails " xml:space="preserve">
+    <value>ViewDetails </value>
+  </data>
+  <data name="PlaceNewOrder" xml:space="preserve">
+    <value>PlaceNewOrder</value>
+  </data>
+  <data name="AccountSettings  " xml:space="preserve">
+    <value>AccountSettings  </value>
+  </data>
+  <data name="CurrentPassword   " xml:space="preserve">
+    <value>CurrentPassword   </value>
+  </data>
+  <data name="NewPassword      " xml:space="preserve">
+    <value>NewPassword      </value>
+  </data>
+  <data name="ConfirmNewPassword   " xml:space="preserve">
+    <value>ConfirmNewPassword   </value>
+  </data>
+  <data name="ChangePassword  " xml:space="preserve">
+    <value>ChangePassword  </value>
+  </data>
+  <data name="NotificationPreferences" xml:space="preserve">
+    <value> Notification Preferences</value>
+  </data>
+  <data name="EmailNotifications   " xml:space="preserve">
+    <value>EmailNotifications   </value>
+  </data>
+  <data name="PromotionalEmails   " xml:space="preserve">
+    <value>PromotionalEmails   </value>
+  </data>
+  <data name="SavePreferences " xml:space="preserve">
+    <value>SavePreferences </value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="RequestID" xml:space="preserve">
+    <value>RequestID</value>
+  </data>
+  <data name="ErrorProcessingRequest" xml:space="preserve">
+    <value>An error occurred while processing your request. </value>
+  </data>
+  <data name="DevelopmentMode" xml:space="preserve">
+    <value>DevelopmentMode</value>
+  </data>
+  <data name="DevelopmentModeDescription1" xml:space="preserve">
+    <value>Swapping to Development environment will display more detailed information about the error. </value>
+  </data>
+  <data name="WarningDevelopmentNotForProduction" xml:space="preserve">
+    <value>The Development environment shouldn't be enabled for deployed applications. </value>
+  </data>
+  <data name="DevelopmentModeDescription2" xml:space="preserve">
+    <value>It can result in displaying sensitive information from exceptions to end users. For local debugging, enable the Development environment by setting the ASPNETCORE_ENVIRONMENT environment variable to Development and restarting the app. </value>
+  </data>
+  <data name="Quick Reservation" xml:space="preserve">
+    <value>Quick Reservation</value>
+  </data>
+  <data name="Date Time" xml:space="preserve">
+    <value> Date Time
+</value>
+  </data>
+  <data name="Number of Guests" xml:space="preserve">
+    <value>Number of Guests</value>
+  </data>
+  <data name="Branch " xml:space="preserve">
+    <value>Branch </value>
+  </data>
+  <data name=" PersonalInformation" xml:space="preserve">
+    <value> Personal Information</value>
+  </data>
+  <data name=" FirstName   " xml:space="preserve">
+    <value> FirstName   </value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>LastName</value>
+  </data>
+  <data name="UpdateProfile  " xml:space="preserve">
+    <value>UpdateProfile  </value>
+  </data>
+  <data name="MyReservations" xml:space="preserve">
+    <value>MyReservations</value>
+  </data>
+  <data name="ReservationNumber  " xml:space="preserve">
+    <value>ReservationNumber  </value>
+  </data>
+  <data name=" DateAndTime " xml:space="preserve">
+    <value> DateAndTime </value>
+  </data>
+  <data name="Details " xml:space="preserve">
+    <value>Details </value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>People</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Actions    " xml:space="preserve">
+    <value>Actions    </value>
+  </data>
+  <data name="Modify  " xml:space="preserve">
+    <value>Modify  </value>
+  </data>
+  <data name="Cancel  " xml:space="preserve">
+    <value>Cancel  </value>
+  </data>
+  <data name="MakeNewReservation" xml:space="preserve">
+    <value>MakeNewReservation</value>
+  </data>
+  <data name="Unknown " xml:space="preserve">
+    <value>Unknown </value>
+  </data>
+  <data name="Quick Reservation " xml:space="preserve">
+    <value>Quick Reservation</value>
+  </data>
+  <data name="Date Time " xml:space="preserve">
+    <value>DateTime </value>
+  </data>
+  <data name="Number of Guests " xml:space="preserve">
+    <value>Number of Guests</value>
+  </data>
+  <data name="Branch  " xml:space="preserve">
+    <value>Branch </value>
+  </data>
+  <data name="Book Table" xml:space="preserve">
+    <value>Book Table </value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK </value>
   </data>
 </root>

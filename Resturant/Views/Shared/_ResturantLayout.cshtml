@@ -1,4 +1,167 @@
-﻿
+﻿ @using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="~/assets/css/main.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: Restaurantly
+    * Template URL: https://bootstrapmade.com/restaurantly-restaurant-template/
+    * Updated: Aug 07 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+    <title>@ViewData["Title"] - @SharedLocalizer["Resturant"]</title>
+    @RenderSection("HeaderLinks", false)
+    <style>
+        .profile-link {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit navigation link color */
+        }
+
+        .profile-icon {
+            width: 30px; /* Adjust size as needed */
+            height: 30px;
+            border-radius: 50%; /* Make it a circle */
+            overflow: hidden; /* Hide any part of the image that goes outside the circle */
+            border: 1px solid #ccc; /* Optional: Add a border */
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure the image covers the entire circle */
+        }
+    </style>
+</head>
+<body class="index-page">
+    <header id="header" class="header fixed-top">
+
+        <div class="topbar d-flex align-items-center">
+            <div class="container d-flex justify-content-center justify-content-md-between">
+                <div class="contact-info d-flex align-items-center">
+                    <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
+                    <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+                </div>
+                <div class="languages d-none d-md-flex align-items-center">
+                    <ul>
+                        <li>@SharedLocalizer["En"]</li>
+                        <li><a href="#">@SharedLocalizer["Ar"]</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- End Top Bar -->
+
+        <div class="branding d-flex align-items-cente">
+
+            <div class="container position-relative d-flex align-items-center justify-content-between">
+                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1 class="sitename">@SharedLocalizer["Restaurantly"]</h1>
+                </a>
+
+                <nav id="navmenu" class="navmenu">
+
+                    <ul>
+                        <li><a href="#hero" class="active">@SharedLocalizer["Home"]<br></a></li>
+                        <li><a href="#about">@SharedLocalizer["About"]</a></li>
+                        <li><a href="#menu">@SharedLocalizer["Menu"]</a></li>
+                        <li><a href="#specials">@SharedLocalizer["Specials"]</a></li>
+
+                        <li><a href="#chefs">@SharedLocalizer["Chefs"]</a></li>
+
+                        <li><a href="#contact">@SharedLocalizer["Contact"]</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="profile-nav-item">
+                                <a href="/UserProfile" class="profile-link">
+                                    <div class="profile-icon">
+                                        <img src="URL_TO_USER_IMAGE" alt="User Profile" class="profile-image">
+                                    </div>
+                                    @SharedLocalizer["Profile"]
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a href="/Account/Login">@SharedLocalizer["Login"]</a></li>
+                            <li><a href="/Account/Register">@SharedLocalizer["Register"]</a></li>
+
+                        }
+
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+
+                <a class="btn-book-a-table d-none d-xl-block" href="#book-a-table">@SharedLocalizer["BookATable"]</a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main role="main" class="main">
+        @RenderBody()
+    </main>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/assets/vendor/aos/aos.js"></script>
+    <script src="~/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="~/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
+
+@*/
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,4 +319,4 @@
     @await RenderSectionAsync("Scripts", required: false)
   </body>
 
-</html>
+</html> @*/*@

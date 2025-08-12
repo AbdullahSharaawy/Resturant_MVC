@@ -1,4 +1,29 @@
 ﻿@model ErrorViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["Error"];
+}
+
+<h1 class="text-danger">@SharedLocalizer["Error"]</h1>
+<h2 class="text-danger">@SharedLocalizer["ErrorProcessingRequest"]</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>@SharedLocalizer["RequestID"]:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>@SharedLocalizer["DevelopmentMode"]</h3>
+<p>
+    @SharedLocalizer["DevelopmentModeDescription1"]
+</p>
+<p>
+    <strong>@SharedLocalizer["WarningDevelopmentNotForProduction"]</strong>
+    @SharedLocalizer["DevelopmentModeDescription2"]
+</p>
+@*/
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }
@@ -23,3 +48,4 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+@*/*@
