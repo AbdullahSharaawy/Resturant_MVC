@@ -82,7 +82,11 @@ namespace Resturant_PL.Controllers
             UpdateReservationDTO model = await _RS.GetCreateReservationInfo();
             return View("Create", model);
         }
-       
+        public async Task<IActionResult> BookTable()
+        {
+            UpdateReservationDTO model = await _RS.GetCreateReservationInfo();
+            return View("BookTable", model);
+        }
         public async Task<IActionResult> Update(int id)
         {
             var reservation = await _RS.GetById(id);

@@ -26,22 +26,22 @@
 </section><!-- /Hero Section -->
 <!-- About Section -->
 <!-- Chefs Section -->
-<section id="chefs" class="chefs section">
+<section id="reviews" class="reviews section"></section>
+<section id="chefs" class="chefs section"></section>
 
-    
-    
 
-</section><!-- /Chefs Section -->
       
 
 
 @section Scripts {
     <script>
         window.onload = function () {
+                GetReviews();                                          
             GetChiefs();
+           
         };
         function GetChiefs() {
-            event.preventDefault();
+           
             console.log("hi");
             $.ajax({
                 url: "/Chief/ChiefsPartialView", success: function (result) {
@@ -49,6 +49,37 @@
                 }
             });
 
+        }
+        function GetReviews() {
+        
+            console.log("hi");
+            $.ajax({
+                    url: "/Review/BestReviews", success: function (result) {
+                    $("#reviews").html(result);
+                    initSwiper();
+                }
+            });
+
+        }
+        function initSwiper() {
+            const swiperContainer = document.querySelector('.init-swiper');
+            if (swiperContainer) {
+                const config = JSON.parse(swiperContainer.dataset.breakpoints.replace(/&quot;/g, '"'));
+                new Swiper(swiperContainer, {
+                    loop: true,
+                    speed: 600,
+                    autoplay: {
+                        delay: 5000
+                    },
+                    slidesPerView: "auto",
+                    pagination: {
+                        el: ".swiper-pagination",
+                        type: "bullets",
+                        clickable: true
+                    },
+                    breakpoints: config
+                });
+            }
         }
     </script>
 }

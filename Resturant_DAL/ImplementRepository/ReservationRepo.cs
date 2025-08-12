@@ -54,7 +54,7 @@ namespace Resturant_DAL.ImplementRepository
                 .Where(r => r.IsDeleted == false)
                 .FirstOrDefaultAsync(c => c.ReservationID == id);
         }
-        public async Task<List<Reservation>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<Reservation, bool>> filter)
+        public async Task<List<Reservation>> GetAllByFilter(System.Linq.Expressions.Expression<System.Func<Reservation, bool>> filter)
         {
             return await _context.Reservation
                 .Where(filter)

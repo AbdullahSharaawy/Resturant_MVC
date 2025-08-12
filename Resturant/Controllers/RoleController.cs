@@ -81,5 +81,27 @@ namespace Resturant_PL.Controllers
             }
             return Json(new { success = false, message = "Edit All Roles is Failed" });
         }
+        public async Task<IActionResult> RemoveRole(string roleName)
+        {
+            if(! await _roleManager.RoleExistsAsync(roleName))
+                return Json(new { success = false, message = "Remove the role is failed." });
+
+            IdentityRole role = await _roleManager.FindByNameAsync(roleName);
+            var users =await _userManager.GetUsersInRoleAsync(roleName);
+            if (users != null) 
+            {
+                foreach (var user in users) 
+                {
+                  var result= await _userManager.RemoveFromRoleAsync(user,roleName);
+                    if (result == null)
+                    { return Json(new { success = false, message = "Remove the role is failed." }); }
+                }
+               
+            }
+            var restult =await _roleManager.DeleteAsync(role);
+            if (restult == null)
+                return Json(new { success = false, message = "Remove the role is failed." });
+            return Json(new { success = true, message = "Remove the role is done successfuly." });
+        }
     }
 }

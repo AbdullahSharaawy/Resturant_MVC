@@ -85,7 +85,7 @@
                 <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
                     <!-- Uncomment the line below if you also wish to use an image logo -->
                     <!-- <img src="assets/img/logo.png" alt=""> -->
-                    <h1 class="sitename">Restaurantly</h1>
+                    <h1 class="sitename">Cemetery of the Greats</h1>
                 </a>
 
                 <nav id="navmenu" class="navmenu">
@@ -98,13 +98,14 @@
                         
                         <li><a href="#chefs">Chefs</a></li>
                         
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="/Contact/Index">Contact</a></li>
                         @if (User.Identity.IsAuthenticated )
                         {
+                            
                             <li class="profile-nav-item">
                                 <a href="/UserProfile" class="profile-link">
                                     <div class="profile-icon">
-                                        <img src="URL_TO_USER_IMAGE" alt="User Profile" class="profile-image">
+                                        <img src="~/Files/UserImages/@User.FindFirst("ImagePath")?.Value?? " PersonIcon.svg"" alt="User Profile" class="profile-image">
                                     </div>
                                     Profile
                                 </a>
@@ -120,7 +121,7 @@
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
 
-                <a class="btn-book-a-table d-none d-xl-block" href="#book-a-table">Book a Table</a>
+                <a class="btn-book-a-table d-none d-xl-block" href="/Reservation/BookTable">Book a Table</a>
 
             </div>
 

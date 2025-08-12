@@ -53,7 +53,7 @@ namespace Resturant_DAL.ImplementRepository
                          .Where(r => r.IsDeleted == false)
                          .ToListAsync();
         }
-        public async Task<List<Branch>> GetAllAsync(System.Linq.Expressions.Expression<Func<Branch, bool>> filter)
+        public async Task<List<Branch>> GetAllByFilter(System.Linq.Expressions.Expression<Func<Branch, bool>> filter)
         {
             return await _context.Branch
                 .Where(filter)

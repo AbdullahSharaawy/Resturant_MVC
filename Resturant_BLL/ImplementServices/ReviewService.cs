@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ReviewDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
@@ -60,9 +61,9 @@ namespace Resturant_BLL.Services
             return reviewDTO;
         }
 
-        public async Task<List<ReviewDTO>> GetList()
+        public async Task<List<ReviewDTO>> GetList(Expression<Func<Review, bool>> filter)
         {
-            List<Review> reviews = (await _RR.GetAll()).Where(r => r.IsDeleted == false).ToList();
+            List<Review> reviews = await _RR.GetAllByFilter(filter);
 
             if (reviews == null || reviews.Count == 0)
             {
@@ -71,6 +72,8 @@ namespace Resturant_BLL.Services
 
             return new ReviewMapper().MapToReviewDTOList(reviews);
         }
+
+        
 
         public async Task<Review?> Update(ReviewDTO review)
         {

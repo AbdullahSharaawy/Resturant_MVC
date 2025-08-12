@@ -1,5 +1,7 @@
 ﻿@model List<UserRoleDTO>
-
+@{
+    Layout = "_ManagementLayout";
+}
 <div class="container mt-4 pt-5">
     <style>
         body {
@@ -97,6 +99,9 @@
             </button>
             <button class="btn btn-primary bg-dark text-white" data-bs-toggle="modal" data-bs-target="#addRoleModal">
                 Add New Role
+            </button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeRoleOnlyModal">
+                Remove a Role
             </button>
         </div>
     </div>
@@ -281,7 +286,35 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="removeRoleOnlyModal" tabindex="-1" aria-labelledby="removeRoleOnlyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeRoleOnlyModalLabel">Remove a Role from the System</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="removeRoleOnlyForm" asp-action="RemoveRole" asp-controller="Role" method="post">
+                <div class="modal-body">
+                    <p>Are you sure you want to remove the selected role? This action cannot be undone and will affect all users assigned to this role.</p>
+                    <div class="mb-3">
+                        <label for="removeRoleNameOnly" class="form-label">Select Role to Remove</label>
+                        <select class="form-select bg-dark" id="removeRoleNameOnly" name="roleName" required>
+                            <option value="">-- Select Role --</option>
+                            @foreach (var role in ViewBag.AllRoles as List<string> ?? new List<string>())
+                            {
+                                <option value="@role">@role</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Remove Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -440,6 +473,28 @@
                 });
             });
         });
-
+        $(document).on('submit', '#removeRoleOnlyForm', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Role/RemoveRole',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('An error occurred. Please try again.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
     </script>
 }

@@ -26,7 +26,7 @@
     }
 
     /* Apply the dark background image and style from the first code block, but with the new color palette */
-  
+
 
     /* Container for forms and sections, combining styles from both blocks */
     .dark-form-container, .profile-section {
@@ -151,16 +151,12 @@
 
 <div class="container mt-4 pt-5" style="margin-top: 150px !important;">
     <partial name="_NotificationModal" />
-    <form id="UpdateReservation" method="post" class="needs-validation dark-form-container">
-        
+    <form id="CreateReservation" method="post" class="needs-validation dark-form-container">
+
         <h2 class="form-heading">Edit Reservation Details</h2>
 
         <input type="hidden" asp-for="@Model.ReservationDTO.PaymentID" />
-        <div class="mb-3">
-            <label asp-for="ReservationDTO.ReservationID" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="ReservationDTO.ReservationID" readonly />
-        </div>
-
+       
         <div class="mb-3">
             <label asp-for="ReservationDTO.DateTime" class="form-label">Date & Time</label>
             <input class="form-control" type="datetime-local" asp-for="ReservationDTO.DateTime" required />
@@ -182,7 +178,7 @@
             <select class="form-select" asp-for="ReservationDTO.BranchID" required>
                 @foreach (var item in Model.Branches)
                 {
-                    <option value="@item.BranchID" selected="@(item.BranchID == Model.ReservationDTO.BranchID)">
+                    <option value="@item.BranchID" >
                         @item.City Branch
                     </option>
                 }
@@ -193,17 +189,17 @@
         </div>
 
         <button class="btn btn-dark" type="submit">Submit</button>
-        <a class="btn btn-outline-light ms-2" href="/UserProfile/Index">Back</a>
+        <a class="btn btn-outline-light ms-2" href="/Home/Index">Back</a>
     </form>
 </div>
 
 @section Scripts {
     <script>
-        $(document).on('submit', '#UpdateReservation', function (e) {
+        $(document).on('submit', '#CreateReservation', function (e) {
             e.preventDefault(); // prevent page refresh
 
             $.ajax({
-                url: '/Reservation/SaveEdit',
+                url: '/Reservation/SaveQuickReservation',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {

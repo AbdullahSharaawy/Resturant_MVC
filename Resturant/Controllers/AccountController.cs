@@ -121,6 +121,12 @@ namespace Resturant_PL.Controllers
                     if (found)
                     {
                         await signInManager.SignInAsync(appuser, loginDTO.RememberMe);
+                        var claims = new List<Claim>
+                                    {
+                                        new Claim("ImagePath", appuser.ImagePath ?? "PersonIcon.svg")
+                                    };
+                        await userManager.AddClaimsAsync(appuser, claims);
+
                         return RedirectToAction("Index", "Home");
                     }
                 }

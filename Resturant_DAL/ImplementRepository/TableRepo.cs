@@ -42,7 +42,7 @@ namespace Resturant_DAL.ImplementRepository
                  .Where(r => r.IsDeleted == false)
                  .FirstOrDefaultAsync(t => t.TableID == id);
         }
-        public async Task<List<table>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<table, bool>> filter)
+        public async Task<List<table>> GetAllByFilter(System.Linq.Expressions.Expression<System.Func<table, bool>> filter)
         {
             return await context.Table
                 .Where(filter)

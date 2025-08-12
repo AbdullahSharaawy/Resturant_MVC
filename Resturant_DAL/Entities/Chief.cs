@@ -11,7 +11,7 @@ namespace Resturant_DAL.Entities
     public class Chief
     {
         public Chief() { }
-        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int? branchID)
+        public Chief(int chiefID, string name, string phoneNumber, string email, string position, int? branchID, string? imagePath)
         {
             ChiefID = chiefID;
             Name = name;
@@ -19,6 +19,7 @@ namespace Resturant_DAL.Entities
             Email = email;
             Position = position;
             BranchID = branchID;
+            ImagePath = imagePath;
         }
 
         [Key]
@@ -51,5 +52,6 @@ namespace Resturant_DAL.Entities
         public string? DeletedBy { get;  set; }
         public bool IsDeleted { get;  set; }=false;
         public  Branch Branch { get;  set; }
+        public string? ImagePath {  get; set; } = "PersonIcon.svg";
     }
 }
