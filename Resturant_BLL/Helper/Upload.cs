@@ -17,7 +17,7 @@ namespace Sharaawy_BL.Helper
             {
                 //catch the folder Path and the file name in server
                 // 1 ) Get Directory
-                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
+                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/Files/" + FolderName;
 
 
                 //2) Get File Name

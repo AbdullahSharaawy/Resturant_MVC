@@ -47,7 +47,7 @@ namespace Resturant_DAL.ImplementRepository
                 .Where(r => r.IsDeleted == false)
                 .FirstOrDefaultAsync(c => c.ChiefID == id);
         }
-        public async Task<List<Chief>> GetAllAsync(System.Linq.Expressions.Expression<Func<Chief, bool>> filter)
+        public async Task<List<Chief>> GetAllByFilter(System.Linq.Expressions.Expression<Func<Chief, bool>> filter)
         {
             return await _context.Chief
                 .Where(filter)

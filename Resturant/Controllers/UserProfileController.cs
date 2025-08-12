@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.ImplementServices;
+using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
+using Sharaawy_BL.Helper;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
@@ -28,8 +30,9 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> Index()
         {
-           
-            return View("UserProfile");
+            var user = await _userManager.GetUserAsync(User);
+            UserProfileDTO userProfileDTO = new UserMapper().MapToUserProfileDTO(user);
+            return View("UserProfile",userProfileDTO);
         }
         public async Task<IActionResult> UserProfileInfo()
         {
@@ -131,6 +134,19 @@ namespace Resturant_PL.Controllers
             }
             return View("ConfirmEmail");
         }
-
+        public async Task<IActionResult> UploadProfileImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return Json(new { success = false, message = "failed to upload the image" });
+            }
+            string imagePath = Upload.UploadFile("UserImages", file);
+            var user = await _userManager.GetUserAsync(User);
+            user.ImagePath = imagePath;
+            IdentityResult result=await _userManager.UpdateAsync(user);
+            if (result.Succeeded) 
+            return Json(new { success=true, message="upload the image is done successfuly"});
+            return Json(new { success = false,message="failed to upload the image" });
+        }
     }
 }

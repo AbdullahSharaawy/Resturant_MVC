@@ -64,7 +64,7 @@ namespace Resturant_DAL.ImplementRepository
                 .Where(r => r.IsDeleted == false)
                 .FirstOrDefaultAsync(c => c.ReservedTableID == id);
         }
-        public async Task<List<ReservedTable>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<ReservedTable, bool>> filter)
+        public async Task<List<ReservedTable>> GetAllByFilter(System.Linq.Expressions.Expression<System.Func<ReservedTable, bool>> filter)
         {
             return await _context.ReservedTable
                 .Where(filter)

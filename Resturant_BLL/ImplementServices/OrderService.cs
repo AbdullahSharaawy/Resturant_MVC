@@ -84,7 +84,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<List<AdminOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
         {
-            List<Order> orders = await _CR.GetAllAsync(filter);
+            List<Order> orders = await _CR.GetAllByFilter(filter);
             if (orders == null || orders.Count == 0)
             {
                 return null;
@@ -94,7 +94,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<List<ReadOrderDTO>?> FilterMyOrdersBy(Expression<Func<Order, bool>> filter)
         {
-            List<Order> orders = await _CR.GetAllAsync(filter);
+            List<Order> orders = await _CR.GetAllByFilter(filter);
             if (orders == null || orders.Count == 0)
             {
                 return null;

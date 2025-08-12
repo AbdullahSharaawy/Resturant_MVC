@@ -40,7 +40,7 @@ namespace Resturant_DAL.ImplementRepository
                 .Include(o => o.OrderItems) // Include related entities
                 .FirstOrDefaultAsync(o => o.OrderID == id);
         }
-        public async Task<List<Order>> GetAllAsync(Expression<Func<Order, bool>> filter)
+        public async Task<List<Order>> GetAllByFilter(Expression<Func<Order, bool>> filter)
         {
             return await _context.Order
                 .Include(o => o.OrderItems)

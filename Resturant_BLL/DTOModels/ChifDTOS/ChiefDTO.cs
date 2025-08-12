@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -16,5 +18,8 @@ namespace Resturant_BLL.DTOModels.ChifDTOS
         public string Position { get; set; }
         public string? City { get; set; }
         public int BranchID { get; set; }
+        public string? ImagePath { get; set; } = "PersonIcon.svg"; 
+        public IFormFile? ImageUrl { get; set; }
     }
 }
+

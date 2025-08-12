@@ -5,6 +5,7 @@ using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Resturant_DAL.ImplementRepository
@@ -44,7 +45,7 @@ namespace Resturant_DAL.ImplementRepository
                 .AsNoTracking() // Recommended for read-only operations
                 .FirstOrDefaultAsync(a => a.OrderItemID == id);
         }
-        public async Task<List<OrderItem>> GetAllAsync(System.Linq.Expressions.Expression<System.Func<OrderItem, bool>> filter)
+        public async Task<List<OrderItem>> GetAllByFilter(System.Linq.Expressions.Expression<System.Func<OrderItem, bool>> filter)
         {
             return await _context.OrderItem
                 .Where(filter)
@@ -55,5 +56,7 @@ namespace Resturant_DAL.ImplementRepository
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
+
+        
     }
 }

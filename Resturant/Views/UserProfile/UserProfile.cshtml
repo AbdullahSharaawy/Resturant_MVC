@@ -3,7 +3,9 @@
 @section HeaderLinks {
     <partial name="_HeaderLinks" />
 }
-
+@{
+    Layout = "_ResturantLayout";
+}
 
 <!-- Custom CSS -->
 <style>
@@ -310,16 +312,19 @@
 
 
 
-<main id="main" class="main py-5 mt-5">
+<section id="main" class="main py-5 mt-5" ;>
     <partial name="_NotificationModal" />
     <div class="container">
         <div class="row">
             <!-- Profile Sidebar -->
             <div class="col-lg-4">
                 <div class="profile-header">
-                    <img src="assets/img/testimonials/testimonials-1.jpg" alt="Profile Image" class="profile-img">
-                    <h2>John Smith</h2>
-                    <p>Member since 2023</p>
+                    <label for="imageUpload" style="cursor: pointer;">
+                        <img src="~/Files/UserImages/@Model.ImagePath" alt="Profile Image" class="profile-img">
+                    </label>
+                    <input type="file" id="imageUpload" style="display: none;" accept="image/*">
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                   
                 </div>
 
                 <div class="profile-section">
@@ -381,7 +386,7 @@
             </div>
         </div>
     </div>
-</main>
+</section>
 
 @section Scripts{
     <script>
@@ -550,6 +555,55 @@
             var id = $(this).data('item-id');
             window.location.href = '/Reservation/UpdateMyReservation/' + id;
         });
+        document.getElementById('imageUpload').addEventListener('change', function (event) {
+            // Check if a file was selected
+            if (event.target.files && event.target.files[0]) {
+                // Create a new FileReader to read the file
+                const reader = new FileReader();
 
+                // When the file is loaded
+                reader.onload = function (e) {
+                    // Update the src attribute of the <img> tag
+                    document.querySelector('.profile-img').src = e.target.result;
+                };
+
+                // Read the selected file as a data URL
+                reader.readAsDataURL(event.target.files[0]);
+
+                // Now, you need to save this image to the server.
+                // This requires a new AJAX call.
+                saveProfileImage(event.target.files[0]);
+            }
+        });
+        function saveProfileImage(file) {
+            const formData = new FormData();
+            formData.append('file', file); // 'profileImage' should match the name of the parameter in your backend controller action
+            console.log(file);
+            $.ajax({
+                url: '/UserProfile/UploadProfileImage?file='+file, // A new action you'll create
+                type: 'POST',
+                data: formData,
+                processData: false, // Prevents jQuery from processing the data
+                contentType: false, // Prevents jQuery from setting a content type
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success, e.g., show a notification
+                        $('#notificationModalLabel').text("Success");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+                        // Handle error
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('An error occurred during upload.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        }
     </script>
 }

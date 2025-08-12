@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ReviewDTOS;
 using Resturant_BLL.Services;
 using System.Threading.Tasks;
 
@@ -13,10 +13,14 @@ namespace Resturant_PL.Controllers
         {
             _reviewService = reviewService;
         }
-
+        public async Task<IActionResult> BestReviews()
+        {
+            return PartialView("_BestReviews", await _reviewService.GetList(r => r.IsDeleted == false && r.Rate >= 4));
+        }
         public async Task<IActionResult> Index()
         {
-            return View("Reviews", await _reviewService.GetList());
+
+            return View("Reviews", await _reviewService.GetList(r=>r.IsDeleted==false ));
         }
 
         public async Task<IActionResult> Update(int id)
@@ -40,7 +44,7 @@ namespace Resturant_PL.Controllers
             {
                 TempData["SuccessMessage"] = "Record updated successfully!";
             }
-            return View("Reviews", await _reviewService.GetList());
+            return View("Reviews", await _reviewService.GetList((r => r.IsDeleted == false)));
         }
 
         public async Task<IActionResult> SaveNew(ReviewDTO _CreateReview)
@@ -54,7 +58,7 @@ namespace Resturant_PL.Controllers
             {
                 TempData["SuccessMessage"] = "New record created successfully!";
             }
-            return View("Reviews", await _reviewService.GetList());
+            return View("Reviews", await _reviewService.GetList((r => r.IsDeleted == false)));
         }
 
         public async Task<IActionResult> Delete(int id)

@@ -11,7 +11,7 @@ namespace Resturant_DAL.Entities
     public class Review
     {
         public Review() { }
-        public Review(int reviewID, string description, DateTime dateTime, int rate, DateTime createdOn, string createdBy)
+        public Review(int reviewID, string description, DateTime dateTime, int rate, DateTime createdOn, string createdBy, string userID)
         {
             ReviewID = reviewID;
             Description = description;
@@ -19,13 +19,14 @@ namespace Resturant_DAL.Entities
             Rate = rate;
             CreatedOn = createdOn;
             CreatedBy = createdBy;
+            UserID = userID;
         }
 
         [Key]
         public int ReviewID { get; private set; }
-        public string Description { get; private set; }
-        public DateTime DateTime { get; private set; }
-        public int Rate { get; private set; }
+        public string Description { get;  set; }
+        public DateTime DateTime { get; set; }
+        public int Rate { get;  set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get;  set; }
@@ -33,7 +34,10 @@ namespace Resturant_DAL.Entities
         public string? DeletedBy { get; set; }
         public string? ModifiedBy { get; set; }
         public bool IsDeleted { get; set; }
+        [ForeignKey("User")]
+        public string UserID { get; set; }
 
-        
+        public User User { get; set; }
+
     }
 }

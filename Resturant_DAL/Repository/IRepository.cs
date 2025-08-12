@@ -15,6 +15,6 @@ namespace Resturant_DAL.Repository
         public Task Update(T entity);
         public Task Delete(T entity);
         public Task<int?> Create(T entity);
-        public Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);
+        public Task<List<T>> GetAllByFilter(Expression<Func<T, bool>> filter);
     }
 }

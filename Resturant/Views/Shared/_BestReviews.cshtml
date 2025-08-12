@@ -1,0 +1,27 @@
+﻿<div class="container section-title" data-aos="fade-up">
+    <h2>Testimonials</h2>
+    <p>What they're saying about us</p>
+</div>
+
+<div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="swiper init-swiper" data-speed="600" data-delay="5000" data-breakpoints="{ &quot;320&quot;: { &quot;slidesPerView&quot;: 1, &quot;spaceBetween&quot;: 40 }, &quot;1200&quot;: { &quot;slidesPerView&quot;: 3, &quot;spaceBetween&quot;: 40 } }">
+        <div class="swiper-wrapper">
+            @foreach (ReviewDTO review in Model)
+            {
+                <div class="swiper-slide">
+                    <div class="testimonial-item">
+                        <p>
+                            <i class="bi bi-quote quote-icon-left"></i>
+                            <span>@review.Description</span>
+                            <i class="bi bi-quote quote-icon-right"></i>
+                        </p>
+                        <img src="~/Files/UserImages/@review.ImagePath" class="testimonial-img" alt="">
+                        <h3>@review.User.FirstName @review.User.LastName</h3>
+                        <h4>@review.Date</h4>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

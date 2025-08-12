@@ -4,6 +4,7 @@ using Resturant_BLL.Mapperly;
 using Resturant_BLL.Services;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
+using Sharaawy_BL.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,14 @@ namespace Chief_BLL.Services
             if (chiefDTO == null)
                 return null;
 
-            Chief mappedChief = new ChiefMapper().MapToChief(chiefDTO);
-            mappedChief.CreatedOn = DateTime.UtcNow;
-            mappedChief.CreatedBy = "Current User";
-            mappedChief.IsDeleted = false;
-            await _CR.Create(mappedChief);
-            return mappedChief;
+            Chief NewChief = new ChiefMapper().MapToChief(chiefDTO);
+            NewChief.CreatedOn = DateTime.UtcNow;
+            NewChief.CreatedBy = "Current User";
+            NewChief.IsDeleted = false;
+            if (chiefDTO.ImageUrl != null)
+                NewChief.ImagePath = Upload.UploadFile("UserImages", chiefDTO.ImageUrl);
+            await _CR.Create(NewChief);
+            return NewChief;
         }
 
         public async Task<bool> Delete(int id)
@@ -117,6 +120,9 @@ namespace Chief_BLL.Services
             UpdatedChief.BranchID = chiefDTO.BranchID;
             UpdatedChief.ModifiedOn = DateTime.UtcNow;
             UpdatedChief.ModifiedBy = "Current User";
+            if (chiefDTO.ImageUrl != null)
+                UpdatedChief.ImagePath = Upload.UploadFile("UserImages", chiefDTO.ImageUrl);
+
             await _CR.Update(UpdatedChief);
             return UpdatedChief;
         }
