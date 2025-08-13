@@ -117,22 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Resturant" xml:space="preserve">
-    <value> Resturant</value>
-  </data>
   <data name="Home" xml:space="preserve">
-    <value> Home</value>
+    <value>Home</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value> Privacy</value>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="CheckOut" xml:space="preserve">
-    <value> CheckOut</value>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
   </data>
-  <data name="English" xml:space="preserve">
-    <value> English</value>
+  <data name="Chefs" xml:space="preserve">
+    <value>Chefs</value>
   </data>
-  <data name="Arabic " xml:space="preserve">
-    <value> Arabic </value>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Cemetery of the Greats" xml:space="preserve">
+    <value>Cemetery of the Greats</value>
+  </data>
+  <data name="Welcome to Cemetery of the Greats" xml:space="preserve">
+    <value>Welcome to Cemetery of the Greats</value>
+  </data>
+  <data name="Delivering great food for more than 18 years!" xml:space="preserve">
+    <value>Delivering great food for more than 18 years!</value>
+  </data>
+  <data name="What they're saying about us" xml:space="preserve">
+    <value>What they're saying about us</value>
+  </data>
+  <data name="Leave a Review" xml:space="preserve">
+    <value>Leave a Review</value>
+    <comment>اترك تقييم</comment>
+  </data>
+  <data name="Share your experience with us!" xml:space="preserve">
+    <value>Share your experience with us!</value>
+  </data>
+  <data name="Your Review" xml:space="preserve">
+    <value>Your Review</value>
+  </data>
+  <data name="Your Rating" xml:space="preserve">
+    <value>Your Rating</value>
+  </data>
+  <data name="Select your rating" xml:space="preserve">
+    <value>Select your rating</value>
+  </data>
+  <data name="Our Chiefs Experts" xml:space="preserve">
+    <value>Our Chiefs Experts</value>
+  </data>
+  <data name="BOOK A TABLE" xml:space="preserve">
+    <value>BOOK A TABLE</value>
+  </data>
+  <data name="Submit Review" xml:space="preserve">
+    <value>Submit Review</value>
+  </data>
+  <data name="Welcome to" xml:space="preserve">
+    <value>Welcome to</value>
+  </data>
+  <data name="OUR MENUE" xml:space="preserve">
+    <value>OUR MENUE</value>
   </data>
 </root>

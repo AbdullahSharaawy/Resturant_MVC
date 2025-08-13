@@ -26,8 +26,8 @@ namespace Resturant_PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews()
-            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization(options =>
+.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+.AddDataAnnotationsLocalization(options =>
 {
     options.DataAnnotationLocalizerProvider = (type, factory) =>
         factory.Create(typeof(SharedResource));

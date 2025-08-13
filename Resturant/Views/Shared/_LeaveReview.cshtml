@@ -1,8 +1,8 @@
 ﻿@model ReadReviewDTO
 <section id="review-section" class="custom-review-section">
     <div class="review-container review-section-title" data-aos="fade-up">
-        <h2>Leave a Review</h2>
-        <p>Share your experience with us!</p>
+        <h2>@SharedLocalizer["Leave a Review"]</h2>
+        <p>@SharedLocalizer["Share your experience with us!"]</p>
     </div>
 
     <div class="review-container" data-aos="fade-up" data-aos-delay="100">
@@ -10,13 +10,13 @@
             <div class="review-form-row">
                 <div class="review-form-col">
                     <div class="review-form-group">
-                        <label for="review-description" class="review-form-label">Your Review</label>
+                        <label for="review-description" class="review-form-label">@SharedLocalizer["Your Review"]</label>
                         <textarea class="review-form-control" asp-for="@Model.Description" rows="5" placeholder="Write your review here..." required></textarea>
                     </div>
                 </div>
                 <div class="review-form-col">
                     <div class="review-form-group">
-                        <label for="rating" class="review-form-label">Your Rating</label>
+                        <label for="rating" class="review-form-label">@SharedLocalizer["Your Rating"]</label>
                         <div class="review-rating-wrapper">
                             <div class="review-rating-stars">
                                 <input type="radio" id="review-star5" asp-for="@Model.Rate" value="5" required>
@@ -55,12 +55,12 @@
                                     </svg>
                                 </label>
                             </div>
-                            <div class="review-rating-text">Select your rating</div>
+                            <div class="review-rating-text">@SharedLocalizer["Select your rating"]</div>
                         </div>
                     </div>
                 </div>
                 <div class="review-form-col text-center">
-                    <button type="submit" class="review-submit-btn">Submit Review</button>
+                    <button type="submit" class="review-submit-btn">@SharedLocalizer["Submit Review"]</button>
                 </div>
             </div>
         </form>

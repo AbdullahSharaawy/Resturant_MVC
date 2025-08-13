@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Resturant_BLL.DTOModels;
@@ -22,7 +23,19 @@ namespace Resturant_PL.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-       
+
+        [HttpGet]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSenderService emailSender, IConfiguration configuration)
         {

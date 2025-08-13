@@ -117,22 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Resturant" xml:space="preserve">
-    <value>المطعم</value>
-  </data>
   <data name="Home" xml:space="preserve">
-    <value>الرئيسية</value>
+    <value>الصفحة الرئيسيه</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>سياسية الخصوصية</value>
+  <data name="About" xml:space="preserve">
+    <value>من نحن</value>
   </data>
-  <data name="CheckOut" xml:space="preserve">
-    <value>الدفع</value>
+  <data name="Menu" xml:space="preserve">
+    <value>القائمة</value>
   </data>
-  <data name="English" xml:space="preserve">
-    <value>الإنجليزية</value>
+  <data name="Chefs" xml:space="preserve">
+    <value>الطهاه</value>
   </data>
-  <data name="Arabic " xml:space="preserve">
-    <value>العربية</value>
+  <data name="Contact" xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>انشاء حساب</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل دخول</value>
+  </data>
+  <data name="Cemetery of the Greats" xml:space="preserve">
+    <value>مقبرة العظماء</value>
+  </data>
+  <data name="Welcome to Cemetery of the Greats" xml:space="preserve">
+    <value>مرحبا بك في مطعم مقبرة العظماء</value>
+  </data>
+  <data name="Delivering great food for more than 18 years!" xml:space="preserve">
+    <value>التوصيل متاح لمن عمرهم فوق 18 عام</value>
+  </data>
+  <data name="What they're saying about us" xml:space="preserve">
+    <value>ماذا يقول العملاء عنا</value>
+  </data>
+  <data name="Leave a Review" xml:space="preserve">
+    <value>اترك تقييم</value>
+  </data>
+  <data name="Share your experience with us!" xml:space="preserve">
+    <value>شارك تجربتك معنا</value>
+  </data>
+  <data name="Your Review" xml:space="preserve">
+    <value>رأيك يهمنا</value>
+  </data>
+  <data name="Your Rating" xml:space="preserve">
+    <value>تقييمك</value>
+  </data>
+  <data name="Select your rating" xml:space="preserve">
+    <value>حدد تقييمك</value>
+  </data>
+  <data name="Our Chiefs Experts" xml:space="preserve">
+    <value>طهاة المطعم ذوي الخبرة العالية</value>
+  </data>
+  <data name="BOOK A TABLE" xml:space="preserve">
+    <value>احجز طاوله الان</value>
+  </data>
+  <data name="Submit Review" xml:space="preserve">
+    <value>ارسل تقييمك</value>
+  </data>
+  <data name="Welcome to" xml:space="preserve">
+    <value>مرحبا بك في</value>
+  </data>
+  <data name="Our Menue" xml:space="preserve">
+    <value>القائمة</value>
   </data>
 </root>
