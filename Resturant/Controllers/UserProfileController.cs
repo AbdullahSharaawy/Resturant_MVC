@@ -144,8 +144,24 @@ namespace Resturant_PL.Controllers
             var user = await _userManager.GetUserAsync(User);
             user.ImagePath = imagePath;
             IdentityResult result=await _userManager.UpdateAsync(user);
-            if (result.Succeeded) 
-            return Json(new { success=true, message="upload the image is done successfuly"});
+            if (result.Succeeded)
+            {
+                var existingClaims = await _userManager.GetClaimsAsync(user);
+        
+        // Find and remove the existing ImagePath claim if it exists
+        var oldImageClaim = existingClaims.FirstOrDefault(c => c.Type == "ImagePath");
+        if (oldImageClaim != null)
+        {
+            await _userManager.RemoveClaimAsync(user, oldImageClaim);
+        }
+        
+        // Add the new claim
+        var newClaim = new Claim("ImagePath", user.ImagePath ?? "PersonIcon.svg");
+        await _userManager.AddClaimAsync(user, newClaim);
+                
+                //_userManager.ReplaceClaimAsync(user,)
+                return Json(new { success = true, message = "upload the image is done successfuly" });
+            }
             return Json(new { success = false,message="failed to upload the image" });
         }
     }

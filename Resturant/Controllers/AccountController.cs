@@ -37,13 +37,82 @@ namespace Resturant_PL.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            ViewBag.GoogleClientId = _configuration["Authentication:Google:ClientId"];
-            return View("Login");
+            LoginDTO loginDTO = new LoginDTO
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            return View("Login",loginDTO);
         }
-        
-        [Authorize]
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            var loginViewModel = new LoginDTO
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return View("Login", loginViewModel);
+            }
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return View("Login", loginViewModel);
+            }
+
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if (email != null)
+                {
+                    var user = await userManager.FindByEmailAsync(email);
+                    if(user==null)
+                    {
+                        user = new User
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
+                        await userManager.CreateAsync(user);
+                    }
+
+                    await userManager.AddLoginAsync(user, info);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    await InsertImagePathToClaims(user);
+                    return LocalRedirect(returnUrl);
+                }
+                ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
+                ViewBag.ErrorMessage = "Please contact support Jon Pragim@PragimTech.com";
+
+                return View("Error");
+            }
+        }
+            [Authorize]
         public async Task<IActionResult> SignOut()
         {
             await signInManager.SignOutAsync();
@@ -122,11 +191,8 @@ namespace Resturant_PL.Controllers
                     if (found)
                     {
                         await signInManager.SignInAsync(appuser, loginDTO.RememberMe);
-                        var claims = new List<Claim>
-                                    {
-                                        new Claim("ImagePath", appuser.ImagePath ?? "PersonIcon.svg")
-                                    };
-                        await userManager.AddClaimsAsync(appuser, claims);
+
+                       await InsertImagePathToClaims(appuser);
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -137,7 +203,23 @@ namespace Resturant_PL.Controllers
 
             return View("Login", loginDTO);
         }
+        private async Task<bool> InsertImagePathToClaims(User appuser)
+        {
+            var existingClaims = await userManager.GetClaimsAsync(appuser);
+            var imagePathClaims = existingClaims.Where(c => c.Type == "ImagePath");
 
+            // Remove all existing ImagePath claims
+            var removeResult = await userManager.RemoveClaimsAsync(appuser, imagePathClaims);
+
+            var claims = new List<Claim>
+                                    {
+                                        new Claim("ImagePath", appuser.ImagePath ?? "PersonIcon.svg")
+                                    };
+           IdentityResult result= await userManager.AddClaimsAsync(appuser, claims);
+            if (result.Succeeded)
+                return true;
+            return false;
+        }
         [HttpGet]
         public IActionResult Register()
         {
