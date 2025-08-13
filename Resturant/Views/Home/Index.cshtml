@@ -1,7 +1,53 @@
 ﻿@{
     Layout = "_ResturantLayout";
     ViewData["Title"] = "Cemetery of the Greats";
-} 
+}
+<style>
+    /* Error message styling (if you add validation messages) */
+    .dark-form-container .text-danger {
+        color: #dc3545 !important; /* Bootstrap danger red */
+    }
+
+    .modal-body {
+        color: #d4af6a; /* Changed text color to golden yellow */
+    }
+
+    .modal-content {
+        background-color: #000000; /* Main background is black for contrast */
+        border: 1px solid #d4af6a; /* Border is now golden yellow */
+        color: #FFFFFF; /* Text color is now golden yellow */
+    }
+
+    .modal-footer {
+        border-color: #d4af6a; /* Footer border is now golden yellow */
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #d4af6a; /* Line below header is now golden yellow */
+        color: #000000; /* Header text is now golden yellow */
+    }
+
+        .modal-header .btn-close {
+            filter: invert(0); /* Close button is dark for contrast */
+        }
+
+    .btn-primary {
+        background-color: #000000; /* Button background is black */
+        border-color: #d4af6a; /* Button border is golden yellow */
+        color: #FFFFFF; /* Button text is golden yellow */
+        font-weight: 600;
+        border-radius: 4px;
+        padding: 10px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #1a1814; /* Slightly lighter black on hover */
+            border-color: #d4af6a;
+            color: #d4af6a;
+        }
+</style>
+<partial name="_NotificationModal" />
 <!-- Hero Section -->
 <section id="hero" class="hero section dark-background">
 
@@ -10,7 +56,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 d-flex flex-column align-items-center align-items-lg-start">
-                <h2 data-aos="fade-up" data-aos-delay="100">Welcome to <span>Restaurantly</span></h2>
+                <h2 data-aos="fade-up" data-aos-delay="100">Welcome to <span>Cemetery of the Greats</span></h2>
                 <p data-aos="fade-up" data-aos-delay="200">Delivering great food for more than 18 years!</p>
                 <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="#menu" class="cta-btn">Our Menu</a>
@@ -27,6 +73,9 @@
 <!-- About Section -->
 <!-- Chefs Section -->
 <section id="reviews" class="reviews section"></section>
+<section id="leave-review" class="leave-review section">
+</section>
+
 <section id="chefs" class="chefs section"></section>
 
 
@@ -36,9 +85,9 @@
 @section Scripts {
     <script>
         window.onload = function () {
-                GetReviews();                                          
+            GetReviews();                                          
+            LeaveReview();
             GetChiefs();
-           
         };
         function GetChiefs() {
            
@@ -46,6 +95,15 @@
             $.ajax({
                 url: "/Chief/ChiefsPartialView", success: function (result) {
                     $("#chefs").html(result);
+                }
+            });
+
+        }
+        function LeaveReview() {
+            console.log("hi");
+            $.ajax({
+                url: "/Review/LeaveReview", success: function (result) {
+                    $("#leave-review").html(result);
                 }
             });
 
@@ -60,6 +118,16 @@
                 }
             });
 
+        }
+        function GetBranchChiefs(branchId) {
+            console.log("hi");
+            console.log(branchId);
+            $.ajax({
+                url: "/Chief/selectChiefsOfBranch?branchId="+branchId, success: function (result) {
+                    $("#chefs").html(result);
+                    initSwiper();
+                }
+            });
         }
         function initSwiper() {
             const swiperContainer = document.querySelector('.init-swiper');
@@ -81,5 +149,33 @@
                 });
             }
         }
+        $(document).on('submit', '#leaveReview', function (e) {
+            e.preventDefault(); // prevent page refresh
+            console.log("hi");
+            $.ajax({
+                url: '/Review/SaveReview',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Set the message and show the modal
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    } else {
+
+                        $('#notificationModalLabel').text("Error");
+                        $('#notificationModalBody').text(response.message);
+                        $('#notificationModal').modal('show');
+                    }
+                },
+                error: function () {
+
+                    $('#notificationModalLabel').text("Error");
+                    $('#notificationModalBody').text('Please signin First.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+
     </script>
 }

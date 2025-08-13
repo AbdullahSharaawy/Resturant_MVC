@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels.ReviewDTOS;
+using Resturant_BLL.Mapperly;
 using Resturant_BLL.Services;
+using Resturant_DAL.Entities;
 using System.Threading.Tasks;
 
 namespace Resturant_PL.Controllers
@@ -8,7 +12,7 @@ namespace Resturant_PL.Controllers
     public class ReviewController : Controller
     {
         private readonly IReviewService _reviewService;
-
+        private readonly UserManager<User> _usuManager;
         public ReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;
@@ -22,44 +26,26 @@ namespace Resturant_PL.Controllers
 
             return View("Reviews", await _reviewService.GetList(r=>r.IsDeleted==false ));
         }
-
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult>  LeaveReview()
         {
-            return View("Update", await _reviewService.GetById(id));
+            return PartialView("_LeaveReview");
         }
-
-        public IActionResult Create()
+        [Authorize]
+        public async Task<IActionResult> SaveReview(ReadReviewDTO readReview)
         {
-            return View("Create");
+            if (ModelState.IsValid)
+            {
+                if(await _reviewService.Create(readReview)==null)
+                    return Json(new {success=false, message="save your review operation is failed."});
+                return Json(new { success = true, message = "the operation is done successfuly but note that you can put only one review." });
+            }
+            return Json(new { success=false , message="Please enter your rate and description."});
         }
+       
+       
+       
 
-        public async Task<IActionResult> SaveEdit(ReviewDTO _UpdateReview)
-        {
-            if (await _reviewService.Update(_UpdateReview) == null)
-            {
-                RedirectToAction("Update", _UpdateReview);
-                TempData["ErrorMessage"] = "Failed to update the record.";
-            }
-            else
-            {
-                TempData["SuccessMessage"] = "Record updated successfully!";
-            }
-            return View("Reviews", await _reviewService.GetList((r => r.IsDeleted == false)));
-        }
-
-        public async Task<IActionResult> SaveNew(ReviewDTO _CreateReview)
-        {
-            if (await _reviewService.Create(_CreateReview) == null)
-            {
-                RedirectToAction("Create", _CreateReview);
-                TempData["ErrorMessage"] = "Failed to create a new record.";
-            }
-            else
-            {
-                TempData["SuccessMessage"] = "New record created successfully!";
-            }
-            return View("Reviews", await _reviewService.GetList((r => r.IsDeleted == false)));
-        }
+       
 
         public async Task<IActionResult> Delete(int id)
         {
