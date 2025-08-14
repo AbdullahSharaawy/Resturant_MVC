@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resturant_BLL.DTOModels
+namespace Resturant_BLL.DTOModels.PaymentDTOS
 {
     public class PaymentDTO
     {

@@ -120,8 +120,8 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews</value>
   </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
@@ -180,5 +180,20 @@
   </data>
   <data name="OUR MENUE" xml:space="preserve">
     <value>OUR MENUE</value>
+  </data>
+  <data name="Contact Us" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Open Hours" xml:space="preserve">
+    <value>Open Hours</value>
+  </data>
+  <data name="Call Us" xml:space="preserve">
+    <value>Call Us</value>
+  </data>
+  <data name="Admin Panel" xml:space="preserve">
+    <value>Admin Panel</value>
   </data>
 </root>

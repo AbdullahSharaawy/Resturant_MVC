@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_ManagementLayout";
+}
+@model AdminDashBoardDTO
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .dashboard-card {
+            background-color: #212529; /* Dark card background */
+            color: #f8f9fa; /* Light text */
+            border: 1px solid #343a40; /* Dark border */
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease-in-out;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .dashboard-card:hover {
+                transform: translateY(-3px);
+            }
+
+            .dashboard-card h4 {
+                color: #cda45e;
+                font-weight: bold;
+            }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f8f9fa;
+            margin: 10px 0;
+        }
+
+        .dashboard-section-title {
+            text-align: center;
+            color: #cda45e;
+            margin-bottom: 30px;
+        }
+    </style>
+
+    <h2 class="dashboard-section-title">Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h4>Total Users</h4>
+                <div class="stat-number">@Model.TotalUsers</div>
+                <p>Number of registered users.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h4>Active Reservations</h4>
+                <div class="stat-number">@Model.TotalReservations</div>
+                <p>Currently booked reservations.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h4>Pending Reviews</h4>
+                <div class="stat-number">@Model.TotalReviews</div>
+                <p>Reviews awaiting approval.</p>
+            </div>
+        </div>
+    </div>
+
+   
+</div>

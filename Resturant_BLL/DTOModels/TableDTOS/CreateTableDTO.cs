@@ -1,11 +1,12 @@
-﻿using Resturant_DAL.Entities;
+﻿using Resturant_BLL.DTOModels.BranchDTOS;
+using Resturant_DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resturant_BLL.DTOModels
+namespace Resturant_BLL.DTOModels.TableDTOS
 {
     public class CreateTableDTO
     {
@@ -16,6 +17,6 @@ namespace Resturant_BLL.DTOModels
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public Branch Branch { get; set; }
-       public List<BranchDTO> branchDTOs { get; set; }
+        public List<BranchDTO> branchDTOs { get; set; }
     }
 }

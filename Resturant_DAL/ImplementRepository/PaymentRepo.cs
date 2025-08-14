@@ -31,7 +31,8 @@ namespace Resturant_DAL.ImplementRepository
 
         public async Task<List<Payment>> GetAll()
         {
-            return await _context.Payment.ToListAsync();
+            return await _context.Payment
+                .ToListAsync();
         }
 
         public async Task<Payment> GetByID(int id)

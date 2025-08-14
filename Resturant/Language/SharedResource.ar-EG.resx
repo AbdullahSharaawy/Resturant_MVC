@@ -120,8 +120,8 @@
   <data name="Home" xml:space="preserve">
     <value>الصفحة الرئيسيه</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>من نحن</value>
+  <data name="Reviews" xml:space="preserve">
+    <value>الأراء</value>
   </data>
   <data name="Menu" xml:space="preserve">
     <value>القائمة</value>
@@ -177,7 +177,22 @@
   <data name="Welcome to" xml:space="preserve">
     <value>مرحبا بك في</value>
   </data>
-  <data name="Our Menue" xml:space="preserve">
+  <data name="OUR MENUE" xml:space="preserve">
     <value>القائمة</value>
+  </data>
+  <data name="Contact Us" xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="Open Hours" xml:space="preserve">
+    <value>مفتوح علي مدار الساعه</value>
+  </data>
+  <data name="Call Us" xml:space="preserve">
+    <value>اتصل بنا</value>
+  </data>
+  <data name="Admin Panel" xml:space="preserve">
+    <value>صفحة الأدمن</value>
   </data>
 </root>

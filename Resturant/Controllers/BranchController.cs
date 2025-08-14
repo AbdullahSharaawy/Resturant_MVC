@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.BranchDTOS;
 using Resturant_BLL.Services;
 using System.Threading.Tasks;
 

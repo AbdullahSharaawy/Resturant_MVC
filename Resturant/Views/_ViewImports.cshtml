@@ -8,12 +8,18 @@
 @using Resturant_BLL.DTOModels.ChifDTOS
 @using Resturant_BLL.DTOModels.ReservationDTOS
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using Resturant_BLL.DTOModels.OrderDTOS
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 @using Resturant_BLL.DTOModels.OrderItemDTOs
 @using Resturant_BLL.DTOModels.ReviewDTOS
-
+@using Resturant_BLL.DTOModels.ContactDTOS
+@using Resturant_BLL.DTOModels.BranchDTOS
+@using Resturant_BLL.DTOModels.IdentityDTOS
+@using Resturant_BLL.DTOModels.PaymentDTOS
+@using Resturant_BLL.DTOModels.ReservedTablesDTOS
+@using Resturant_BLL.DTOModels.TableDTOS
  @using Microsoft.Extensions.Localization
 @using Resturant_PL.Language
-
+@using Resturant_BLL.DTOModels.AdminDTOS
 @inject IStringLocalizer<SharedResource> SharedLocalizer
  

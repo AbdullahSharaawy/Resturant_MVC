@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Resturant_BLL.DTOModels
+namespace Resturant_BLL.DTOModels.AccountDTOS
 {
     public class RegisterDTO
     {

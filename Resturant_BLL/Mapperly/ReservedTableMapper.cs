@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Resturant_BLL.DTOModels.ReservedTablesDTOS;
 using Resturant_DAL.Entities;
 using Riok.Mapperly.Abstractions;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.Mapperly
 {
-        [Mapper]
+    [Mapper]
         public partial class ReservedTableMapper
         {
             public partial ReservedTableDTO MapToReservedTableDTO(ReservedTable table);

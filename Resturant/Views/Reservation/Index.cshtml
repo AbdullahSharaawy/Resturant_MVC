@@ -102,6 +102,7 @@
             <tr>
                 <th class="text-center">Reservation #</th>
                 <th class="text-center">User #</th>
+                <th class="text-center">Secret Key</th>
                 <th class="text-center">Date &amp; Time</th>
                 <th class="text-center">Guests</th>
                 <th class="text-center">Status</th>
@@ -117,6 +118,7 @@
                 <tr>
                     <td class="text-center">@item.ReservationID</td>
                     <td class="text-center">@item.User.FirstName @item.User.LastName</td>
+                    <td class="text-center">@item.SecretKey</td>
                     <td class="text-center">@item.DateTime.ToString("MMM dd, yyyy hh:mm tt")</td>
                     <td class="text-center">@item.NumberOfGuests</td>
                    

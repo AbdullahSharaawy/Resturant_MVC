@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.IdentityDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 

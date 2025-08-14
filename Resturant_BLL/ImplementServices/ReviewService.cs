@@ -29,7 +29,7 @@ namespace Resturant_BLL.Services
             if (readReview == null)
                 return null;
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-            List<Review> reviews = await _RR.GetAllByFilter(r => r.UserID == user.Id);
+            List<Review> reviews = await _RR.GetAllByFilter(r => r.UserID == user.Id && !r.IsDeleted);
             Review review=new Review();
             if(reviews.Count==0)
             {

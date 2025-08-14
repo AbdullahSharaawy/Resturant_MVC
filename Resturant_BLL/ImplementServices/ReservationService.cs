@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Hangfire;
 using Resturant_BLL.ImplementServices;
 using Microsoft.Extensions.Options;
+using Resturant_BLL.DTOModels.PaymentDTOS;
 
 namespace Resturant_BLL.Services
 {
@@ -169,9 +170,9 @@ namespace Resturant_BLL.Services
             }
         }
 
-        public async Task<UpdateReservationDTO?> GetCreateReservationInfo()
+        public async Task<ManageReservationDTO?> GetCreateReservationInfo()
         {
-            UpdateReservationDTO createChiefDTO = new UpdateReservationDTO();
+            ManageReservationDTO createChiefDTO = new ManageReservationDTO();
             createChiefDTO.Branches = (await _BR.GetAll())
                 .Where(b => b.IsDeleted == false)
                 .Select(b => new BranchMapper().MapToBranchDTO(b))
@@ -305,7 +306,7 @@ namespace Resturant_BLL.Services
 
         }
 
-        public async Task<bool> FinishQuickReservation(UpdateReservationDTO updateReservationDTO)
+        public async Task<bool> FinishQuickReservation(ManageReservationDTO updateReservationDTO)
         {
             CheckOutDTO checkOutDTO = new CheckOutDTO();
             var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);

@@ -15,9 +15,9 @@ namespace Resturant_BLL.Services
         public Task<(Reservation?, List<ReservedTable>?, Payment?)> CreateQuickReservation(ReservationDTO dto);
         public Task<Reservation?> Update(ReservationDTO reservationDTO);
         public Task<bool> Delete(int id);
-        public Task<UpdateReservationDTO?> GetCreateReservationInfo();
+        public Task<ManageReservationDTO?> GetCreateReservationInfo();
         Task<List<ReservationDTO>> GetReservationsByUserId(string userId);
-        public Task<bool > FinishQuickReservation(UpdateReservationDTO reservationDTO);
+        public Task<bool > FinishQuickReservation(ManageReservationDTO reservationDTO);
 
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ReservedTablesDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;

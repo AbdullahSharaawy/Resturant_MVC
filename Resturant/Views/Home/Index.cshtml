@@ -60,7 +60,7 @@
                 <p data-aos="fade-up" data-aos-delay="200">@SharedLocalizer["Delivering great food for more than 18 years!"]</p>
                 <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="#menu" class="cta-btn">@SharedLocalizer["OUR MENUE"]</a>
-                    <a href="#book-a-table" class="cta-btn">@SharedLocalizer["BOOK A TABLE"]</a>
+                    <a href="/Reservation/BookTable" class="cta-btn">@SharedLocalizer["BOOK A TABLE"]</a>
                 </div>
             </div>
             <div class="col-lg-4 d-flex align-items-center justify-content-center mt-5 mt-lg-0">
@@ -78,23 +78,35 @@
 
 <section id="chefs" class="chefs section"></section>
 
-
+<section id="contact" class="contact section" style="padding-top: 150px;">
+</section><!-- /Contact Section -->
       
 
 
 @section Scripts {
     <script>
-        window.onload = function () {
-            GetReviews();                                          
-            LeaveReview();
-            GetChiefs();
+        window.onload =async function () {
+            await GetReviews();                                          
+            await LeaveReview();
+            await GetChiefs();
+            await ContactUs();
         };
-        function GetChiefs() {
+        function ContactUs() {
            
             console.log("hi");
             $.ajax({
                 url: "/Chief/ChiefsPartialView", success: function (result) {
                     $("#chefs").html(result);
+                }
+            });
+
+        }
+        function GetChiefs() {
+
+            console.log("hi");
+            $.ajax({
+                url: "/Contact/Index", success: function (result) {
+                    $("#contact").html(result);
                 }
             });
 
@@ -176,6 +188,22 @@
                 }
             });
         });
+        function updateMap() {
+            const selector = document.getElementById('locationSelector');
+            const selectedLocation = selector.value; // e.g., "40.710059,-74.006138"
+            const mapFrame = document.getElementById('locationMap');
 
+            // Split the value string into latitude and longitude
+            const coords = selectedLocation.split(',');
+            const lat = coords[0];
+            const lng = coords[1];
+
+            // Construct the correct Google Maps embed URL
+            mapFrame.src = `https://maps.google.com/maps?q=${lat},${lng}&hl=en&z=14&output=embed`;
+        }
+
+        // You should also call this function once when the page loads
+        // to set the initial map location.
+        document.addEventListener('DOMContentLoaded', updateMap);
     </script>
 }

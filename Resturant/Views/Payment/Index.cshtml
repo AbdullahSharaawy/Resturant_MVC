@@ -1,0 +1,66 @@
+﻿@model List<PaymentDTO>
+@{
+    Layout = "_ManagementLayout";
+}
+<h2>Payments</h2>
+<div class="container mt-4 pt-5">
+    <style>
+        body {
+            background-image: url("@Url.Content("~/Files/3274764.jpg")");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        #myTable {
+            background-color: #212529; /* A very dark grey, close to black */
+            color: #f8f9fa; /* Light text for contrast */
+        }
+        #myTable thead.thead-dark th {
+            background-color: #343a40; /* Slightly lighter dark for header */
+            color: #f8f9fa;
+        }
+        #myTable tbody tr {
+            background-color: #212529; /* Apply to rows for consistency */
+            color: #f8f9fa;
+        }
+        /* You might want to adjust striped and hover colors as well */
+        #myTable.table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.05); /* Adjust for dark background */
+        }
+        #myTable.table-hover tbody tr:hover {
+            background-color: rgba(255,255,255,.1); /* Lighter hover for dark background */
+        }
+
+
+    </style>
+
+    <table id="myTable" class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">Payment ID</th>
+                <th class="text-center">Method</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PaymentDTO item in @Model)
+            {
+                <tr>
+                    <td class="text-center">@item.PaymentID</td>
+                    <td class="text-center">@item.PaymentMethod</td>
+                    <td class="text-center">@item.Date</td>
+                    <td class="text-center">@item.Amount</td>
+                    <td class="text-center">@item.Status</td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+

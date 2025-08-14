@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">Management Dashboard</a>
+                <a class="navbar-brand" href="/AdminDashBoard/Index">Management Dashboard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -26,49 +26,45 @@
                             <a class="nav-link" asp-area="" asp-controller="Chief" asp-action="Index">Chiefs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Seats</a>
+                            <a class="nav-link" asp-area="" asp-controller="Table" asp-action="Index">Seats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Reservations</a>
+                            <a class="nav-link" asp-area="" asp-controller="Reservation" asp-action="Index">Reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Reserved Seats</a>
+                            <a class="nav-link" asp-area="" asp-controller="ReservedTables" asp-action="Index">Reserved Seats</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="AdminOrder" asp-action="Index">Orders</a>
                         </li>
                          <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Payments</a>
+                            <a class="nav-link" asp-area="" asp-controller="Payment" asp-action="Index">Payments</a>
                         </li>
+                       
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Locations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Branches</a>
+                            <a class="nav-link" asp-area="" asp-controller="Branch" asp-action="Index">Branches</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="AdminMenuItems" asp-action="Index">MenueItems</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="OtherEntity" asp-action="Index">Seats</a>
+                            <a class="nav-link" asp-area="" asp-controller="Table" asp-action="Index">Seats</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Table" asp-action="Index">Tables</a>
-                        </li>
+                      
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Admin
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Manage Users and Roles</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Index">Manage Users and Roles</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="AdminAccountSettings">Settings</a></li>
                             </ul>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <form asp-controller="Account" asp-action="Logout" method="post">
+                            <form asp-controller="Account" asp-action="SignOut" method="post">
                                 <button type="submit" class="nav-link btn btn-link">Logout</button>
                             </form>
                         </li>

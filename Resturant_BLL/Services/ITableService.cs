@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.TableDTOS;
 using Resturant_DAL.Entities;
 
 namespace Resturant_BLL.Services

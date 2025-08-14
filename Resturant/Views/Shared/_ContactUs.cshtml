@@ -1,16 +1,10 @@
-﻿<!-- Contact Section -->
-@model ContactDTO
-@{
-    Layout = "_ResturantLayout";
-    
-}
+﻿@model ContactDTO
 
-<section id="contact" class="contact section" style="padding-top: 150px;">
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Contact Us</p>
+    <p>@SharedLocalizer["Contact Us"]</p>
     </div><!-- End Section Title -->
 
     <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
@@ -25,7 +19,7 @@
                 <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
                     <i class="bi bi-geo-alt flex-shrink-0"></i>
                     <div>
-                        <h3>Location</h3>
+                    <h3>@SharedLocalizer["Location"]</h3>
                         <select id="locationSelector" class="form-control" onchange="updateMap()">
                             @foreach (var item in Model.branchDTOs)
                             {
@@ -37,12 +31,11 @@
                     </div>
 
                 </div><!-- End Info Item -->
-              
                 <!-- Rest of your contact info items... -->
                 <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
                     <i class="bi bi-telephone flex-shrink-0"></i>
                     <div>
-                        <h3>Open Hours</h3>
+                    <h3>@SharedLocalizer["Open Hours"]</h3>
                         <p>Monday-Saturday:<br>11:00 AM - 2300 PM</p>
                     </div>
                 </div><!-- End Info Item -->
@@ -50,7 +43,7 @@
                 <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
                     <i class="bi bi-telephone flex-shrink-0"></i>
                     <div>
-                        <h3>Call Us</h3>
+                    <h3>@SharedLocalizer["Call Us"]</h3>
                         <p>+1 5589 55488 55</p>
                     </div>
                 </div><!-- End Info Item -->
@@ -65,29 +58,10 @@
 
             </div>
 
-           
+
         </div>
 
     </div>
 
-</section><!-- /Contact Section -->
 
-<script>
-    function updateMap() {
-        const selector = document.getElementById('locationSelector');
-        const selectedLocation = selector.value; // e.g., "40.710059,-74.006138"
-        const mapFrame = document.getElementById('locationMap');
 
-        // Split the value string into latitude and longitude
-        const coords = selectedLocation.split(',');
-        const lat = coords[0];
-        const lng = coords[1];
-
-        // Construct the correct Google Maps embed URL
-        mapFrame.src = `https://maps.google.com/maps?q=${lat},${lng}&hl=en&z=14&output=embed`;
-    }
-
-    // You should also call this function once when the page loads
-    // to set the initial map location.
-    document.addEventListener('DOMContentLoaded', updateMap);
-</script>

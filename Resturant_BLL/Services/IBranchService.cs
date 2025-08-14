@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Resturant_BLL.DTOModels.BranchDTOS;
 using Resturant_DAL.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;

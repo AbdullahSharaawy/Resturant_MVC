@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.BranchDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;

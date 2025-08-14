@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ContactDTOS;
 using Resturant_BLL.Services;
 
 namespace Resturant_PL.Controllers
@@ -25,7 +25,7 @@ namespace Resturant_PL.Controllers
         {
             ContactDTO contactDTO = new ContactDTO();
             contactDTO.branchDTOs = await _branchService.GetList();
-            return View("ContactUs",contactDTO);
+            return PartialView("_ContactUs",contactDTO);
         }
       
         [HttpGet]

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using Resturant_BLL.DTOModels;
 using Resturant_BLL.DTOModels.AccountDTOS;
 using Resturant_BLL.ImplementServices;
 using Resturant_BLL.Services;
@@ -273,12 +272,32 @@ namespace Resturant_PL.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
-                   
+
                     // Send email
-                   await  _emailSender.SendEmailAsync(
-                        registerDTO.Email,
-                        "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",emailSettings);
+                    await _emailSender.SendEmailAsync(
+       registerDTO.Email,
+       "Confirm your email",
+       $@"
+    <div style='font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;'>
+        <div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 30px;'>
+            <h2 style='color: #cda45e; text-align: center;'>Confirm Your Email</h2>
+            <p style='color: #333; font-size: 16px; line-height: 1.6;'>
+                Thank you for registering! Please confirm your account by clicking the button below.
+            </p>
+            <div style='text-align: center; margin: 30px 0;'>
+                <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' 
+                   style='background-color: #cda45e; color: #fff; text-decoration: none; padding: 12px 25px;
+                          border-radius: 5px; font-size: 16px; font-weight: bold; display: inline-block;'>
+                    Confirm My Email
+                </a>
+            </div>
+            <p style='color: #777; font-size: 14px; text-align: center;'>
+                If you didn’t create an account, you can ignore this message.
+            </p>
+        </div>
+    </div>
+    ", emailSettings);
 
                     // Don't sign in automatically - require email confirmation first
                     return RedirectToAction("RegisterConfirmation", new { email = registerDTO.Email });

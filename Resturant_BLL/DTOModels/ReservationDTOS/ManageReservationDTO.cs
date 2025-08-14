@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Resturant_BLL.DTOModels.BranchDTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.DTOModels.ReservationDTOS
 {
-    public class UpdateReservationDTO
+    public class ManageReservationDTO
     {
         public ReservationDTO ReservationDTO { get; set; }
         public List<BranchDTO> Branches { get; set; }

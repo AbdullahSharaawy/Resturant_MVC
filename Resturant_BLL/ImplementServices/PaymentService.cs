@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.PaymentDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;

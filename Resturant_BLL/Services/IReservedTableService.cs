@@ -1,4 +1,4 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Resturant_BLL.DTOModels.ReservedTablesDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.ImplementRepository;

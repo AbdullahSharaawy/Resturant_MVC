@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.IdentityDTOS;
 using Resturant_BLL.ImplementServices;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
@@ -12,7 +12,7 @@ using System.Text.Encodings.Web;
 
 namespace Resturant_PL.Controllers
 {
-    
+
     [Authorize]
     public class UserProfileController : Controller
     {

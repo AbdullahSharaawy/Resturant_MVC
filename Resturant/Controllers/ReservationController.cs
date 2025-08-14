@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.BranchDTOS;
 using Resturant_BLL.DTOModels.ReservationDTOS;
 
 
@@ -43,7 +43,7 @@ namespace Resturant_PL.Controllers
             return PartialView("_QuickReservation", await _RS.GetCreateReservationInfo());
         }
         [Authorize]
-        public async Task<IActionResult> SaveQuickReservation(UpdateReservationDTO updateReservationDTO)
+        public async Task<IActionResult> SaveQuickReservation(ManageReservationDTO updateReservationDTO)
         {
             
             if(await _RS.FinishQuickReservation(updateReservationDTO))
@@ -67,7 +67,7 @@ namespace Resturant_PL.Controllers
                 reservations = new List<ReservationDTO>();
             if(branches==null)
                 branches = new List<BranchDTO>();
-            var model = new UpdateReservationDTO
+            var model = new ManageReservationDTO
             {
                 Reservations = reservations,
                 Branches = branches
@@ -80,12 +80,12 @@ namespace Resturant_PL.Controllers
 
         public async Task<IActionResult> Create()
         {
-            UpdateReservationDTO model = await _RS.GetCreateReservationInfo();
+            ManageReservationDTO model = await _RS.GetCreateReservationInfo();
             return View("Create", model);
         }
         public async Task<IActionResult> BookTable()
         {
-            UpdateReservationDTO model = await _RS.GetCreateReservationInfo();
+            ManageReservationDTO model = await _RS.GetCreateReservationInfo();
             return View("BookTable", model);
         }
         public async Task<IActionResult> Update(int id)
@@ -97,7 +97,7 @@ namespace Resturant_PL.Controllers
                 return RedirectToAction("Index");
             }
 
-            var updateModel = new UpdateReservationDTO
+            var updateModel = new ManageReservationDTO
             {
                 ReservationDTO = reservation,
                 Branches = await _BS.GetList()
@@ -109,7 +109,7 @@ namespace Resturant_PL.Controllers
        
 
         [HttpPost]
-        public async Task<IActionResult> SaveEdit(UpdateReservationDTO dto)
+        public async Task<IActionResult> SaveEdit(ManageReservationDTO dto)
         {
 
             if (await _RS.Update(dto.ReservationDTO)!=null)
@@ -160,7 +160,7 @@ namespace Resturant_PL.Controllers
                 return NotFound("Reservation not found.");
             }
 
-            var updateModel = new UpdateReservationDTO
+            var updateModel = new ManageReservationDTO
             {
                 ReservationDTO = reservation,
                 Branches = await _BS.GetList()

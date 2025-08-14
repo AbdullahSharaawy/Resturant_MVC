@@ -102,16 +102,32 @@
                 <nav id="navmenu" class="navmenu">
 
                     <ul>
-                        <li><a href="#hero" class="active">@SharedLocalizer["Home"]<br></a></li>
-                        <li><a href="#about">@SharedLocalizer["About"]</a></li>
-                        <li><a href="#menu">@SharedLocalizer["Menu"]</a></li>
+                        @{
+                            var currentPath = Context.Request.Path.Value?.ToLower();
+                        }
+                        @if (currentPath.StartsWith("/userprofile"))
+                        {
+                            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            
+                        }else
+                        {
+                            <li><a href="#hero" class="active">@SharedLocalizer["Home"]<br></a></li>
 
-                        <li><a href="#chefs">@SharedLocalizer["Chefs"]</a></li>
+                            <li><a href="#menu">@SharedLocalizer["Menu"]</a></li>
+                            <li><a href="#about">@SharedLocalizer["Reviews"]</a></li>
+                            <li><a href="#chefs">@SharedLocalizer["Chefs"]</a></li>
 
-                        <li><a href="/Contact/Index">@SharedLocalizer["Contact"]</a></li>
+                            <li><a href="#contact">@SharedLocalizer["Contact"]</a></li>
+                        }
+                       
                         @if (User.Identity.IsAuthenticated)
                         {
-
+                            @* Check if user meets AdminOnly policy *@
+                            var authResult = await AuthorizationService.AuthorizeAsync(User, "AdminOnly");
+                            if (authResult.Succeeded)
+                            {
+                                <li><a href="/AdminDashBoard/Index">Admin Panel</a></li>
+                            }
                             <li class="profile-nav-item">
                                 <a href="/UserProfile" class="profile-link">
                                     <div class="profile-icon">
