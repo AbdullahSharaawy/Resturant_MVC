@@ -62,13 +62,21 @@ namespace Resturant_BLL.Services
             {
                 return null;
             }
-            MenueItem menuItem = new MenueItemMapper().MapToMenueItem(menueItem);
-            menuItem.ModifiedOn = DateTime.UtcNow;
-            menuItem.ModifiedBy = "Current User";
-            menuItem.IsDeleted = false;
-            await _CR.Update(menuItem);
+            var existingItem = await _CR.GetByID(menueItem.ItemID);
+            if (existingItem == null)
+                return null;
+            existingItem.Name = menueItem.Name;
+            existingItem.Description = menueItem.Description;
+            existingItem.Price = menueItem.Price;
+            existingItem.Category = menueItem.Category;
+            //existingItem.ImageUrl = menueItem.ImageUrl;
+            existingItem.ModifiedOn = DateTime.UtcNow;
+            existingItem.ModifiedBy = "Current User";
+            existingItem.IsDeleted = false;
+            await _CR.Update(existingItem);
             return menueItem;
         }
+
 
         public async Task<bool> Delete(int id)
         {

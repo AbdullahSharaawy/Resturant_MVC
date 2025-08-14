@@ -135,6 +135,13 @@
                 <span asp-validation-for="Availability"></span>
             </div>
         </div>
+        <div class="mb-3">
+            <label asp-for="ImageUrl" class="form-label"></label>
+            <input class="form-control" type="file" asp-for="ImageUrl" />
+            <div class="text-danger">
+                <span asp-validation-for="ImageUrl"></span>
+            </div>
+        </div>
         <button class="btn btn-dark" type="submit">Submit</button>
     </form>
 </div>

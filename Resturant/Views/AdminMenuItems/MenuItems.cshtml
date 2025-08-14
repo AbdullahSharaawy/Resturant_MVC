@@ -99,6 +99,7 @@
                 <th class="text-center">DietaryInfo</th>
                 <th class="text-center">Price</th>
                 <th class="text-center">Availability</th>
+                <th class="text-center">Image</th>
             </tr>
         </thead>
         <tbody>
@@ -111,6 +112,10 @@
                     <td class="text-center">@item.DietaryInfo</td>
                     <td class="text-center">@item.Price</td>
                     <td class="text-center">@item.Availability</td>
+                    <td class="text-center">
+                        <img src="~/Files/UserImages/@item.ImagePath" alt="Item Image" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;">
+
+                    </td>
                     <td class="text-center action-buttons">
                         <a class="btn btn-sm btn-outline-light action-icon-btn" href="/AdminMenuItems/Update?id=@item.ItemID" title="Edit">
                             <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">

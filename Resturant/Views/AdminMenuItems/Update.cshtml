@@ -1,4 +1,5 @@
-﻿@model MenueItemDTO
+﻿@using Resturant_DAL.Entities
+@model MenueItemDTO
 
 @{
     Layout = "_ManagementLayout";
@@ -87,8 +88,9 @@
     </style>
 
     <form action="/AdminMenuItems/SaveEdit" method="post" class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Menue Details</h2>
-
+        <input type="hidden" asp-for="ItemID" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <h2 class="text-center mb-4"> Edit </h2>
         <div class="mb-3">
             <label asp-for="@Model.Name" class="form-label"></label>
             <input class="form-control" type="text" asp-for="@Model.Name" required />
@@ -124,7 +126,12 @@
                 <span asp-validation-for="@Model.DietaryInfo"></span>
             </div>
         </div>
-
+        <div class="mb-3">
+            <label asp-for="@Model.ImagePath" class="form-label"></label>
+            <input class="form-control" type="file" asp-for="@Model.ImageUrl" />
+            <div class="text-danger">
+                <span asp-validation-for="@Model.ImagePath"></span>
+            </div>
         <button class="btn btn-dark" type="submit">Submit</button>
     </form>
 </div>

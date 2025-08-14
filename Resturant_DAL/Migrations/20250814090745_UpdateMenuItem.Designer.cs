@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resturant_DAL.DataBase;
 
@@ -11,9 +12,11 @@ using Resturant_DAL.DataBase;
 namespace Resturant_DAL.Migrations
 {
     [DbContext(typeof(ResturantContext))]
-    partial class ResturantContextModelSnapshot : ModelSnapshot
+    [Migration("20250814090745_UpdateMenuItem")]
+    partial class UpdateMenuItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

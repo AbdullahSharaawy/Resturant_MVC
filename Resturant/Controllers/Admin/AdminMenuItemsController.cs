@@ -21,9 +21,14 @@ namespace Resturant_PL.Controllers.Admin
 
         public async Task<IActionResult> Update(int id)
         {
-            return View("Update", await _MenuService.GetById(id));
+            var existingItem = await _MenuService.GetById(id);
+            if (existingItem == null)
+                return NotFound();
+
+            return View(existingItem);
         }
 
+        [HttpPost]
         public async Task<IActionResult> SaveEdit(MenueItemDTO menueItem)
         {
 
@@ -32,15 +37,15 @@ namespace Resturant_PL.Controllers.Admin
 
                 return View("Update", menueItem);
             }
-            if (await _MenuService.Update(menueItem) == null)
+            var updatedItem = await _MenuService.Update(menueItem);
+            if (updatedItem == null)
             {
                 return View("Update", menueItem);
             }
 
             TempData["SuccessMessage"] = "Record updated successfully!";
-            return View("Orders", await _MenuService.GetList());
+            return RedirectToAction("Index");
         }
-
         [HttpGet]
         public IActionResult Create()
         {
