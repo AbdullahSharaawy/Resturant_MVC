@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Smtp;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -23,7 +24,7 @@ namespace Resturant_PL.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-
+        private readonly EmailSettings emailSettings;
         [HttpGet]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
@@ -43,6 +44,15 @@ namespace Resturant_PL.Controllers
             this.signInManager = signInManager;
             _emailSender = emailSender;
             _configuration = configuration;
+            emailSettings = new EmailSettings
+            {
+                SmtpHost = _configuration["EmailSettings:SmtpHost"],
+                SmtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]),
+                SmtpUseSSL = bool.Parse(_configuration["EmailSettings:SmtpUseSSL"]),
+                SmtpUser = _configuration["EmailSettings:SmtpUser"],
+                SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
+                FromName = _configuration["EmailSettings:FromName"]
+            };
         }
 
         public IActionResult Index()
@@ -263,15 +273,7 @@ namespace Resturant_PL.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
-                    EmailSettings emailSettings = new EmailSettings
-                    {
-                        SmtpHost = _configuration["EmailSettings:SmtpHost"],
-                        SmtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]),
-                        SmtpUseSSL = bool.Parse(_configuration["EmailSettings:SmtpUseSSL"]),
-                        SmtpUser = _configuration["EmailSettings:SmtpUser"],
-                        SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
-                        FromName = _configuration["EmailSettings:FromName"]
-                    };
+                   
                     // Send email
                    await  _emailSender.SendEmailAsync(
                         registerDTO.Email,
@@ -317,8 +319,36 @@ namespace Resturant_PL.Controllers
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
             }
-            
-                
+
+            // Send welcome email
+            BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(
+    user.Email,
+    "Welcome to Our Restaurant!",
+    $@"
+    <div style='font-family: Arial, sans-serif; color: #333; background-color: #fafafa; padding: 20px;'>
+        <div style='max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px;'>
+            <h2 style='color: #d35400; text-align: center;'>Welcome, {user.FirstName} {user.LastName}!</h2>
+            <p style='font-size: 16px; line-height: 1.6;'>
+                Thank you for joining our community! 🍽<br/>
+                We’re thrilled to have you with us. You can now browse our menu, book a table, 
+                and enjoy our delicious meals anytime.
+            </p>
+            <div style='text-align: center; margin: 25px 0;'>
+                <a href='https://yourrestaurant.com/menu' 
+                   style='background-color: #e67e22; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;'>
+                    Browse Our Menu
+                </a>
+            </div>
+            <p style='font-size: 14px; color: #888; text-align: center;'>
+                Best regards,<br/>
+                <strong>Your Restaurant Name Team</strong>
+            </p>
+        </div>
+    </div>",
+    emailSettings
+));
+
+
             return View("ConfirmEmail");
         }
         [HttpGet]
