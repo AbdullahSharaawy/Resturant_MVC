@@ -1,0 +1,269 @@
+﻿@model ReadReviewDTO
+<section id="review-section" class="custom-review-section">
+    <div class="review-container review-section-title" data-aos="fade-up">
+        <h2>@SharedLocalizer["Leave a Review"]</h2>
+        <p>@SharedLocalizer["Share your experience with us!"]</p>
+    </div>
+
+    <div class="review-container" data-aos="fade-up" data-aos-delay="100">
+        <form  method="post" role="form" class="review-form" id="leaveReview">
+            <div class="review-form-row">
+                <div class="review-form-col">
+                    <div class="review-form-group">
+                        <label for="review-description" class="review-form-label">@SharedLocalizer["Your Review"]</label>
+                        <textarea class="review-form-control" asp-for="@Model.Description" rows="5" placeholder="Write your review here..." required></textarea>
+                    </div>
+                </div>
+                <div class="review-form-col">
+                    <div class="review-form-group">
+                        <label for="rating" class="review-form-label">@SharedLocalizer["Your Rating"]</label>
+                        <div class="review-rating-wrapper">
+                            <div class="review-rating-stars">
+                                <input type="radio" id="review-star5" asp-for="@Model.Rate" value="5" required>
+                                <label for="review-star5" title="5 stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path class="review-star-empty" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        <path class="review-star-filled" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                </label>
+                                <input type="radio" id="review-star4" asp-for="@Model.Rate" value="4">
+                                <label for="review-star4" title="4 stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path class="review-star-empty" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        <path class="review-star-filled" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                </label>
+                                <input type="radio" id="review-star3" asp-for="@Model.Rate" value="3">
+                                <label for="review-star3" title="3 stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path class="review-star-empty" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        <path class="review-star-filled" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                </label>
+                                <input type="radio" id="review-star2" asp-for="@Model.Rate" value="2">
+                                <label for="review-star2" title="2 stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path class="review-star-empty" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        <path class="review-star-filled" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                </label>
+                                <input type="radio" id="review-star1" asp-for="@Model.Rate" value="1">
+                                <label for="review-star1" title="1 star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path class="review-star-empty" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        <path class="review-star-filled" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            <div class="review-rating-text">@SharedLocalizer["Select your rating"]</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-form-col text-center">
+                    <button type="submit" class="review-submit-btn">@SharedLocalizer["Submit Review"]</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<style>
+    /* Section and container styles */
+    .custom-review-section {
+        padding: 80px 0;
+        background-color: #1a1a1a; /* Dark background */
+        color: #f0f0f0; /* Light text color for contrast */
+    }
+
+    .review-section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .review-section-title h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #fff; /* White title for visibility */
+        margin-bottom: 15px;
+    }
+
+    .review-section-title p {
+        font-size: 16px;
+        color: #b0b0b0; /* Lighter gray for subtitle */
+    }
+
+    /* Form and input styles */
+    .review-form {
+        background-color: #222; /* Slightly lighter dark background for the form itself */
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .review-form-group {
+        margin-bottom: 25px;
+    }
+
+    .review-form-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #fff; /* White label text */
+    }
+
+    .review-form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #444; /* Darker border */
+        background-color: #2c2c2c; /* Dark input background */
+        color: #f0f0f0; /* Light text color */
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+
+    .review-form-control:focus {
+        border-color: #ffc107; /* Highlight with a gold color on focus */
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        background-color: #333;
+    }
+
+    /* Rating stars styles */
+    .review-rating-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .review-rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        position: relative;
+    }
+
+    .review-rating-stars input {
+        display: none;
+    }
+
+    .review-rating-stars label {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        margin: 0 5px;
+        position: relative;
+    }
+
+    .review-rating-stars label svg {
+        width: 100%;
+        height: 100%;
+        fill: transparent;
+        stroke: #666; /* Lighter gray for empty stars */
+        stroke-width: 1.5;
+    }
+
+    .review-rating-stars label .review-star-filled {
+        fill: #ffc107; /* Gold color for filled stars */
+        stroke: #ffc107;
+        opacity: 0;
+        transform: scale(0);
+        transform-origin: center;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .review-rating-stars input:checked ~ label .review-star-filled,
+    .review-rating-stars input:checked + label:hover ~ label .review-star-filled,
+    .review-rating-stars input:checked + label:hover .review-star-filled {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .review-rating-stars label:hover .review-star-empty {
+        stroke: #ffc107;
+    }
+
+    .review-rating-stars input:checked + label .review-star-empty {
+        stroke: #ffc107;
+    }
+
+    .review-rating-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #b0b0b0; /* Light gray for the text */
+        text-align: center;
+        transition: all 0.3s;
+    }
+
+    /* Submit button styles */
+    .review-submit-btn {
+        background-color: #ffc107; /* Gold color for the button */
+        color: #1a1a1a; /* Dark text for contrast on the button */
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+    }
+
+    .review-submit-btn:hover {
+        background-color: #e0a800; /* Darker gold on hover */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .custom-review-section {
+            padding: 60px 0;
+        }
+        .review-rating-stars label {
+            width: 35px;
+            height: 35px;
+            margin: 0 3px;
+        }
+    }
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stars = document.querySelectorAll('.review-rating-stars input');
+    const ratingText = document.querySelector('.review-rating-text');
+    
+    const ratingMessages = {
+        1: "Poor - We're sorry to hear that",
+        2: "Fair - We'll try to do better",
+        3: "Good - We appreciate your feedback",
+        4: "Very Good - Thank you!",
+        5: "Excellent - We're thrilled!"
+    };
+    
+    stars.forEach(star => {
+        star.addEventListener('change', function() {
+            const rating = this.value;
+            ratingText.textContent = ratingMessages[rating];
+            ratingText.style.color = '#4e73df';
+            ratingText.style.fontWeight = '600';
+        });
+        
+        star.addEventListener('mouseover', function() {
+            const hoverRating = this.value;
+            ratingText.textContent = ratingMessages[hoverRating];
+        });
+        
+        star.addEventListener('mouseout', function() {
+            const checkedStar = document.querySelector('.review-rating-stars input:checked');
+            if (checkedStar) {
+                ratingText.textContent = ratingMessages[checkedStar.value];
+            } else {
+                ratingText.textContent = "Select your rating";
+                ratingText.style.color = '#6c757d';
+                ratingText.style.fontWeight = '400';
+            }
+        });
+    });
+});
+</script>

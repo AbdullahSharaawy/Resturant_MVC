@@ -14,7 +14,7 @@ namespace Resturant_BLL.Mapperly
         public partial ReviewDTO MapToReadReviewDTO(Review review);
         public partial Review MapToReview(ReviewDTO reviewDTO);
         public partial List<ReviewDTO> MapToReviewDTOList(List<Review> reviews);
-
+        public partial Review MapToReview(ReadReviewDTO readReview);
         internal ReviewDTO MapToReviewDTO(Review r)
         {
             throw new NotImplementedException();

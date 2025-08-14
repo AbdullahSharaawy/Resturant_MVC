@@ -1,96 +1,98 @@
-﻿ @model List<ChiefDTO>
-@inject IStringLocalizer<SharedResource> SharedLocalizer
+﻿  <!-- Chefs Section -->
+  @model ChiefsWithSystemBranchesDTO
+  <style>
+    .form-label {
+        font-weight: 600;
+        color: #333; /* Dark gray for the label */
+        margin-bottom: 0.5rem;
+        font-family: var(--font-primary);
+    }
 
-<section id="chefs" class="chefs section">
+    .form-select {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #fff; /* White text for contrast */
+        background-color: #343a40; /* Dark gray background */
+        background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="none" stroke="%23fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 5 6 6 6-6"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+        border: 1px solid #495057; /* Slightly lighter gray border */
+        border-radius: 0.25rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        margin-bottom: 1.5rem;
+    }
 
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-        <h2>@SharedLocalizer["Team"]</h2>
-        <p>@SharedLocalizer["TeamDescription"]</p>
-    </div><!-- End Section Title -->
-
-    <div class="container">
-
-        <div class="row gy-4">
-
-            @foreach (var chief in Model)
-            {
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <img src="~/assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>@chief.Name</h4>
-                                <span style="display:block">@chief.Position</span>
-                                <span style="display:block">@chief.Email</span>
-                                <span style="display:block">@chief.PhoneNumber</span>
-                                <span style="display:block">@SharedLocalizer["Branch"]: @chief.City</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- End Team Member -->
-            }
-
-        </div>
-
-    </div>
-
-</section>
-<!-- /Chefs Section -->
-@*/
-    <!-- Chefs Section -->
-  @model List<ChiefDTO>
+        .form-select:focus {
+            border-color: #6c757d; /* Focus border color */
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25); /* Focus shadow */
+        }
+        </style>
 <section id="chefs" class="chefs section">
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Team</h2>
-        <p>Necessitatibus eius consequatur</p>
+        <p>@SharedLocalizer["Our Chiefs Experts"]</p>
     </div><!-- End Section Title -->
-
-    <div class="container">
+    <div class="container" data-aos="fade-up">
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <label for="branch-select" class="form-label">Filter by Branch:</label>
+                <select id="branch-select" name="branch-select" class="form-select" onchange="GetBranchChiefs(this.value)">
+                    <option value="">All Branches</option>
+                    @foreach(var b in Model.Branches)
+                    {
+                        <option value="@b.BranchID">@b.City Branch</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+       <div class="container">
 
         <div class="row gy-4">
 
-            
-         @foreach(var chief in Model)
+         @if(Model.chiefsDTO!=null)
             {
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <img src="~/assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>@chief.Name</h4>
-                                <span style="display:block">@chief.Position</span>
-                                <span style="display:block">@chief.Email</span>
-                                <span style="display:block">@chief.PhoneNumber</span>
-                                <span style="display:block">Branch: @chief.City</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                @foreach (var chief in Model.chiefsDTO)
+                {
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <img src="~/Files/UserImages/@chief.ImagePath" class="img-fluid" alt="">
+                            <div class="member-info">
+                                <div class="member-info-content">
+                                    <h4>@chief.Name</h4>
+                                    <span style="display:block">@chief.Position</span>
+                                    <span style="display:block">@chief.Email</span>
+                                    <span style="display:block">@chief.PhoneNumber</span>
+                                    <span style="display:block">Branch: @chief.City</span>
+                                </div>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- End Team Member -->
+                    <!-- End Team Member -->
+                }
+
             }
-
+            
         </div>
-
 
     </div>
 
 </section><!-- /Chefs Section -->
-@*/*@

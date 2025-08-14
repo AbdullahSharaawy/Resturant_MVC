@@ -10,7 +10,7 @@ namespace Resturant_BLL.Services
     {
         public Task<List<ReviewDTO>> GetList(Expression<Func<Review, bool>> condition);
         public Task<ReviewDTO?> GetById(int id);
-        public Task<Review?> Create(ReviewDTO review);
+        public Task<Review?> Create(ReadReviewDTO review);
         public Task<Review?> Update(ReviewDTO review);
         public Task<bool> Delete(int id);
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels.ChifDTOS;
 using Resturant_BLL.Services;
@@ -26,7 +27,17 @@ namespace Resturant_PL.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ChiefsPartialView()
         {
-            return PartialView("_Chiefs", await _CS.GetList());
+            ChiefsWithSystemBranchesDTO chiefWithSystemBranchesDTO = new ChiefsWithSystemBranchesDTO();
+            chiefWithSystemBranchesDTO.Branches=await _BS.GetList();
+            return PartialView("_Chiefs", chiefWithSystemBranchesDTO);
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> selectChiefsOfBranch(int branchId)
+        {
+            ChiefsWithSystemBranchesDTO chiefWithSystemBranchesDTO = new ChiefsWithSystemBranchesDTO();
+            chiefWithSystemBranchesDTO.Branches = await _BS.GetList();
+            chiefWithSystemBranchesDTO.chiefsDTO=await _CS.GetList(c=>c.BranchID==branchId && !c.IsDeleted);
+            return PartialView("_Chiefs", chiefWithSystemBranchesDTO);
         }
         public async Task<IActionResult> Update(int id)
         {
@@ -38,7 +49,7 @@ namespace Resturant_PL.Controllers
             return View("Create", await _CS.GetCreateChiefInfo());
         }
 
-        public async Task<IActionResult> SaveEdit(UpdateChiefDTO _UpdateChief)
+        public async Task<IActionResult> SaveEdit(ManageChiefDTO _UpdateChief)
         {
 
             if (!ModelState.IsValid)
@@ -61,7 +72,7 @@ namespace Resturant_PL.Controllers
             return View("Chiefs", await _CS.GetList());
         }
 
-        public async Task<IActionResult> SaveNew(UpdateChiefDTO _CreateChief)
+        public async Task<IActionResult> SaveNew(ManageChiefDTO _CreateChief)
         {
             if (!ModelState.IsValid)
             {
@@ -95,5 +106,18 @@ namespace Resturant_PL.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
+
     }
 }

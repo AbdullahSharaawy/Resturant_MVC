@@ -14,6 +14,8 @@ namespace Resturant_PL.Controllers
         private readonly UserManager<User> userManager;
 
 
+       
+
 
         public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
         {

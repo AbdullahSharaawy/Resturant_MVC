@@ -59,7 +59,7 @@ namespace Resturant_DAL.Entities
         public User User { get;  set; }
 
         public Branch Branch { get;  set; }
-
+        public string SecretKey { get; set; }
         public List<ReservedTable> ReservedTables { get;  set; }
     }
 }

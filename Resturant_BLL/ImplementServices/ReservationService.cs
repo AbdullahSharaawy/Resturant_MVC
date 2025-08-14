@@ -12,6 +12,9 @@ using Resturant_BLL.DTOModels.ReservationDTOS;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Hangfire;
+using Resturant_BLL.ImplementServices;
+using Microsoft.Extensions.Options;
 
 namespace Resturant_BLL.Services
 {
@@ -26,6 +29,9 @@ namespace Resturant_BLL.Services
         private readonly IBranchService _BS;
         private readonly UserManager<User> userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailSenderService _ESS;
+        private readonly EmailSettings _emailSettings;
+      
         public ReservationService(IRepository<Reservation> reservationRepo,
                            IRepository<table> tableRepo,
                            IRepository<ReservedTable> reservedTableRepo,
@@ -34,7 +40,8 @@ namespace Resturant_BLL.Services
                            IPaymentService pS,
                            UserManager<User> userManager,
                            IBranchService bS,
-                           IHttpContextAccessor httpContextAccessor)
+                           IHttpContextAccessor httpContextAccessor,
+                           IEmailSenderService eSS, IOptions<EmailSettings> emailSettings)
         {
             _RR = reservationRepo;
             _TR = tableRepo;
@@ -45,6 +52,10 @@ namespace Resturant_BLL.Services
             this.userManager = userManager;
             _BS = bS;
             _httpContextAccessor = httpContextAccessor;
+            _ESS = eSS;
+            _emailSettings = emailSettings.Value;
+           
+           
         }
 
 
@@ -80,7 +91,7 @@ namespace Resturant_BLL.Services
             }
             // create object without save in database
             var reservation =await Create(dto);
-
+            reservation.SecretKey = GenerateSecretKey();
             List<ReservedTable> reservedTables = new List<ReservedTable>();
             foreach (var table in selectedTables)
             {
@@ -326,9 +337,31 @@ namespace Resturant_BLL.Services
                     }
                 }
             }
-
+            // Send email in background
+            BackgroundJob.Enqueue(() => _ESS.SendEmailAsync(
+                user.Email,
+                "Your Reservation Confirmation",
+                $@"
+            <div style='font-family: Arial, sans-serif; color: #333;'>
+                <h2 style='color: #2c3e50;'>Reservation Confirmed</h2>
+                <p>Hello {user.FirstName} {user.LastName},</p>
+                <p>Thank you for booking with us. Here are your details:</p>
+                <ul>
+                    <li><strong>Date:</strong> {checkOutDTO.reservation.DateTime:MMMM dd, yyyy}</li>
+                    <li><strong>Secret Key:</strong> <span style='color: #e74c3c; font-weight: bold;'>{checkOutDTO.reservation.SecretKey}</span></li>
+                </ul>
+                <p>Please show this key when you arrive so we can verify your reservation.</p>
+                <p>Best regards,<br/>The Restaurant Team</p>
+            </div>",
+                _emailSettings
+            ));
             return  true;
 
         }
+        private string GenerateSecretKey()
+        {
+            return Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper(); // Example: "A1B2C3D4"
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Castle.Core.Smtp;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Resturant_BLL.DTOModels;
@@ -22,7 +24,19 @@ namespace Resturant_PL.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly Resturant_BLL.Services.IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-       
+        private readonly EmailSettings emailSettings;
+        [HttpGet]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Resturant_BLL.Services.IEmailSenderService emailSender, IConfiguration configuration)
         {
@@ -30,6 +44,15 @@ namespace Resturant_PL.Controllers
             this.signInManager = signInManager;
             _emailSender = emailSender;
             _configuration = configuration;
+            emailSettings = new EmailSettings
+            {
+                SmtpHost = _configuration["EmailSettings:SmtpHost"],
+                SmtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]),
+                SmtpUseSSL = bool.Parse(_configuration["EmailSettings:SmtpUseSSL"]),
+                SmtpUser = _configuration["EmailSettings:SmtpUser"],
+                SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
+                FromName = _configuration["EmailSettings:FromName"]
+            };
         }
 
         public IActionResult Index()
@@ -37,12 +60,82 @@ namespace Resturant_PL.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            return View("Login");
+            LoginDTO loginDTO = new LoginDTO
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            return View("Login",loginDTO);
         }
-        
-        [Authorize]
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            var loginViewModel = new LoginDTO
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return View("Login", loginViewModel);
+            }
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return View("Login", loginViewModel);
+            }
+
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if (email != null)
+                {
+                    var user = await userManager.FindByEmailAsync(email);
+                    if(user==null)
+                    {
+                        user = new User
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
+                        await userManager.CreateAsync(user);
+                    }
+
+                    await userManager.AddLoginAsync(user, info);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    await InsertImagePathToClaims(user);
+                    return LocalRedirect(returnUrl);
+                }
+                ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
+                ViewBag.ErrorMessage = "Please contact support Jon Pragim@PragimTech.com";
+
+                return View("Error");
+            }
+        }
+            [Authorize]
         public async Task<IActionResult> SignOut()
         {
             await signInManager.SignOutAsync();
@@ -121,11 +214,8 @@ namespace Resturant_PL.Controllers
                     if (found)
                     {
                         await signInManager.SignInAsync(appuser, loginDTO.RememberMe);
-                        var claims = new List<Claim>
-                                    {
-                                        new Claim("ImagePath", appuser.ImagePath ?? "PersonIcon.svg")
-                                    };
-                        await userManager.AddClaimsAsync(appuser, claims);
+
+                       await InsertImagePathToClaims(appuser);
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -136,7 +226,23 @@ namespace Resturant_PL.Controllers
 
             return View("Login", loginDTO);
         }
+        private async Task<bool> InsertImagePathToClaims(User appuser)
+        {
+            var existingClaims = await userManager.GetClaimsAsync(appuser);
+            var imagePathClaims = existingClaims.Where(c => c.Type == "ImagePath");
 
+            // Remove all existing ImagePath claims
+            var removeResult = await userManager.RemoveClaimsAsync(appuser, imagePathClaims);
+
+            var claims = new List<Claim>
+                                    {
+                                        new Claim("ImagePath", appuser.ImagePath ?? "PersonIcon.svg")
+                                    };
+           IdentityResult result= await userManager.AddClaimsAsync(appuser, claims);
+            if (result.Succeeded)
+                return true;
+            return false;
+        }
         [HttpGet]
         public IActionResult Register()
         {
@@ -167,15 +273,7 @@ namespace Resturant_PL.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
-                    EmailSettings emailSettings = new EmailSettings
-                    {
-                        SmtpHost = _configuration["EmailSettings:SmtpHost"],
-                        SmtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]),
-                        SmtpUseSSL = bool.Parse(_configuration["EmailSettings:SmtpUseSSL"]),
-                        SmtpUser = _configuration["EmailSettings:SmtpUser"],
-                        SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
-                        FromName = _configuration["EmailSettings:FromName"]
-                    };
+                   
                     // Send email
                    await  _emailSender.SendEmailAsync(
                         registerDTO.Email,
@@ -221,8 +319,36 @@ namespace Resturant_PL.Controllers
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
             }
-            
-                
+
+            // Send welcome email
+            BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(
+    user.Email,
+    "Welcome to Our Restaurant!",
+    $@"
+    <div style='font-family: Arial, sans-serif; color: #333; background-color: #fafafa; padding: 20px;'>
+        <div style='max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px;'>
+            <h2 style='color: #d35400; text-align: center;'>Welcome, {user.FirstName} {user.LastName}!</h2>
+            <p style='font-size: 16px; line-height: 1.6;'>
+                Thank you for joining our community! 🍽<br/>
+                We’re thrilled to have you with us. You can now browse our menu, book a table, 
+                and enjoy our delicious meals anytime.
+            </p>
+            <div style='text-align: center; margin: 25px 0;'>
+                <a href='https://yourrestaurant.com/menu' 
+                   style='background-color: #e67e22; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;'>
+                    Browse Our Menu
+                </a>
+            </div>
+            <p style='font-size: 14px; color: #888; text-align: center;'>
+                Best regards,<br/>
+                <strong>Your Restaurant Name Team</strong>
+            </p>
+        </div>
+    </div>",
+    emailSettings
+));
+
+
             return View("ConfirmEmail");
         }
         [HttpGet]

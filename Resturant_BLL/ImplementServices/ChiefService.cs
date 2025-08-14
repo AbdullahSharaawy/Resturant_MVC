@@ -1,5 +1,6 @@
 ﻿using Resturant_BLL.DTOModels;
 using Resturant_BLL.DTOModels.ChifDTOS;
+using Resturant_BLL.DTOModels.ReviewDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_BLL.Services;
 using Resturant_DAL.Entities;
@@ -8,6 +9,7 @@ using Sharaawy_BL.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Chief_BLL.Services
@@ -64,16 +66,26 @@ namespace Chief_BLL.Services
             return ChiefDTO;
         }
 
-        public async Task<UpdateChiefDTO?> GetCreateChiefInfo()
+        public async Task<ManageChiefDTO?> GetCreateChiefInfo()
         {
-            UpdateChiefDTO createChiefDTO = new UpdateChiefDTO();
+            ManageChiefDTO createChiefDTO = new ManageChiefDTO();
             createChiefDTO.Branches = (await _BR.GetAll())
                 .Where(b => b.IsDeleted == false)
                 .Select(b => new BranchMapper().MapToBranchDTO(b))
                 .ToList();
             return createChiefDTO;
         }
+        public async Task<List<ChiefDTO>> GetList(Expression<Func<Chief, bool>> filter)
+        {
+            List<Chief> chiefs = await _CR.GetAllByFilter(filter);
 
+            if (chiefs == null || chiefs.Count == 0)
+            {
+                return new List<ChiefDTO>();
+            }
+
+            return new ChiefMapper().MapToChiefDTOList(chiefs);
+        }
         public async Task<List<ChiefDTO>> GetList()
         {
             List<Chief> Chiefs = (await _CR.GetAll()).Where(t => t.IsDeleted == false).ToList();
@@ -87,7 +99,7 @@ namespace Chief_BLL.Services
             return ChiefsDTO;
         }
 
-        public async Task<UpdateChiefDTO?> GetUpdateChiefInfo(int id)
+        public async Task<ManageChiefDTO?> GetUpdateChiefInfo(int id)
         {
             ChiefDTO chiefDTO = await GetById(id);
             if (chiefDTO == null)
@@ -99,7 +111,7 @@ namespace Chief_BLL.Services
             {
                 return null;
             }
-            UpdateChiefDTO updateChiefDTO = new UpdateChiefDTO();
+            ManageChiefDTO updateChiefDTO = new ManageChiefDTO();
             updateChiefDTO.Branches = Branches;
             updateChiefDTO.chiefDTO = chiefDTO;
             return updateChiefDTO;

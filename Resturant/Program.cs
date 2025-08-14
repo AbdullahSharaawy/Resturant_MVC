@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Resturant_PL.Language;
+using System.Configuration;
+using Hangfire;
 
 
 
@@ -25,8 +27,8 @@ namespace Resturant_PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews()
-            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization(options =>
+.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+.AddDataAnnotationsLocalization(options =>
 {
     options.DataAnnotationLocalizerProvider = (type, factory) =>
         factory.Create(typeof(SharedResource));
@@ -76,6 +78,9 @@ namespace Resturant_PL
             builder.Services.AddSingleton<OrderItemMapper>();
             builder.Services.AddSingleton<MenueItemMapper>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings")
+);
 
             builder.Services.AddScoped<GeminiService>(sp =>
             {
@@ -111,7 +116,15 @@ namespace Resturant_PL
             c.Type == "EmailConfirmed" &&
             c.Value == "true")));
             });
-            
+            builder.Services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:SecretKey"];
+            });
+            builder.Services.AddHangfire(x => x.UseSqlServerStorage(con));
+            builder.Services.AddHangfireServer();
+
             var app = builder.Build();
 
 
@@ -152,6 +165,8 @@ namespace Resturant_PL
                 new CookieRequestCultureProvider()
                 }
             });
+            app.UseHangfireDashboard("/GreatsCemetery");
+
             app.Run();
         }
     }

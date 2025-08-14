@@ -242,8 +242,41 @@
                         <p class="small fw-bold mt-3 pt-1 mb-0 text-center">
                             Don't have an account? <a href="/Account/Register" class="link-danger">Register here</a>
                         </p>
+                       
                     </div>
                 </form>
+                <hr />
+                @{
+                    if (Model.ExternalLogins.Count != 0)
+                    {
+                        <form asp-action="ExternalLogin" method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                var iconClass = "";
+                                var providerName = provider.Name.ToLower();
+
+                                switch (providerName)
+                                {
+                                    case "google":
+                                        iconClass = "fa-brands fa-google";
+                                        break;
+                                    case "facebook":
+                                        iconClass = "fa-brands fa-facebook";
+                                        break;
+                                    case "microsoft":
+                                        iconClass = "fa-brands fa-microsoft";
+                                        break;
+                                        // Add more cases for other providers as needed
+                                }
+
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Login using your @provider.DisplayName account">
+                                    <i class="@iconClass"></i>
+                                    <span>@provider.DisplayName</span>
+                                </button>
+                            }
+                        </form>
+                    }
+                }
             </div>
         </div>
     </div>

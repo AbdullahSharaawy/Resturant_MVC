@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Services;
 
@@ -26,11 +27,19 @@ namespace Resturant_PL.Controllers
             contactDTO.branchDTOs = await _branchService.GetList();
             return View("ContactUs",contactDTO);
         }
-        //public async Task<IActionResult> SendEmail(string target_email,string subject,string message) 
-        //{ 
-        //   await _ESS.SendEmailAsync(_email, _password,target_email,subject,message,_host);
-        //    return RedirectToAction("Index");
-        //}
+      
+        [HttpGet]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
 
     }
 }

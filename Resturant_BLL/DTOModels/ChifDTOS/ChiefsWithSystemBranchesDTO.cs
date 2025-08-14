@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Resturant_BLL.DTOModels.ChifDTOS
 {
-    public class UpdateChiefDTO
+    public class ChiefsWithSystemBranchesDTO
     {
-        public ChiefDTO chiefDTO { get; set; }
-        public List<BranchDTO>? Branches { get; set; }
+        public List<ChiefDTO> chiefsDTO { get; set; }
+        public List<BranchDTO> Branches { get; set; }
     }
 }
