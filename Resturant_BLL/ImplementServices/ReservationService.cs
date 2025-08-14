@@ -243,7 +243,7 @@ namespace Resturant_BLL.Services
             oldReservation.NumberOfGuests = dto.NumberOfGuests;
             oldReservation.DateTime = dto.DateTime;
             oldReservation.ModifiedOn = DateTime.UtcNow;
-            oldReservation.ModifiedBy = user.FirstName + " " + user.LastName;
+            oldReservation.ModifiedBy = $"{user.FirstName} {user.LastName}";
             oldReservation.IsDeleted = false;
 
             await _RR.Update(oldReservation);
@@ -269,7 +269,7 @@ namespace Resturant_BLL.Services
 
             reservation.IsDeleted = true;
             reservation.DeletedOn = DateTime.UtcNow;
-            reservation.DeletedBy = user.FirstName + " " + user.LastName;
+            reservation.DeletedBy = $"{user.FirstName} {user.LastName}";
 
             await _RR.Update(reservation);
             return true;
@@ -309,7 +309,7 @@ namespace Resturant_BLL.Services
         {
             CheckOutDTO checkOutDTO = new CheckOutDTO();
             var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-            updateReservationDTO.ReservationDTO.CreatedBy = user.FirstName + " " + user.LastName;
+            updateReservationDTO.ReservationDTO.CreatedBy = $"{user.FirstName} {user.LastName}";
             var quickReservationResult = await CreateQuickReservation(updateReservationDTO.ReservationDTO);
             checkOutDTO.reservation = quickReservationResult.Item1;
             checkOutDTO.reservedTable = quickReservationResult.Item2;

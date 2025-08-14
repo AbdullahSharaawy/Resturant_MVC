@@ -1,4 +1,6 @@
-﻿using Resturant_BLL.DTOModels;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
@@ -12,19 +14,23 @@ namespace Resturant_BLL.Services
     public class BranchService : IBranchService
     {
         private readonly IRepository<Branch> _BR;
-        public BranchService(IRepository<Branch> bR)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<User> userManager;
+        public BranchService(IRepository<Branch> bR, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
         {
             _BR = bR;
+            _httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
 
         public async Task<Branch?> Create(BranchDTO Branch)
         {
             if (Branch == null)
                 return null;
-
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             Branch mappedBranch = new BranchMapper().MapToBranch(Branch);
             mappedBranch.CreatedOn = DateTime.UtcNow;
-            mappedBranch.CreatedBy = "Current User";
+            mappedBranch.CreatedBy = $"{user.FirstName} {user.LastName}";
             mappedBranch.IsDeleted = false;
             await _BR.Create(mappedBranch);
             return mappedBranch;
@@ -33,13 +39,14 @@ namespace Resturant_BLL.Services
         public async Task<bool> Delete(int id)
         {
             Branch t = await _BR.GetByID(id);
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             if (t == null || t.IsDeleted == true)
             {
                 return false;
             }
             t.IsDeleted = true;
             t.DeletedOn = DateTime.UtcNow;
-            t.DeletedBy = "Current User";
+            t.DeletedBy = $"{user.FirstName} {user.LastName}";
             await _BR.Update(t);
             return true;
         }
@@ -76,7 +83,7 @@ namespace Resturant_BLL.Services
             {
                 return null;
             }
-
+            var user = await userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             Branch UpdateBranch = await _BR.GetByID(Branch.BranchID);
             UpdateBranch.Area = Branch.Area;
             UpdateBranch.City = Branch.City;
@@ -84,7 +91,7 @@ namespace Resturant_BLL.Services
             UpdateBranch.BuildingNo = Branch.BuildingNo;
             UpdateBranch.StreetName = Branch.StreetName;
             UpdateBranch.ModifiedOn = DateTime.UtcNow;
-            UpdateBranch.ModifiedBy = "Current User";
+            UpdateBranch.ModifiedBy = $"{user.FirstName} {user.LastName}";
             UpdateBranch.IsDeleted = false;
             await _BR.Update(UpdateBranch);
             return UpdateBranch;

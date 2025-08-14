@@ -25,7 +25,7 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> Index()
         {
 
-            return View("Reviews", await _reviewService.GetList(r=>r.IsDeleted==false ));
+            return View("Index", await _reviewService.GetList(r=>r.IsDeleted==false ));
         }
         public async Task<IActionResult>  LeaveReview()
         {

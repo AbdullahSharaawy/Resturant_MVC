@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
@@ -13,11 +14,12 @@ namespace Resturant_BLL.Services
     {
         private readonly IRepository<table> _TR;
         private readonly IRepository<Branch> _BR;
-
-        public TableService(IRepository<table> tr, IRepository<Branch> bR)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public TableService(IRepository<table> tr, IRepository<Branch> bR, IHttpContextAccessor httpContextAccessor)
         {
             _TR = tr;
             _BR = bR;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<table?> Create(TableDTO table)

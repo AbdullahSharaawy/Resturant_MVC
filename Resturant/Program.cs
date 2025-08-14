@@ -121,6 +121,10 @@ namespace Resturant_PL
             {
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:SecretKey"];
+            }).AddFacebook(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Facebook:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Facebook:SecretKey"];
             });
             builder.Services.AddHangfire(x => x.UseSqlServerStorage(con));
             builder.Services.AddHangfireServer();

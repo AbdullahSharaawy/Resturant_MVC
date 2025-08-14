@@ -43,7 +43,7 @@ namespace Resturant_BLL.Services
                 review.Rate = readReview.Rate;
                 review.DateTime = DateTime.Now;
                 review.UserID = user.Id;
-                review.CreatedBy = user.FirstName + " " + user.LastName;
+                review.CreatedBy = $"{user.FirstName} {user.LastName}";
                 review.CreatedOn = DateTime.Now;
                 await _RR.Update(review);
             }
@@ -53,7 +53,7 @@ namespace Resturant_BLL.Services
         {
             review.DateTime = DateTime.Now;
             review.UserID = user.Id;
-            review.CreatedBy = user.FirstName + " " + user.LastName;
+            review.CreatedBy = $"{user.FirstName} {user.LastName}";
             review.CreatedOn = DateTime.Now;
             return review;
         }
@@ -64,10 +64,11 @@ namespace Resturant_BLL.Services
             {
                 return false;
             }
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
             r.IsDeleted = true;
             r.DeletedOn = DateTime.UtcNow;
-            r.DeletedBy = "Current User";
+            r.DeletedBy = $"{user.FirstName} {user.LastName}";
 
             await _RR.Update(r);
             return true;
@@ -103,10 +104,11 @@ namespace Resturant_BLL.Services
         {
             if (review == null)
                 return null;
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
             Review mappedReview = new ReviewMapper().MapToReview(review);
             mappedReview.ModifiedOn = DateTime.UtcNow;
-            mappedReview.ModifiedBy = "Current User";
+            mappedReview.ModifiedBy = $"{user.FirstName} {user.LastName}";
             mappedReview.IsDeleted = false;
 
             await _RR.Update(mappedReview);
