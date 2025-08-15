@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire.Dashboard;
 using Resturant_BLL.DTOModels;
+using Resturant_BLL.DTOModels.ChifDTOS;
 using Resturant_BLL.Mapperly;
 using Resturant_DAL.Entities;
 using Resturant_DAL.Repository;
+using Sharaawy_BL.Helper;
 
 namespace Resturant_BLL.Services
 {
@@ -41,19 +44,21 @@ namespace Resturant_BLL.Services
             return menuItemDTO;
         }
 
-        public async Task<MenueItemDTO?> Create(MenueItemDTO menueItem)
+        public async Task<MenueItemDTO?> Create(MenueItemDTO menueItemDTO)
         {
-            if (menueItem == null)
+            if (menueItemDTO == null)
             {
                 return null;
             }
-            MenueItem menuItem = new MenueItemMapper().MapToMenueItem(menueItem);
+            MenueItem menuItem = new MenueItemMapper().MapToMenueItem(menueItemDTO);
             menuItem.CreatedOn = DateTime.UtcNow;
             menuItem.CreatedBy = "Current User";
             menuItem.IsDeleted = false;
+            if (menueItemDTO.ImageUrl != null)
+                menuItem.ImagePath = Upload.UploadFile("ItemsImages", menueItemDTO.ImageUrl);
             await _CR.Create(menuItem);
 
-            return menueItem;
+            return menueItemDTO;
         }
 
         public async Task<MenueItemDTO?> Update(MenueItemDTO menueItem)
@@ -73,6 +78,9 @@ namespace Resturant_BLL.Services
             existingItem.ModifiedOn = DateTime.UtcNow;
             existingItem.ModifiedBy = "Current User";
             existingItem.IsDeleted = false;
+            if (menueItem.ImageUrl != null)
+                existingItem.ImagePath = Upload.UploadFile("ItemsImages", menueItem.ImageUrl);
+
             await _CR.Update(existingItem);
             return menueItem;
         }

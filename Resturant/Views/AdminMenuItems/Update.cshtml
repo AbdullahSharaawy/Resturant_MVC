@@ -87,7 +87,7 @@
             }
     </style>
 
-    <form action="/AdminMenuItems/SaveEdit" method="post" class="needs-validation dark-form-container">
+    <form action="/AdminMenuItems/SaveEdit" method="post" class="needs-validation dark-form-container" enctype="multipart/form-data">
         <input type="hidden" asp-for="ItemID" />
         <div asp-validation-summary="All" class="text-danger"></div>
         <h2 class="text-center mb-4"> Edit </h2>

@@ -214,7 +214,7 @@
                     <h2 class="form-heading">Welcome Back</h2>
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    
+                   <input asp-for="@Model.ReturnUrl" hidden/>
                     <div class="form-outline mb-4">
                         <label asp-for="Email" class="form-label visually-hidden">Email</label>
                         <input asp-for="Email" class="form-control" placeholder="Enter your email" />

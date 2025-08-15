@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Resturant_BLL.DTOModels.AccountDTOS;
 using Resturant_BLL.DTOModels.IdentityDTOS;
 using Resturant_BLL.ImplementServices;
 using Resturant_BLL.Mapperly;
@@ -91,17 +92,34 @@ namespace Resturant_PL.Controllers
                 SmtpPassword = _configuration["EmailSettings:SmtpPassword"],
                 FromName = _configuration["EmailSettings:FromName"]
             };
-            // Send email
             await _emailSender.SendEmailAsync(
-                userProfileDTO.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", emailSettings);
+       user.Email,
+       "Confirm your email",
+       $@"
+    <div style='font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;'>
+        <div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 30px;'>
+            <h2 style='color: #cda45e; text-align: center;'>Confirm Your Email</h2>
+            <p style='color: #333; font-size: 16px; line-height: 1.6;'>
+                 Please confirm your account by clicking the button below.
+            </p>
+            <div style='text-align: center; margin: 30px 0;'>
+                <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' 
+                   style='background-color: #cda45e; color: #fff; text-decoration: none; padding: 12px 25px;
+                          border-radius: 5px; font-size: 16px; font-weight: bold; display: inline-block;'>
+                    Confirm My Email
+                </a>
+            </div>
+           
+        </div>
+    </div>
+    ", emailSettings);
 
             return Json(new
             {
                 success = true,
                
-                redirectUrl = Url.Action("RegisterConfirmation", "Account", new { email = userProfileDTO.Email })
+                redirectUrl = Url.Action("UpdateProfileConfirmation", "Account", new { email = userProfileDTO.Email })
             });
 
 

@@ -114,7 +114,7 @@
                             <li><a href="#hero" class="active">@SharedLocalizer["Home"]<br></a></li>
 
                             <li><a href="#menu">@SharedLocalizer["Menu"]</a></li>
-                            <li><a href="#about">@SharedLocalizer["Reviews"]</a></li>
+                            <li><a href="#reviews">@SharedLocalizer["Reviews"]</a></li>
                             <li><a href="#chefs">@SharedLocalizer["Chefs"]</a></li>
 
                             <li><a href="#contact">@SharedLocalizer["Contact"]</a></li>
@@ -122,7 +122,7 @@
                        
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @* Check if user meets AdminOnly policy *@
+                           
                             var authResult = await AuthorizationService.AuthorizeAsync(User, "AdminOnly");
                             if (authResult.Succeeded)
                             {

@@ -14,6 +14,7 @@ using System.Globalization;
 using Resturant_PL.Language;
 using System.Configuration;
 using Hangfire;
+using Resturant_BLL.AppSettingsSections;
 
 
 
@@ -81,17 +82,19 @@ namespace Resturant_PL
             builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings")
 );
+            builder.Services.Configure<GeminiSettings>(
+   builder.Configuration.GetSection("Gemini")
+);
+            //builder.Services.AddScoped<GeminiService>(sp =>
+            //{
+            //    var configuration = sp.GetRequiredService<IConfiguration>();
+            //    var apiKey = configuration["Gemini:ApiKey"];
+            //    return new GeminiService(apiKey);
+            //});
+            //var apiKey = builder.Configuration["Gemini:ApiKey"];
+            //builder.Services.AddScoped<GeminiService>(_ => new GeminiService(apiKey));
 
-            builder.Services.AddScoped<GeminiService>(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                var apiKey = configuration["Gemini:ApiKey"];
-                return new GeminiService(apiKey);
-            });
-            var apiKey = builder.Configuration["Gemini:ApiKey"];
-            builder.Services.AddScoped<GeminiService>(_ => new GeminiService(apiKey));
 
-          
 
             builder.Services.AddIdentity<User, IdentityRole>(option =>
             {

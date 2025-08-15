@@ -79,17 +79,17 @@ namespace Resturant_PL.Controllers
 
                 _CreateChief.Branches = await _BS.GetList();
 
-                return View("Update", _CreateChief);
+                return View("Create", _CreateChief);
             }
             else
             {
                 if (await _CS.Create(_CreateChief.chiefDTO) == null)
                 {
-                    return View("Update", _CreateChief);
+                    return View("Create", _CreateChief);
                 }
 
                 else
-                    TempData["SuccessMessage"] = "Record updated successfully!";
+                    TempData["SuccessMessage"] = "Record is created successfully!";
             }
             return View("Chiefs", await _CS.GetList());
         }

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Profile Update Confirmation";
+    ViewData["Title"] = "Update Profile Confirmation";
     Layout = "_AuthLayout";
 }
 
@@ -32,14 +32,14 @@
         text-align: center;
     }
 
-        .card-header h4 {
-            font-family: "Playfair Display", serif;
-            font-weight: 700;
-            color: #cda45e; /* Prominent golden heading */
-            font-size: 2.2rem;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
+    .card-header h4 {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        color: #cda45e; /* Prominent golden heading */
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
 
     .card-body p {
         color: #e0e0e0;
@@ -60,10 +60,10 @@
         font-weight: 600;
     }
 
-        .card-body a:hover {
-            color: #d4af6a !important;
-            text-decoration: underline;
-        }
+    .card-body a:hover {
+        color: #d4af6a !important;
+        text-decoration: underline;
+    }
 
     /* Button styling */
     .btn-secondary {
@@ -77,10 +77,10 @@
         transition: all 0.3s ease-in-out;
     }
 
-        .btn-secondary:hover {
-            background-color: #4a453d !important;
-            transform: translateY(-1px);
-        }
+    .btn-secondary:hover {
+        background-color: #4a453d !important;
+        transform: translateY(-1px);
+    }
 
     .text-center {
         text-align: center !important;
@@ -92,18 +92,19 @@
         <div class="col-md-8 col-lg-6 col-xl-5">
             <div class="card">
                 <div class="card-header">
-                    <h4>Profile Updated Successfully!</h4>
+                    <h4>Update Profile Confirmation</h4>
                 </div>
                 <div class="card-body">
                     <p>
-                        Your profile has been successfully updated.
+                         A confirmation email has been sent to <strong>@ViewBag.Email</strong>.
+                        Please check your email and click the confirmation link to complete Update your Profile.
                     </p>
                     <p>
                         If you don't receive the email within a few minutes, please check your spam folder or
                         <a asp-action="ResendEmailConfirmation" asp-route-email="@ViewBag.Email">click here to resend the confirmation email</a>.
                     </p>
                     <div class="mt-4 text-center">
-                        <a asp-action="Login" asp-controller="Account" class="btn btn-secondary">Back to Login</a>
+                        <a asp-action="Login" class="btn btn-secondary">Back to Login</a>
                     </div>
                 </div>
             </div>

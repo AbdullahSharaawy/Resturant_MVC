@@ -65,17 +65,17 @@ namespace Resturant_PL.Controllers
 
                 _CreateTable.Branches = await _BS.GetList();
 
-                return View("Update", _CreateTable);
+                return View("Create", _CreateTable);
             }
             else
             {
                 if (await _TS.Create(_CreateTable.tableDTO) == null)
                 {
-                    return View("Update", _CreateTable);
+                    return View("Create", _CreateTable);
                 }
 
                 else
-                    TempData["SuccessMessage"] = "Record updated successfully!";
+                    TempData["SuccessMessage"] = "Record is created successfully!";
             }
             return View("Tables", await _TS.GetList());
         }

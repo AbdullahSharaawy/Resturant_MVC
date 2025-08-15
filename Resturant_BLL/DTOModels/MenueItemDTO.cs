@@ -22,7 +22,7 @@ namespace Resturant_BLL.DTOModels
         public string Category { get;  set; }
         public string? DietaryInfo { get;  set; }
         public bool Availability { get;  set; }
-        public string? ImagePath { get; set; } = "PersonIcon.svg";
+        public string? ImagePath { get; set; } = "cake.jpg";
         public IFormFile? ImageUrl { get; set; }
     }
 }

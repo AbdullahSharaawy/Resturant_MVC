@@ -1,74 +1,7 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
-
-<style>
+﻿<style>
     #notificationModal {
         z-index: 99999 !important;
     }
-</style>
-
-<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="notificationModalLabel">@Localizer["NotificationTitle"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="notificationModalBody">
-                <!-- محتوى الإشعار هنا -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">@Localizer["OkButton"]</button>
-            </div>
-        </div>
-    </div>
-</div>
-@*/
-    @model UpdateReservationDTO
-
-<partial name="_NotificationModal" />
-<div class="profile-section">
-    <h3 class="profile-section-title">@SharedLocalizer["Quick Reservation"]</h3>
-
-    <form method="post" id="quickReservationForm">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="reservationDate" class="form-label">@SharedLocalizer["Date Time"]</label>
-                <input type="datetime-local" class="form-control" asp-for="@Model.ReservationDTO.DateTime">
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="guests" class="form-label">@SharedLocalizer["Number of Guests"]</label>
-                <input type="number" asp-for="@Model.ReservationDTO.NumberOfGuests" />
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">@SharedLocalizer["Branch"]</label>
-            <select class="form-control" asp-for="@Model.ReservationDTO.BranchID">
-                @foreach (var item in Model.Branches)
-                {
-                    <option value="@item.BranchID">
-                        @item.City @SharedLocalizer["Branch"]
-                    </option>
-                }
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">@SharedLocalizer["Book Table"]</button>
-    </form>
-</div>
-@*/*@
-@*/
-<style>
-    #notificationModal {
-        z-index: 99999 !important;
-    }
-
-       
-   
 
 </style>
 <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
@@ -86,4 +19,3 @@
         </div>
     </div>
 </div>
-@*/*@
