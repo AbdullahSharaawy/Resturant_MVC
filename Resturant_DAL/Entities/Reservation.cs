@@ -10,18 +10,18 @@ namespace Resturant_DAL.Entities
         public Reservation() { }
 
         public Reservation(int reservationID, int numberOfGuests, DateTime dateTime,
-                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID)
+                           int paymentID, DateTime createdOn, string createdBy, int branchID, string userID, string secretKey)
         {
             ReservationID = reservationID;
             NumberOfGuests = numberOfGuests;
-          
+
             DateTime = dateTime;
             PaymentID = paymentID;
             CreatedOn = createdOn;
             CreatedBy = createdBy;
             BranchID = branchID;
             UserID = userID;
-           
+            SecretKey = secretKey;
         }
 
         [Key]

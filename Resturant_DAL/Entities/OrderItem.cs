@@ -36,7 +36,7 @@ namespace Resturant_DAL.Entities
         public DateTime? DeletedOn { get; set; }
         public string? DeletedBy { get; set; }
         public bool IsDeleted { get; set; }
-        public Order Order { get; private set; }
+        public Orders Order { get; private set; }
         public MenueItem MenueItem { get; private set; }
     }
 }

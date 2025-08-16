@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Resturant_DAL.Entities
 {
-    public class Order
+    public class Orders
     {
-        public Order() { }
-        public Order(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, OrderStatus orderStatus, DateTime createdOn, string createdBy, string userID)
+        public Orders() { }
+        public Orders(int orderID, DateTime date, decimal orderCost, decimal shipmentCost, decimal totalAmount, decimal weight, OrderStatus orderStatus, DateTime createdOn, string createdBy, string userID)
         {
             OrderID = orderID;
             Date = date;

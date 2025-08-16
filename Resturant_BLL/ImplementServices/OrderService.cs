@@ -9,16 +9,16 @@ namespace Resturant_BLL.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Order> _CR;
+        private readonly IRepository<Orders> _CR;
         private readonly UserManager<User> _user;
-        public OrderService(IRepository<Order> rR, UserManager<User> user)
+        public OrderService(IRepository<Orders> rR, UserManager<User> user)
         {
             _CR = rR;
             _user = user;
         }
         public async Task<List<AdminOrderDTO>> GetList()
         {
-            List<Order> orders = new List<Order>();
+            List<Orders> orders = new List<Orders>();
             orders = await _CR.GetAll();
             orders = orders.Where(a => !a.IsDeleted).ToList();
             
@@ -31,7 +31,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<AdminOrderDTO?> GetById(int id)
         {
-            Order order = await _CR.GetByID(id);
+            Orders order = await _CR.GetByID(id);
             if (order == null)
             {
                 return null;
@@ -82,9 +82,9 @@ namespace Resturant_BLL.Services
         {
             return await FilterBy(order => order.UserID == userId);
         }
-        public async Task<List<AdminOrderDTO>?> FilterBy(Expression<Func<Order, bool>> filter)
+        public async Task<List<AdminOrderDTO>?> FilterBy(Expression<Func<Orders, bool>> filter)
         {
-            List<Order> orders = await _CR.GetAllByFilter(filter);
+            List<Orders> orders = await _CR.GetAllByFilter(filter);
             if (orders == null || orders.Count == 0)
             {
                 return null;
@@ -92,9 +92,9 @@ namespace Resturant_BLL.Services
             List<AdminOrderDTO> ordersDTO = new OrderMapper().MapToOrderDTOList(orders);
             return ordersDTO;
         }
-        public async Task<List<ReadOrderDTO>?> FilterMyOrdersBy(Expression<Func<Order, bool>> filter)
+        public async Task<List<ReadOrderDTO>?> FilterMyOrdersBy(Expression<Func<Orders, bool>> filter)
         {
-            List<Order> orders = await _CR.GetAllByFilter(filter);
+            List<Orders> orders = await _CR.GetAllByFilter(filter);
             if (orders == null || orders.Count == 0)
             {
                 return null;
@@ -105,7 +105,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<DraftOrderDTO?> GetDraftOrderById(int id)
         {
-            Order order = await _CR.GetByID(id);
+            Orders order = await _CR.GetByID(id);
             if (order == null)
             {
                 return null;
@@ -116,7 +116,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<ShippedOrderDTO?> GetShippedOrder(int id)
         {
-            Order order = await _CR.GetByID(id);
+            Orders order = await _CR.GetByID(id);
             if (order == null)
             {
                 return null;
@@ -124,7 +124,7 @@ namespace Resturant_BLL.Services
             ShippedOrderDTO orderDTO = new OrderMapper().MapToShippedOrderDTO(order);
             return orderDTO;
         }
-        public async Task<Order?> CreateDraftOrder(DraftOrderDTO Neworder)
+        public async Task<Orders?> CreateDraftOrder(DraftOrderDTO Neworder)
         {
 
             var order = new OrderMapper().MapToOrder(Neworder);
@@ -148,7 +148,7 @@ namespace Resturant_BLL.Services
                 return null;
             }
 
-            Order confirmedorder = await _CR.GetByID(orderDTO.OrderID);
+            Orders confirmedorder = await _CR.GetByID(orderDTO.OrderID);
 
             if (confirmedorder == null)
             {
@@ -167,7 +167,7 @@ namespace Resturant_BLL.Services
         }
         public async Task<bool> Delete(int id)
         {
-            Order order = await _CR.GetByID(id);
+            Orders order = await _CR.GetByID(id);
             if (order == null || order.IsDeleted == true)
             {
                 return false;
@@ -178,7 +178,7 @@ namespace Resturant_BLL.Services
             await _CR.Update(order);
             return true;
         }
-        public Task<Order> CreateDraftOrder()
+        public Task<Orders> CreateDraftOrder()
         {
             throw new NotImplementedException();
         }

@@ -207,7 +207,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("BranchID");
 
-                    b.ToTable("Branch");
+                    b.ToTable("Branch", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Chief", b =>
@@ -266,7 +266,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("BranchID");
 
-                    b.ToTable("Chief");
+                    b.ToTable("Chief", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.MenueItem", b =>
@@ -325,7 +325,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("ItemID");
 
-                    b.ToTable("MenueItem");
+                    b.ToTable("MenueItem", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Order", b =>
@@ -387,7 +387,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.OrderItem", b =>
@@ -438,7 +438,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Payment", b =>
@@ -487,7 +487,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasKey("PaymentID");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Reservation", b =>
@@ -532,10 +532,6 @@ namespace Resturant_DAL.Migrations
                     b.Property<int>("PaymentID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SecretKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -548,7 +544,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservation", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.ReservedTable", b =>
@@ -596,7 +592,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("TableID");
 
-                    b.ToTable("ReservedTable");
+                    b.ToTable("ReservedTable", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.Review", b =>
@@ -647,7 +643,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Review");
+                    b.ToTable("Review", (string)null);
                 });
 
             modelBuilder.Entity("Resturant_DAL.Entities.User", b =>
@@ -769,7 +765,7 @@ namespace Resturant_DAL.Migrations
 
                     b.HasIndex("BranchID");
 
-                    b.ToTable("Table");
+                    b.ToTable("Table", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

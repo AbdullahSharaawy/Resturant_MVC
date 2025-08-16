@@ -2,6 +2,7 @@
     Layout = "_ResturantLayout";
     ViewData["Title"] = "Cemetery of the Greats";
 }
+@model List<BranchDTO>
 <style>
     /* Error message styling (if you add validation messages) */
     .dark-form-container .text-danger {
@@ -46,6 +47,40 @@
             border-color: #d4af6a;
             color: #d4af6a;
         }
+
+    .gemini-response-textarea {
+        width: 80%; /* shrink to 80% */
+        margin: 20px auto; /* center horizontally & add top/bottom space */
+        display: block; /* make sure margin auto works */
+        padding: 12px 15px;
+        border: 1px solid #444; /* Consistent with other form elements */
+        background-color: #2c2c2c; /* Consistent dark background */
+        color: #f0f0f0; /* Light text color for readability */
+        border-radius: 8px; /* Consistent rounded corners */
+        font-size: 16px; /* Standard font size */
+        line-height: 1.6; /* Improved line spacing for multi-line text */
+        resize: vertical; /* Allow vertical resizing, but not horizontal */
+        transition: all 0.3s;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle inner shadow for depth */
+    }
+
+        .gemini-response-textarea:focus {
+            border-color: #ffc107; /* Gold highlight on focus, consistent with the review form */
+            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            background-color: #333;
+        }
+
+    .gemini-response-label {
+        display: block;
+        width: 80%; /* match the textarea width */
+        margin: 0 auto 8px; /* center & add spacing below */
+        text-align: center; /* center the text */
+        font-size: 18px; /* slightly larger font */
+        font-weight: 600; /* bold for emphasis */
+        color: #ffc107; /* gold accent (same as button focus) */
+        letter-spacing: 0.5px; /* subtle spacing for readability */
+    }
+
 </style>
 <partial name="_NotificationModal" />
 <!-- Hero Section -->
@@ -70,13 +105,65 @@
     </div>
 
 </section><!-- /Hero Section -->
-<!-- About Section -->
-<!-- Chefs Section -->
+<!-- MenueItems Section -->
+<section  class="menu section">
+    <div  class="container isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul class="menu-filters isotope-filters">
+                    <li data-filter="*" class="filter-active" onclick="GetAllMneueItems()">All</li>
+                    <li data-filter=".filter-starters" onclick="GetBreakFastMenueItems()">BreakFast</li>
+                    <li data-filter=".filter-salads" onclick="GetLanuchMenueItems()">Lunch</li>
+                    <li data-filter=".filter-specialty" onclick="GetDinnerMenueItems()">Dinner</li>
+                </ul>
+            </div>
+        </div><!-- Menu Filters -->
+    </div>
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Menu</h2>
+        <p>Check Our Tasty Menu</p>
+    </div><!-- End Section Title -->
+
+    <div id="menu" class="container isotope-layout">
+
+    </div>
+    <label for="gemini-response" class="gemini-response-label">Gemini's Response</label>
+<textarea id="gemini-response" class="gemini-response-textarea" rows="10" readonly></textarea>
+
+
+    </section>
+
+<!-- reviews Section -->
 <section id="reviews" class="reviews section"></section>
+<!-- Chefs Section -->
 <section id="leave-review" class="leave-review section">
 </section>
 
-<section id="chefs" class="chefs section"></section>
+<section  class="chefs section">
+  <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>@SharedLocalizer["Our Chiefs Experts"]</p>
+    </div><!-- End Section Title -->
+    <div class="container" data-aos="fade-up">
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <label for="branch-select" class="form-label">Filter by Branch:</label>
+                <select id="branch-select" name="branch-select" class="form-select" onchange="GetBranchChiefs(this.value)">
+                    <option value="">All Branches</option>
+                    @foreach (var b in Model)
+                    {
+                        <option value="@b.BranchID">@b.City Branch</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="chefs">
+
+  </div>
+</section>
 
 <section id="contact" class="contact section" style="padding-top: 150px;">
 </section><!-- /Contact Section -->
@@ -86,6 +173,7 @@
 @section Scripts {
     <script>
         window.onload =async function () {
+            await GetAllMneueItems();
             await GetReviews();                                          
             await LeaveReview();
             await GetChiefs();
@@ -94,9 +182,50 @@
         function ContactUs() {
            
             console.log("hi");
+         
             $.ajax({
-                url: "/Chief/ChiefsPartialView", success: function (result) {
-                    $("#chefs").html(result);
+                url: "/Contact/Index", success: function (result) {
+                    $("#contact").html(result);
+                }
+            });
+
+        }
+        function GetAllMneueItems() {
+
+            console.log("hi");
+            $.ajax({
+                url: "/AdminMenuItems/AllItems", success: function (result) {
+                    $("#menu").html(result);
+                }
+            });
+
+        }
+        function GetDinnerMenueItems() {
+
+            console.log("hi");
+            $.ajax({
+                url: "/AdminMenuItems/Dinner", success: function (result) {
+                    $("#menu").html(result);
+                }
+            });
+
+        }
+        function GetLanuchMenueItems() {
+           
+            console.log("hi");
+            $.ajax({
+                url: "/AdminMenuItems/Lanuch", success: function (result) {
+                    $("#menu").html(result);
+                }
+            });
+
+        }
+        function GetBreakFastMenueItems() {
+
+            console.log("hi");
+            $.ajax({
+                url: "/AdminMenuItems/BreakFast", success: function (result) {
+                    $("#menu").html(result);
                 }
             });
 
@@ -105,8 +234,8 @@
 
             console.log("hi");
             $.ajax({
-                url: "/Contact/Index", success: function (result) {
-                    $("#contact").html(result);
+                url: "/Chief/ChiefsPartialView", success: function (result) {
+                    $("#chefs").html(result);
                 }
             });
 
@@ -205,5 +334,57 @@
         // You should also call this function once when the page loads
         // to set the initial map location.
         document.addEventListener('DOMContentLoaded', updateMap);
+
+
+        // gemini
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatArea = document.getElementById('gemini-response');
+
+
+            let mealIngredients = "";
+            window.GetMealGredients = function (description) {
+                mealIngredients = description;
+                console.log(mealIngredients);
+                sendMessage(); // auto send right after choosing
+            };
+            function sendMessage() {
+                const userMessage = `Provide a comprehensive nutritional analysis of the following meal based solely on its ingredients. Structure the response as follows:
+
+                            1. **Meal Ingredients:** ${mealIngredients}
+
+                            2. **Nutritional Composition:** (Summarize macros/micros per serving—calories, protein, carbs, fats, fiber, vitamins, minerals, etc.)
+
+                            3. **Health Benefits:** (Explain benefits linked to each ingredient, e.g., antioxidants, heart health, digestion.)
+
+                            4. **Potential Drawbacks:** (Note excess sugars, sodium, allergens, or harmful compounds like saturated fats.)
+
+                            5. **Dietary Compatibility:** (Is it vegan/keto/gluten-free? Adaptations for diets.)
+
+                            Use scientific accuracy and cite key nutrients (e.g., 'quercetin in onions'). Keep explanations concise but evidence-based. `;
+
+                // Clear and show typing indicator
+
+                chatArea.value = 'Bot: Analyzing...\n';
+
+                // Send message to backend
+                fetch('/Gemini/SendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: userMessage
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        chatArea.value = `Bot: ${data.answer || "No data returned"}\n`;
+                    })
+                    .catch(() => {
+                        chatArea.value = 'Bot: Error connecting.\n';
+                    });
+            }
+        });
+       
     </script>
 }

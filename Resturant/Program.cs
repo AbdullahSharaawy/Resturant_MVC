@@ -52,7 +52,7 @@ namespace Resturant_PL
             builder.Services.AddScoped<IRepository<table>, TableRepo>();
             builder.Services.AddScoped<IRepository<Review>, ReviewRepo>();
             builder.Services.AddScoped<IRepository<Chief>, ChiefRepo>();
-            builder.Services.AddScoped<IRepository<Order>, OrderRepo>();
+            builder.Services.AddScoped<IRepository<Orders>, OrderRepo>();
             builder.Services.AddScoped<IRepository<OrderItem>, OrderItemRepo>();
             builder.Services.AddScoped<IRepository<MenueItem>, MenueItemRepo>();
             builder.Services.AddScoped<IRepository<Payment>, PaymentRepo>();

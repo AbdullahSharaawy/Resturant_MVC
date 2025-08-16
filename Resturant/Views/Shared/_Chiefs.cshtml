@@ -36,27 +36,9 @@
             box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25); /* Focus shadow */
         }
         </style>
-<section id="chefs" class="chefs section">
 
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <p>@SharedLocalizer["Our Chiefs Experts"]</p>
-    </div><!-- End Section Title -->
-    <div class="container" data-aos="fade-up">
-        <div class="row mb-4">
-            <div class="col-lg-4">
-                <label for="branch-select" class="form-label">Filter by Branch:</label>
-                <select id="branch-select" name="branch-select" class="form-select" onchange="GetBranchChiefs(this.value)">
-                    <option value="">All Branches</option>
-                    @foreach(var b in Model.Branches)
-                    {
-                        <option value="@b.BranchID">@b.City Branch</option>
-                    }
-                </select>
-            </div>
-        </div>
-    </div>
+
+   
        <div class="container">
 
         <div class="row gy-4">
@@ -95,4 +77,4 @@
 
     </div>
 
-</section><!-- /Chefs Section -->
+

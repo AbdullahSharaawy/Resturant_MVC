@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Resturant_BLL.DTOModels;
 using Resturant_BLL.DTOModels.OrderDTOS;
 using Resturant_BLL.Services;
@@ -27,7 +28,31 @@ namespace Resturant_PL.Controllers.Admin
 
             return View(existingItem);
         }
+        public async Task<IActionResult> AllItems()
+        {
+            List<MenueItemDTO> items = await _MenuService.GetList();
+            
+            return PartialView("_MenueItemsIncludeAI", items);
+        }
+        public async Task<IActionResult> BreakFast()
+        {
+            List<MenueItemDTO> items = await _MenuService.GetList();
 
+            items = items.Where(i => i.Category == "BreakFast").ToList();
+            return PartialView("_MenueItemsIncludeAI",items);
+        }
+        public async Task<IActionResult> Dinner()
+        {
+            List<MenueItemDTO> items = await _MenuService.GetList();
+            items = items.Where(i => i.Category == "Dinner").ToList();
+            return PartialView("_MenueItemsIncludeAI", items);
+        }
+        public async Task<IActionResult> Lanuch()
+        {
+            List<MenueItemDTO> items = await _MenuService.GetList();
+            items = items.Where(i => i.Category == "Lanuch").ToList();
+            return PartialView("_MenueItemsIncludeAI", items);
+        }
         [HttpPost]
         public async Task<IActionResult> SaveEdit(MenueItemDTO menueItem)
         {
@@ -83,5 +108,6 @@ namespace Resturant_PL.Controllers.Admin
             }
             return RedirectToAction("Index");
         }
+
     }
 }
