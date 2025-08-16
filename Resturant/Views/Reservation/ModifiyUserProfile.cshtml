@@ -154,7 +154,7 @@
     <form id="UpdateReservation" method="post" class="needs-validation dark-form-container">
         
         <h2 class="form-heading">Edit Reservation Details</h2>
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="@Model.ReservationDTO.PaymentID" />
         <div class="mb-3">
             <label asp-for="ReservationDTO.ReservationID" class="form-label"></label>

@@ -37,9 +37,14 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> SaveEdit(UpdateTableDTO _UpdateTable)
         {
             
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || _UpdateTable.tableDTO.TableNumber < 0 || _UpdateTable.tableDTO.Capacity < 1)
             {
-               
+                if (_UpdateTable.tableDTO.TableNumber < 0)
+                    ModelState.AddModelError("", "Invalid table number");
+                if (_UpdateTable.tableDTO.Capacity < 1)
+                    ModelState.AddModelError("", "Invalid table capacity");
+
+
                 _UpdateTable.Branches=await _BS.GetList();
                
                 return View("Update", _UpdateTable);
@@ -60,8 +65,12 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> SaveNew(UpdateTableDTO _CreateTable)
         {
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || _CreateTable.tableDTO.TableNumber<0 || _CreateTable.tableDTO.Capacity<1)
             {
+                if(_CreateTable.tableDTO.TableNumber < 0)
+                    ModelState.AddModelError("", "Invalid table number");
+                if(_CreateTable.tableDTO.Capacity < 1)
+                    ModelState.AddModelError("", "Invalid table capacity");
 
                 _CreateTable.Branches = await _BS.GetList();
 

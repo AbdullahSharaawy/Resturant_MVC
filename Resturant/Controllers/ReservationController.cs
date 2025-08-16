@@ -45,10 +45,15 @@ namespace Resturant_PL.Controllers
         [Authorize]
         public async Task<IActionResult> SaveQuickReservation(ManageReservationDTO updateReservationDTO)
         {
-            
-            if(await _RS.FinishQuickReservation(updateReservationDTO))
-                return Json(new { success = true, message = "Your Reservation is done Successfully" });
-            return Json(new { success = false, message = "No Seats Available for this Number of Guests." });
+            if (updateReservationDTO.ReservationDTO.NumberOfGuests>0 && updateReservationDTO.ReservationDTO.DateTime > DateTime.MinValue) 
+            {
+                if (await _RS.FinishQuickReservation(updateReservationDTO))
+                    return Json(new { success = true, message = "Your Reservation is done Successfully" });
+                return Json(new { success = false, message = "No Seats Available for this Number of Guests." });
+
+            }
+            return Json(new { success = false, message = "Please enter a valid data." });
+
         }
 
         [Authorize]

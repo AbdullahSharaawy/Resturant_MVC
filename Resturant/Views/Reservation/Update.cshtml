@@ -80,7 +80,7 @@
         @Html.AntiForgeryToken()
         <partial name="_NotificationModal" />
         <h2 class="text-center mb-4">Edit Reservation Details</h2>
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="@Model.ReservationDTO.PaymentID" />
         <div class="mb-3">
             <label asp-for="ReservationDTO.ReservationID" class="form-label"></label>

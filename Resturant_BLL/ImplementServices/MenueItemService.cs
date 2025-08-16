@@ -74,6 +74,7 @@ namespace Resturant_BLL.Services
             existingItem.Description = menueItem.Description;
             existingItem.Price = menueItem.Price;
             existingItem.Category = menueItem.Category;
+            existingItem.DietaryInfo = menueItem.DietaryInfo;
             //existingItem.ImageUrl = menueItem.ImageUrl;
             existingItem.ModifiedOn = DateTime.UtcNow;
             existingItem.ModifiedBy = "Current User";

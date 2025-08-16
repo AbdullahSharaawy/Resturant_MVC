@@ -83,7 +83,7 @@
 
         <h2 class="text-center mb-4">New Reservation</h2>
 
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
             <label asp-for="ReservationDTO.DateTime" class="form-label">Date & Time</label>
             <input class="form-control" type="datetime-local" asp-for="ReservationDTO.DateTime" required />

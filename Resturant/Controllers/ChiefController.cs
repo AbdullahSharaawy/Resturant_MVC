@@ -52,9 +52,9 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> SaveEdit(ManageChiefDTO _UpdateChief)
         {
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid )
             {
-
+                
                 _UpdateChief.Branches = await _BS.GetList();
 
                 return View("Update", _UpdateChief);

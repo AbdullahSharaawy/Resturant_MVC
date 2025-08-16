@@ -57,9 +57,10 @@ namespace Resturant_PL.Controllers.Admin
         public async Task<IActionResult> SaveEdit(MenueItemDTO menueItem)
         {
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || menueItem.Price<1)
             {
-
+                if (menueItem.Price < 1)
+                    ModelState.AddModelError("", "Invalid menue item price");
                 return View("Update", menueItem);
             }
             var updatedItem = await _MenuService.Update(menueItem);
@@ -80,8 +81,10 @@ namespace Resturant_PL.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> SaveNew(MenueItemDTO menueItem)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || menueItem.Price < 1)
             {
+                if (menueItem.Price < 1)
+                    ModelState.AddModelError("", "Invalid menue item price");
                 return View("Create", menueItem);
             }
             var created = await _MenuService.Create(menueItem);

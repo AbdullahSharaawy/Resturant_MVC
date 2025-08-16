@@ -88,7 +88,7 @@
     <form action="/Table/SaveNew" method="post" class="needs-validation dark-form-container">
         <h2 class="text-center mb-4">Edit Table Details</h2>
 
-        
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
             <label asp-for="@Model.tableDTO.TableNumber" class="form-label"></label>
             <input class="form-control" type="number" asp-for="@Model.tableDTO.TableNumber" required />

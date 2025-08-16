@@ -86,8 +86,8 @@
     </style>
 
     <form action="/Table/SaveEdit" method="post"  class="needs-validation dark-form-container">
-        <h2 class="text-center mb-4">Edit Table Details</h2> 
-
+        <h2 class="text-center mb-4">Edit Table Details</h2>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
             <label asp-for="@Model.tableDTO.TableID" class="form-label"></label>
             <input type="text" class="form-control" asp-for="@Model.tableDTO.TableID" readonly>

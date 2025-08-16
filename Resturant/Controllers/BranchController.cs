@@ -48,7 +48,7 @@ namespace Resturant_PL.Controllers
         public async Task<IActionResult> SaveEdit(BranchDTO _UpdateBranch)
         {
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid )
             {
 
                 return View("Update", _UpdateBranch);
