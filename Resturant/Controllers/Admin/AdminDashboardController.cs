@@ -22,11 +22,11 @@ namespace Resturant_PL.Controllers.Admin
         public async Task<IActionResult> Index()
         {
             AdminDashBoardDTO adminDashBoardDTO = new AdminDashBoardDTO();
-            adminDashBoardDTO.TotalUsers=_userManager.Users.Count();
+            adminDashBoardDTO.TotalUsers=_userManager.Users.Where(u=>u.EmailConfirmed).Count();
             var reservations =await _RS.GetList();
             var reviews = await _reviewS.GetList(r=>r.IsDeleted==false);
-            adminDashBoardDTO.TotalReviews= reservations.Count();
-            adminDashBoardDTO.TotalReservations= reservations.Count();
+            adminDashBoardDTO.TotalReviews= reviews.Count();
+            adminDashBoardDTO.TotalReservations= reservations.Where(r=>r.DateTime>=DateTime.UtcNow).Count();
             return View("Index",adminDashBoardDTO);
         }
 
