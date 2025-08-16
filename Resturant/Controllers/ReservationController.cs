@@ -45,7 +45,7 @@ namespace Resturant_PL.Controllers
         [Authorize]
         public async Task<IActionResult> SaveQuickReservation(ManageReservationDTO updateReservationDTO)
         {
-            if (updateReservationDTO.ReservationDTO.NumberOfGuests>0 && updateReservationDTO.ReservationDTO.DateTime > DateTime.MinValue) 
+            if (updateReservationDTO.ReservationDTO.NumberOfGuests>0 && updateReservationDTO.ReservationDTO.DateTime > DateTime.UtcNow) 
             {
                 if (await _RS.FinishQuickReservation(updateReservationDTO))
                     return Json(new { success = true, message = "Your Reservation is done Successfully" });
