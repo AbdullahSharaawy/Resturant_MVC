@@ -9,6 +9,6 @@ namespace Resturant_BLL.AppSettingsSections
     public class PaymentSetting
     {
         public string GuestCost { get; set; }
-    public string ShippmentCostPerUnit { get; set; }
+        public string ShippmentCostPerUnit { get; set; }
     }
 }

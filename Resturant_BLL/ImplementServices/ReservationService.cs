@@ -16,6 +16,7 @@ using Hangfire;
 using Resturant_BLL.ImplementServices;
 using Microsoft.Extensions.Options;
 using Resturant_BLL.DTOModels.PaymentDTOS;
+using Resturant_BLL.AppSettingsSections;
 
 namespace Resturant_BLL.Services
 {
@@ -32,7 +33,7 @@ namespace Resturant_BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailSenderService _ESS;
         private readonly EmailSettings _emailSettings;
-      
+      private readonly PaymentSetting _paymentSetting;
         public ReservationService(IRepository<Reservation> reservationRepo,
                            IRepository<table> tableRepo,
                            IRepository<ReservedTable> reservedTableRepo,
@@ -42,7 +43,7 @@ namespace Resturant_BLL.Services
                            UserManager<User> userManager,
                            IBranchService bS,
                            IHttpContextAccessor httpContextAccessor,
-                           IEmailSenderService eSS, IOptions<EmailSettings> emailSettings)
+                           IEmailSenderService eSS, IOptions<EmailSettings> emailSettings, IOptions<PaymentSetting> paymentSetting)
         {
             _RR = reservationRepo;
             _TR = tableRepo;
@@ -55,8 +56,7 @@ namespace Resturant_BLL.Services
             _httpContextAccessor = httpContextAccessor;
             _ESS = eSS;
             _emailSettings = emailSettings.Value;
-           
-           
+            _paymentSetting = paymentSetting.Value;
         }
 
 
@@ -106,10 +106,13 @@ namespace Resturant_BLL.Services
                 };
                 reservedTables.Add(resrvedTable);
             }
-
-             Payment payment = new Payment
+            if (!int.TryParse(_paymentSetting.GuestCost, out int guestCost))
             {
-                Amount = dto.NumberOfGuests*5,
+                guestCost = 5; // Default value if parsing fails
+            }
+            Payment payment = new Payment
+            {
+                Amount = dto.NumberOfGuests* guestCost,
                 Status = "Progress",
                 PaymentMethod="Cash",
                 CreatedBy = dto.CreatedBy,
@@ -228,13 +231,18 @@ namespace Resturant_BLL.Services
                 await _RTS.Create(reservedTable);
             }
             // update the payment
+            if (!int.TryParse(_paymentSetting.GuestCost, out int guestCost))
+            {
+                guestCost = 5; // Default value if parsing fails
+            }
             PaymentDTO payement = new PaymentDTO
             {
-                Amount = dto.NumberOfGuests * 5,
-                PaymentMethod="Cash",
-                Date=dto.DateTime,
-                PaymentID=dto.PaymentID,
-                Status="Progress"
+                Amount = dto.NumberOfGuests * guestCost
+                ,
+                PaymentMethod = "Cash",
+                Date = dto.DateTime,
+                PaymentID = dto.PaymentID,
+                Status = "Progress"
             };
             await _PS.Update(payement);
 

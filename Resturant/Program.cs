@@ -74,7 +74,7 @@ namespace Resturant_PL
             builder.Services.AddScoped<IPaymentService,PaymentService>();
 
             builder.Services.AddScoped<IEmailSenderService,EmailSenderService>();
-
+            builder.Services.AddScoped<IPaymobService,PaymobService>();
             builder.Services.AddSingleton<OrderMapper>();
             builder.Services.AddSingleton<OrderItemMapper>();
             builder.Services.AddSingleton<MenueItemMapper>();
@@ -84,6 +84,9 @@ namespace Resturant_PL
 );
             builder.Services.Configure<GeminiSettings>(
    builder.Configuration.GetSection("Gemini")
+);
+            builder.Services.Configure<PaymentSetting>(
+   builder.Configuration.GetSection("PaymentSettings")
 );
             //builder.Services.AddScoped<GeminiService>(sp =>
             //{

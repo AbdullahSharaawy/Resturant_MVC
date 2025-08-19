@@ -12,10 +12,10 @@ namespace Resturant_PL.Controllers
 {
     public class CheckOutController : Controller
     {
-       private readonly IReservationService reservationService;
+        private readonly IReservationService reservationService;
         private readonly IReservedTableService reservedTableService;
 
-        private string PaypalClientId {  get; set; }
+        private string PaypalClientId { get; set; }
         private string PaypalSecret { get; set; }
         private string PaypalUrl { get; set; }
         public CheckOutController(IConfiguration configuration, IReservationService reservationService, IReservedTableService reservedTableService)
@@ -24,7 +24,7 @@ namespace Resturant_PL.Controllers
             PaypalSecret = configuration["PaypalSettings:Secret"];
             PaypalUrl = configuration["PaypalSettings:Url"];
             this.reservationService = reservationService;
-            this.reservedTableService = reservedTableService;  
+            this.reservedTableService = reservedTableService;
         }
         public IActionResult Index()
         {
@@ -34,14 +34,14 @@ namespace Resturant_PL.Controllers
             //    ? JsonConvert.DeserializeObject<CheckOutDTO>(checkOutDTOJson)
             //    : null;
             return View();
-           
+
         }
         [HttpPost]
         public async Task<JsonResult> CreateOrder([FromBody] JsonObject data)
         {
             var totalAmount = data?["amount"]?.ToString();
-           // var checkOutDTOJson = data?["CheckOutDTO"]?.ToString();
-           
+            // var checkOutDTOJson = data?["CheckOutDTO"]?.ToString();
+
 
             if (totalAmount == null)
             {
@@ -104,41 +104,33 @@ namespace Resturant_PL.Controllers
 
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
                 // Send empty JSON object instead of ""
-                var httpResponse = await client.PostAsync(
-                    url,
-                    new StringContent("{}", Encoding.UTF8, "application/json")
-                );
-
-                var strResponse = await httpResponse.Content.ReadAsStringAsync();
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                requestMessage.Content = new StringContent("", null, "application/json");
+                Console.WriteLine(requestMessage);
+                var httpResponse = await client.SendAsync(requestMessage);
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
+                    var strResponse = await httpResponse.Content.ReadAsStringAsync();
                     var jsonResponse = JsonNode.Parse(strResponse);
-                    string paypalOrderStatus = jsonResponse?["status"]?.ToString() ?? "";
 
-                    if (paypalOrderStatus == "COMPLETED")
+                    if (jsonResponse != null)
                     {
-                        // save reservation if needed
-                        //reservationService.Create(checkOutDTO.reservation);
-                        //foreach (var r in checkOutDTO.reservedTable)
-                        //{
-                        //    reservedTableService.Create(r);
-                        //}
+                        string paypalOrderStatus = jsonResponse["status"]?.ToString() ?? "";
+                        if (paypalOrderStatus == "COMPLETED")
+                        {
+                            // save the order in the database
 
-                        return new JsonResult(new { status = "success" });
-                    }
-                    else
-                    {
-                        return new JsonResult(new { status = "error", message = $"Status: {paypalOrderStatus}" });
+                            return new JsonResult("success");
+                        }
                     }
                 }
-
-                return new JsonResult(new { status = "error", message = strResponse });
+                
             }
+            return new JsonResult("error");
         }
 
 
@@ -148,12 +140,12 @@ namespace Resturant_PL.Controllers
         // }
         private async Task<string> GetPaypalAccessToken()
         {
-            string accessToken="";
+            string accessToken = "";
 
             try
             {
-                   
-        string url = PaypalUrl + "/v1/oauth2/token";
+
+                string url = PaypalUrl + "/v1/oauth2/token";
 
                 using (var client = new HttpClient())
                 {
@@ -172,20 +164,20 @@ namespace Resturant_PL.Controllers
                              "application/x-www-form-urlencoded"
 );
                     // Send request
-                    var response = await client.SendAsync( requestMessage);
+                    var response = await client.SendAsync(requestMessage);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseContent = await response.Content.ReadAsStringAsync();
                         var tokenResponse = JsonNode.Parse(responseContent);
-                        if(tokenResponse != null)
+                        if (tokenResponse != null)
                         {
-                            accessToken = tokenResponse["access_token"]?.ToString()??"";
+                            accessToken = tokenResponse["access_token"]?.ToString() ?? "";
                         }
                     }
-                   
+
                 }
-                
+
             }
             catch (Exception ex)
             {

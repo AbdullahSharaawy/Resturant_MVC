@@ -20,7 +20,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     amount: document.getElementById('totalAmount').value
-                   
+
                 })
             });
 
@@ -40,35 +40,35 @@
             const details = await response.json();
             if (details === "success") {
                 document.getElementById("notification-container").innerHTML = `
-                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                            <strong>Payment Completed Successfully!</strong>
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                        </div>`;
-            }
-            else{
-                document.getElementById("notification-container").innerHTML = `
-                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                <strong>Faild to create the order!</strong>
+                            <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                <strong>Payment Completed Successfully!</strong>
                                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                             </div>`;
+            }
+            else {
+                document.getElementById("notification-container").innerHTML = `
+                                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                    <strong>Faild to create the order!</strong>
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>`;
             }
         },
 
         onCancel() {
-           
+
             document.getElementById("notification-container").innerHTML = `
-                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                        <strong>Payment Canceled!</strong>
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                    </div>`;
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>Payment Canceled!</strong>
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>`;
         },
 
         onError() {
             document.getElementById("notification-container").innerHTML = `
-                    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                        <strong>An error occurred! Please retry later.</strong>
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                    </div>`;
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>An error occurred! Please retry later.</strong>
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>`;
         }
     }).render('#paypal-button-container');
 </script>

@@ -523,7 +523,7 @@ $@"
             return View("ResetPassword",resetPasswordDTO);
         }
       
-        [Authorize]
+      
         public async Task<IActionResult> NewPassword(ResetPasswordEditDTO resetPasswordEditDTO)
         {
             if (ModelState.IsValid)

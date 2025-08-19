@@ -101,6 +101,7 @@
         <thead class="thead-dark">
             <tr>
                 <th class="text-center">Reservation #</th>
+                <th class="text-center">Payment #</th>
                 <th class="text-center">User #</th>
                 <th class="text-center">Secret Key</th>
                 <th class="text-center">Date &amp; Time</th>
@@ -117,6 +118,7 @@
             {
                 <tr>
                     <td class="text-center">@item.ReservationID</td>
+                    <td class="text-center">@item.PaymentID</td>
                     <td class="text-center">@item.User.FirstName @item.User.LastName</td>
                     <td class="text-center">@item.SecretKey</td>
                     <td class="text-center">@item.DateTime.ToString("MMM dd, yyyy hh:mm tt")</td>

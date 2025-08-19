@@ -22,29 +22,3 @@
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
-@*/
-@model UserProfileDTO
-<div class="profile-section">
-    <h3 class="profile-section-title">Personal Information</h3>
-    <form id="userProfileInfo" asp-action="SaveEditProfileInfo" asp-controller="UserProfile">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="firstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" asp-for="@Model.FirstName" >
-            </div>
-            <div class="col-md-6">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" asp-for="@Model.LastName">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" asp-for="@Model.Email">
-            </div>
-        </div>
-      
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </form>
-</div>
-@*/*@
