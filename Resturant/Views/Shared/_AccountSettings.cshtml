@@ -18,15 +18,15 @@
          <button type="submit" class="btn btn-primary">Change Password</button>
      </form>
 
-     <h3 class="profile-section-title">Notification Preferences</h3>
-    <form asp-controller="Payment" asp-action="Create" method="post" class="d-inline">
+   @*    <h3 class="profile-section-title">Notification Preferences</h3>
+     <form asp-controller="Payment" asp-action="Create" method="post" class="d-inline">
         
-         <div class="form-check form-switch mb-3">
-            <input type="hidden" name="amount" value="@Configuration["PaymentSettings:NotificationSubscribe"]" />
-            <input class="form-check-input" asp-for="EmailNotification" type="checkbox" id="emailNotifications" >
-            <label class="form-check-label" for="emailNotifications">Email Notifications</label>
-         </div>
-         <button type="submit" class="btn btn-primary">Save Preferences</button>
-     </form>
+          <div class="form-check form-switch mb-3">
+             <input type="hidden" name="amount" value="@Configuration["PaymentSettings:NotificationSubscribe"]" />
+             <input class="form-check-input" asp-for="EmailNotification" type="checkbox" id="emailNotifications" >
+             <label class="form-check-label" for="emailNotifications">Email Notifications</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Preferences</button>
+      </form> *@
  </div>
 

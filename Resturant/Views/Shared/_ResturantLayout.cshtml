@@ -123,12 +123,15 @@
                        
                         @if (User.Identity.IsAuthenticated)
                         {
-                           
+                           <!--
                             var authResult = await AuthorizationService.AuthorizeAsync(User, "AdminOnly");
-                            if (authResult.Succeeded)
-                            {
-                                <li><a href="/AdminDashBoard/Index">Admin Panel</a></li>
-                            }
+                                                         if (authResult.Succeeded)
+                                                         {
+                                                             <li><a href="/AdminDashBoard/Index">Admin Panel</a></li>
+                                                         }
+                           -->
+                             
+                            <li><a href="/AdminDashBoard/Index">Admin Panel</a></li>
                             <li class="profile-nav-item">
                                 <a href="/UserProfile" class="profile-link">
                                     <div class="profile-icon">
