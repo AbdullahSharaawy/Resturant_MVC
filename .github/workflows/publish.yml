@@ -1,0 +1,45 @@
+name: Build, Publish and Deploy to MonsterASP
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: windows-latest
+
+    steps:
+      # 1. Get source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Install .NET 8
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # 3. Restore NuGet packages
+      - name: Restore dependencies
+        run: dotnet restore ./Resturant/Resturant_PL.csproj
+
+      # 4. Build
+      - name: Build
+        run: dotnet build ./Resturant/Resturant_PL.csproj --configuration Release --no-restore
+
+      # 5. Publish ASP.NET Core application
+      - name: Publish
+        run: dotnet publish ./Resturant/Resturant_PL.csproj --configuration Release --output ./publish --runtime win-x86 --self-contained false
+
+      # 6. Deploy to MonsterASP
+      - name: Deploy to MonsterASP
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: './publish'
